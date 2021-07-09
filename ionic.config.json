@@ -1,0 +1,7 @@
+{
+  "name": "app-catastro",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
