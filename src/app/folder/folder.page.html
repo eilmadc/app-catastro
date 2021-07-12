@@ -2,6 +2,8 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
+      <ion-back-button routerLink="/folder"></ion-back-button>
+      <ion-menu-button menu="main-content"></ion-menu-button>
     </ion-buttons>
     <ion-title>{{ folder }}</ion-title>
   </ion-toolbar>
@@ -14,8 +16,6 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong class="capitalize">{{ folder }}</strong>
-    <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+    <ion-router-outlet id="folder-content"></ion-router-outlet>
+
 </ion-content>
