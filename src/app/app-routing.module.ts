@@ -5,21 +5,22 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: './home',
+    redirectTo: 'login',
     pathMatch: 'full'
-  },
-  {
-    path: 'login', 
-    loadChildren: () => import('./components/login/login.component').then( m => m.LoginComponent)
   },
   {
     path: 'folder', 
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
   {
-    path: 'registration',
+    path: 'login',
+    loadChildren: () => import('./components/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'register',
     loadChildren: () => import('./components/login/registration/registration.module').then( m => m.RegistrationPageModule)
   },
+
 ];
 
 @NgModule({

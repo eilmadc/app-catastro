@@ -1,9 +1,45 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>registration</ion-title>
+    <ion-buttons slot="start">
+        <ion-back-button>
+          <ion-icon name="chevron-back-outline"></ion-icon>
+        </ion-back-button>
+    </ion-buttons>
+    <ion-title>Registra tu usuario</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <form action="">
+
+    <!-- <ion-label style="font-size: smaller; align-content: center;"> Registra tu usuario con tu correo electrónico </ion-label> -->
+
+    <ion-item lines="full" >
+      <ion-label position="floating" >Nombre</ion-label>
+      <ion-input type="text" #name required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="center">Apellidos</ion-label>
+      <ion-input type="text" #surname required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" #email required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" #password required></ion-input>
+    </ion-item>
+
+    <ion-row>
+      <ion-col> 
+      <ion-button type="submit" (click)="signUp(email, password)" expand="block">Register</ion-button>
+      </ion-col>
+    </ion-row>
+
+  </form>
 
 </ion-content>
