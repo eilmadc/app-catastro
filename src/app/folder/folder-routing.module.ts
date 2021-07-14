@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { FolderPage } from './folder.page';
 
-//Test
 const routes: Routes = [
   {
     path: '',
