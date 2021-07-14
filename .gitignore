@@ -31,4 +31,4 @@ npm-debug.log*
 /www
 /android
 /ios
-/src/environments/firebaseconfig.*
+/src/environments/firebase
