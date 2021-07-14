@@ -102,8 +102,15 @@ export class AuthenticationService {
     }
     return userRef.set(userData, {
       merge: true
-    })
+    });
   }
+/* 
+  SendVerificationMail() {
+    return this.ngFireAuth.auth.currentUser.sendEmailVerification()
+     .then(() => {
+       this.router.navigate(['verify-email']);
+     })
+  } */
 
   // Sign-out 
   SignOut() {
