@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
+import { FcmService } from './shared/services/fcm.service';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +20,12 @@ export class AppComponent {
   //public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   constructor(
     //Show/Hide side menu
-    public menuCtrl: MenuController
-  ) {}
+    public menuCtrl: MenuController,
+    private platform: Platform,
+    private fcmService: FcmService
+  ) {
+    this.initializeApp();
+  }
 
   openMenu(){
     this.menuCtrl.open();
@@ -31,6 +37,16 @@ export class AppComponent {
 
   toggleMenu(){
    this.menuCtrl.toggle(); 
+  }
+
+  initializeApp() {
+    this.platform.ready().then(() => {
+      // this.statusBar.styleDefault();
+      // this.splashScreen.hide();
+ 
+      // Trigger the push setup 
+      this.fcmService.initPush();
+    });
   }
 
 }
