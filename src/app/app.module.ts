@@ -14,20 +14,19 @@ import { firebaseConfig } from '../environments/firebaseconfig';
 
 //Components
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginPageModule } from './components/login/login.module'
 import { HomePageModule } from './folder/home/home.module';
 import { MapasPageModule } from './folder/mapas/mapas.module';
 import { ListadoPageModule } from './folder/listado/listado.module';
 import { ConsultasPageModule } from './folder/consultas/consultas.module';
 import { ContactoPageModule } from './folder/contacto/contacto.module';
 import { AboutusPageModule } from './folder/aboutus/aboutus.module';
-
+import { RegistrationPageModule } from './components/login/registration/registration.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
+    AppComponent
   ],
   entryComponents: [],
   imports: [BrowserModule,
@@ -43,6 +42,8 @@ import { AboutusPageModule } from './folder/aboutus/aboutus.module';
       ConsultasPageModule,
       ContactoPageModule,
       AboutusPageModule,
+      LoginPageModule,
+      RegistrationPageModule,
     ],
   providers: [AngularFirestoreModule,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy,}
