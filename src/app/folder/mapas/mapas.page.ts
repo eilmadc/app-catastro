@@ -1,6 +1,7 @@
 // import { AttributeMarker } from '@angular/compiler/src/core';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+// import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Geolocation } from '@capacitor/geolocation';
 // import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 
 declare var google;
@@ -22,7 +23,7 @@ interface Marker {
 export class MapasPage implements OnInit {
 
   @ViewChild('map', { read: ElementRef, static: false }) mapElement: ElementRef;
-  // map: any;
+  map: any;
   address: string;
 
   latitude: number;
@@ -47,7 +48,7 @@ export class MapasPage implements OnInit {
   //   },
   // ]
 
-  map = null;
+  //map = null;
   markers: Marker[] = [
     {
       position: {
@@ -73,14 +74,16 @@ export class MapasPage implements OnInit {
   ];
 
   constructor(
-    private geolocation: Geolocation,
+    // private geolocation: Geolocation,
     // private nativeGeocoder: NativeGeocoder
     ) { }
 
   ngOnInit() {
+  //   this.loadMap();
+  }
+  ionViewDidEnter() {
     this.loadMap();
   }
-
  
 
   // loadMap(coordinates ):void {
@@ -105,16 +108,17 @@ export class MapasPage implements OnInit {
   //   });
   // }
 
-  loadMap() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-      
-      this.latitude = resp.coords.latitude;
-      this.longitude = resp.coords.longitude;
-
+  async loadMap() {
+      //this.geolocation.getCurrentPosition().then((resp) => {
+        // this.latitude = resp.coords.latitude;
+        // this.longitude = resp.coords.longitude;  
+      const coordinates = await Geolocation.getCurrentPosition();
+      this.latitude = coordinates.coords.latitude;
+      this.longitude = coordinates.coords.longitude;
       // create a new map by passing HTMLElement
       const mapEle: HTMLElement = document.getElementById('map');
       // create LatLng object
-      const myLatLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
+      const myLatLng = new google.maps.LatLng(coordinates.coords.latitude, coordinates.coords.longitude);
       // create map
       this.map = new google.maps.Map(mapEle, {
         center: myLatLng,
@@ -140,11 +144,11 @@ export class MapasPage implements OnInit {
     this.addInfoWindowToMarker(this.markers);
 
 
-  })
- .catch((error: any) => {
-   this.address = "¡Dirección no disponible!";
-  });
-  }
+//  })
+//  .catch((error: any) => {
+//    this.address = "¡Dirección no disponible!";
+//   });
+   }
 
   renderMarkers() {
     this.markers.forEach(marker => {
