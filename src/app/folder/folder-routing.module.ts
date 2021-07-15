@@ -32,9 +32,16 @@ const routes: Routes = [
         path: 'aboutus',
         loadChildren: () => import('./aboutus/aboutus.module').then( m => m.AboutusPageModule)
       },
-    ]
+      {
+        path: 'contacto',
+        loadChildren: () => import('./contacto/contacto.module').then( m => m.ContactoPageModule)
+      }
+        ]
   },
- 
+  {
+    path: 'notifications',
+    loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
+  }, 
 ];
 
 @NgModule({
