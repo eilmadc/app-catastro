@@ -43,6 +43,18 @@ export interface IReturnModeloCatastro {
 
 
 /*
+    Estructura para almacenar 
+*/
+export interface IMarkilo {
+    id:                     string,                 // debe responder, siempore, a new Date().toLocaleString() 
+    latitud:                number,                 //
+    longitud:               number,                 //
+    modeloCatastro:         IReturnModeloCatastro,  // (IParcela|IInmueble)
+    nota:                   string                  // nota del usuario para identificar la petición
+}
+
+
+/*
     Inmueble.
 
    <control>
@@ -88,6 +100,8 @@ export interface IReturnModeloCatastro {
 */
 export interface IInmueble {
 
+    rcParcela:              string,                 // /bico/bi/idbi/rc/pc1 +   
+                                                    // /bico/bi/idbi/rc/pc2 
     rcInmueble:             string,                 // /bico/bi/idbi/rc/pc1 +
                                                     // /bico/bi/idbi/rc/pc2 +
                                                     // /bico/bi/idbi/rc/car + 
@@ -169,7 +183,7 @@ export interface IParcela {
                                                     // /lrcdnp/rcdnp[0]/lous/lourb/dir/pnp
     poblacion:              string,                 // /lrcdnp/rcdnp[0]/dt/nm
     provincia:              string,                 // /lrcdnp/rcdnp[0]/dt/np
-    pacelaInmuebles:        IParcelaInmuebles[]
+    parcelaInmuebles:       IParcelaInmuebles[]
 }
 
 /* */

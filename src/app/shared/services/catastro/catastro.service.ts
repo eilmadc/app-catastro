@@ -5,7 +5,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import {    IParcela, IParcelaInmuebles,
             IInmueble, IInmuebleConstruccion,
-            IReturnReferenciaCatastral, IReturnModeloCatastro } from '../../interfaces/catastro.modelos';
+            IReturnReferenciaCatastral, IReturnModeloCatastro,
+            IMarkilo } from './catastro.modelos';
 
 //
 //
@@ -21,31 +22,43 @@ export class CatastroService {
     constructor(    private httpClient: HttpClient) { }
 
     /* 
-        Deuelve una matriz con los Inmuebles encontrados en el |modeloCatastral| llegado, (IParcela|IInumueble). Si |modeloCatastral| es ya un Inmueble
+        Deuelve una matriz con los IInmuebles encontrados en el |modeloCatastral| llegado, (IParcela|IInumueble). Si |modeloCatastral| es ya un Inmueble
         lo devuelve como unico elemento de la matriz, y si es una (IParcela) consulta en el catastro y devuelve todos los Inmueble's que tenga la Parcela.
 
-        @param  {(IParcela|IInumueble)} modeloCatastral para extraer los Inumuebles
+        @param  {(IParcela|IInumueble)} modeloCatastral para extraer los IInumuebles
 
-        @return 
+        @return {Array}, arrInmuebles
     */
     async getInmuebles(ModeloCatastral: any): Promise<any> {
 
-        console.log('getInmuebles')
-        console.log(ModeloCatastral)    
-
         let arrIInmuebles = [];
 
-        if (ModeloCatastral.rcParcela) {                                                                // el ModeloCatastral es una IParcela
-            for ( var x = 0; x < ModeloCatastral.pacelaInmuebles.length; x++ ) {
-                let rmc = await this.getDNPRC(ModeloCatastral.pacelaInmuebles[x].rcInmueble);              // esto devuelve un IInmueble ... SEGURO
+        if ( this.esParcela(ModeloCatastral) == true ) {                                          // ... es una Parcela
+                                                                                   
+            for (var x = 0; x < ModeloCatastral.parcelaInmuebles.length; x++) {
+                let rmc = await this.getDNPRC(ModeloCatastral.parcelaInmuebles[x].rcInmueble);      // esto devuelve un IInmueble ... SEGURO
                 arrIInmuebles.push(rmc.modeloCatastro);
+                //console.log('Parcela/Inmueble');
+                //console.log(rmc.modeloCatastro);
             }
-        } else {                                                                                        // el ModeloCatastral es una IInmueble
+        } else {                                                                    // ... es una Inmueble
             arrIInmuebles.push(ModeloCatastral);
-
+            //console.log('Inmueble/Inmueble');
+            //console.log(ModeloCatastral);
         }
 
         return arrIInmuebles;
+    }
+
+    /* 
+        Deuelve un boolean si el |ModeloCatastral| llegado, (IParcela|IInumueble), es una IParcela.
+
+        @param  {(IParcela|IInumueble)} modeloCatastral a examinar
+
+        @return {boolean}, b 
+    */
+    esParcela(ModeloCatastral: any): any {
+        return (ModeloCatastral.rcInmueble) ? false: true;
     }
 
 
@@ -426,7 +439,7 @@ export class CatastroService {
         /* */
         switch (numInmuebles) {     
         case 0:                                                     //--- Parcela VACIA
-            console.log('... error Parcela !');
+            //console.log('... error Parcela !');
             //console.log(xmlDoc)
 
             iParcelaInmuebles = [];
@@ -442,13 +455,13 @@ export class CatastroService {
                 domicilioTributario:    '···',
                 poblacion:              '···',
                 provincia:              '···',
-                pacelaInmuebles:        iParcelaInmuebles
+                parcelaInmuebles:        iParcelaInmuebles
             }
             modeloCatastro = iParcela0;
             break;
 
         case 1:                                                     //--- IInmueble
-            console.log('... sera un Inmueble !');
+            //console.log('... sera un Inmueble !');
             //console.log(xmlDoc)
 
             iInmueblesConstruccion = [];
@@ -467,7 +480,7 @@ export class CatastroService {
                     planta =    (typeof (loint[0].getElementsByTagName("pt")[0])) ? '' : loint[0].getElementsByTagName("pt")[0].childNodes[0].nodeValue;
                     puerta =    (typeof (loint[0].getElementsByTagName("pu")[0])) ? '' : loint[0].getElementsByTagName("pu")[0].childNodes[0].nodeValue;
                 }
-                
+
                 let iInmuebleConstruccion = {
                     usoPrincipal:   usoPrincipal,
                     escalera:       escalera,
@@ -477,8 +490,10 @@ export class CatastroService {
                 }
                 iInmueblesConstruccion.push(iInmuebleConstruccion)
             }
-            
+
             let iInmueble = {
+                rcParcela:              xmlDoc.getElementsByTagName("pc1")[0].childNodes[0].nodeValue +
+                                        xmlDoc.getElementsByTagName("pc2")[0].childNodes[0].nodeValue,
                 rcInmueble:             xmlDoc.getElementsByTagName("pc1")[0].childNodes[0].nodeValue +
                                         xmlDoc.getElementsByTagName("pc2")[0].childNodes[0].nodeValue +
                                         xmlDoc.getElementsByTagName("car")[0].childNodes[0].nodeValue +
@@ -501,7 +516,7 @@ export class CatastroService {
             break;
 
         default:                                                    //--- IParcela 
-            console.log('... sera un Parcela !');
+            //console.log('... sera un Parcela !');
             //console.log(xmlDoc);
 
             iParcelaInmuebles = [];
@@ -541,7 +556,7 @@ export class CatastroService {
                 poblacion:              xmlDoc.getElementsByTagName("nm")[0].childNodes[0].nodeValue,
                 provincia:              xmlDoc.getElementsByTagName("np")[0].childNodes[0].nodeValue,
 
-                pacelaInmuebles:        iParcelaInmuebles
+                parcelaInmuebles:        iParcelaInmuebles
             }
             modeloCatastro = iParcela2;
             break;
@@ -554,5 +569,174 @@ export class CatastroService {
             xml:                xmlDoc
         }
         return iReturnModeloCatastro;
+    }
+
+
+    /*
+        Genera un historico para tests que se salvaran en localStorage ... con la estructura IMarkilo
+        Hay 10 elementos; 2 Parcelas, 7 Inmuebles y 1 Error. Las Parcelas tienen 2 y 4 Inmuebles; 7 + 6 = 13 Inmuebles.
+
+
+    */
+    async test__CrearHistorico_en_localStorage() {
+
+        let coordenadas = [
+            {
+                instante: '16/07/2018 12:52:09',
+                latitud: 40.92465644496646,
+                longitud: 0.8414186666402872,
+                marcador: false,
+                desc: 'Casa Cruz Gamada (Tarragona)'                        // es Parcela
+            },
+            {
+                instante: '16/07/2019 00:53:09',
+                latitud: 40.41634264194055,
+                longitud: -3.6966086663337605,
+                marcador: false,
+                desc: 'Congreso de los Diputados (Madrid)'                  // es Inmueble
+            },
+            {
+                instante: '02/11/2021 11:53:09',
+                latitud: 39.47439226625097,
+                longitud: -0.37831976528385386,
+                marcador: false,
+                desc: 'La Lonja de la Seda (Valencia)'                      // es Inmueble
+            },
+            {
+                instante: '02/11/2021 11:03:09',
+                latitud: 42.880626849444305,
+                longitud: -8.544646314889821,
+                marcador: true,
+                desc: 'Catedral de Santiago de Compostela (La Coruña)'      // es Inmueble
+            },
+            {
+                instante: '02/11/2021 10:53:09',
+                latitud: 41.40356145365357,
+                longitud: 2.1744767782584358,
+                marcador: true,
+                desc: 'Sagrada Familia (Barcelona)'                         // es Inmueble
+            },
+            {
+                instante: '03/05/2021 09:53:09',
+                latitud: 37.878843641773095,
+                longitud: -4.779620226997026,
+                marcador: true,
+                desc: 'La Mezquita (Cordoba)'                               // es Inmueble
+            },
+            {
+                instante: '03/01/2021 09:59:03',
+                latitud: 37.17609897963017,
+                longitud: -3.588145285711672,
+                marcador: true,
+                desc: 'La Alhambra (Granada)'                               // es Inmueble
+            },
+            {
+                instante: '03/05/2021 11:03:03',
+                latitud: 37.386348853983016,
+                longitud: -5.992602966276505,
+                marcador: true,
+                desc: 'La Giralda (Sevilla)'                                // es Parcela
+            },
+            {
+                instante: '03/05/2020 11:13:09',
+                latitud: 40.927409337781576,
+                longitud: 0.8392742549965533,
+                marcador: false,
+                desc: '---Es un punto en las Vias de Tren---'               // ... No hay Referencia Catastral 
+            },
+            {
+                instante: '16/07/2020 12:01:09',
+                latitud: 40.928752005582545,
+                longitud: 0.8503738259575321,
+                marcador: false,
+                desc: 'Port Esportiu Calafat'                               // es Inmueble
+            }
+        ];
+
+        if (!localStorage.getItem(coordenadas[0].instante)) {
+
+            let rc;
+
+            for (var i = 0; i < coordenadas.length; i++) {
+                                                                            // obtienes una Referencia Catastral, IReturnReferenciaCatastral, (parcela|inmueble)
+                let rrc = await this.getRCCOOR(coordenadas[i]['latitud'], coordenadas[i]['longitud']);
+                if (rrc.numero == -1) {                                     // se ha produciod un error en la peticion de coordenadas
+                    // TODO
+                    // mandar al historico
+                    continue
+                }
+
+                /* Inmueble o Parcela */                                    // obtienes un modelo catastral, IReturnModeloCatastro
+                let rmc = await this.getDNPRC(rrc.referenciaCatastral);
+                if (rmc.numero == 0) {
+                    // TODO
+                    // mandar al historico
+                    continue
+                }
+
+                let markilo: IMarkilo = {
+                    id:                 coordenadas[i].instante,     //new Date().toLocaleString()
+                    latitud:            coordenadas[i].latitud,
+                    longitud:           coordenadas[i].longitud,
+                    modeloCatastro:     rmc.modeloCatastro,
+                    nota:               coordenadas[i].desc
+                }
+                localStorage.setItem(markilo.id, JSON.stringify(markilo));
+            }
+        }
+    }
+    
+
+    /*
+        Sobre los datos de test, localStorage;
+        Presenta unicamente los ModelosCatastro que responden a IParcela ... solo los que son IParcela, nada más. 
+    */
+    async test__Listar_Solo_los_que_son_Parcelas()  {
+
+        let parcelas = [];
+
+        for (var i = 0; i < localStorage.length; i++) {
+            let k = localStorage.key(i);
+            let mkl: IMarkilo = JSON.parse(localStorage.getItem(k));
+            if (this.esParcela(mkl.modeloCatastro)) {
+                parcelas.push(mkl.modeloCatastro)
+            }
+        }
+        console.log('//--- Lista de Todos las Parcelas')
+        console.log(parcelas.length);
+
+        for (var i = 0; i < parcelas.length; i++) {
+            console.log(`${i} - ${parcelas[i].rcParcela} - Inmuebles: ${(parcelas[i].parcelaInmuebles).length}`)
+            console.log(`     - ${parcelas[i].domicilioTributario}`)
+        }
+    }
+
+    /*
+        Sobre los datos de test, localStorage;
+        Presenta unicamente los ModelosCatastro que responden a IInmuebles y a los que responden a IParcela, se les
+        extrae los IInumuebles y se muestran.
+    */
+    async test__Listar_Solo_los_que_son_Inmuebles() {
+
+        let inmuebles = [];
+    
+        for (var i = 0; i < localStorage.length; i++) {
+            let k = localStorage.key(i);
+            let mkl: IMarkilo = JSON.parse(localStorage.getItem(k));
+                        
+            if (this.esParcela(mkl.modeloCatastro) == true) {
+                let arr = await this.getInmuebles(mkl.modeloCatastro);
+                for (var x= 0; x < arr.length; x++ ) {
+                    inmuebles.push(arr[x])  
+                }
+            } else {
+                inmuebles.push(mkl.modeloCatastro);
+            }   
+        }
+        console.log('//--- Lista de Todos los Inmuebles')
+        for (var j = 0; j < inmuebles.length; j++) {
+            console.log(`${j} - ${inmuebles[j].rcInmueble} - ${inmuebles[j].localizacion}`)
+            //console.log(`${i} - ${inmuebles[i].rcInmueble} - ${inmuebles[i].localizacion}`)
+        }
     }
 }
