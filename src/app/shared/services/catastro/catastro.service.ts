@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import {    IParcela, IParcelaInmuebles,
             IInmueble, IInmuebleConstruccion,
             IReturnReferenciaCatastral, IReturnModeloCatastro,
-            IMarkilo } from './catastro.modelos';
+            IMarkilo } from '../../interfaces/catastro.modelos';
 
 //
 //
