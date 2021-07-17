@@ -23,6 +23,8 @@ import { ContactoPageModule } from './folder/contacto/contacto.module';
 import { AboutusPageModule } from './folder/aboutus/aboutus.module';
 import { RegistrationPageModule } from './components/login/registration/registration.module';
 
+// Acceder a Catastro
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,7 @@ import { RegistrationPageModule } from './components/login/registration/registra
       AboutusPageModule,
       LoginPageModule,
       RegistrationPageModule,
+      HttpClientModule,
     ],
   providers: [AngularFirestoreModule,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy,}
