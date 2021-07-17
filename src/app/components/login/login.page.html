@@ -1,35 +1,47 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
+
 
 <ion-content>
 <ion-grid>
   <ion-row>
-    <ion-col size="4" offset="4">
-      
+    <ion-col size="6" offset="3">
       <img src="assets/logo.png" />
-      <h2>Entrar</h2>
     </ion-col>
   </ion-row>
-  <form>    
-    <ion-item lines="full">
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" #email required ></ion-input>
-    </ion-item> 
+  <ion-row>
+    <ion-col size="5" offset="2">
+      <ion-text><h4>INICIAR SESIÓN</h4></ion-text>
+    </ion-col>
+  </ion-row>
+ 
+    <form> 
+      <ion-row>   
+        <ion-col size="8" offset="2">
+          <ion-item lines="full">
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" #email required ></ion-input>
+          </ion-item> 
 
-    <ion-item lines="full" shape="round">
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" #password required ></ion-input>
-    </ion-item>
-
+          <ion-item lines="full" shape="round">
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" #password required ></ion-input>
+          </ion-item>
+        </ion-col>
+    </ion-row>
+   <br>
     <ion-row>
-      <ion-col> 
-      <ion-button type="submit" (click)="signIn(email, password)" expand="block" shape="round">Login</ion-button>
+      <ion-col size="8" offset="2">
+      <ion-button type="submit" (click)="signIn(email, password)" expand="block" shape="round"><P>INICIAR SESIÓN</P> </ion-button>
+      <!-- TODO:Pendiente cambiar a la web de resetear password -->
+      <ion-router-link class="underline" href="/folder/home" ><h6>¿Has olvidado tú contraseña?</h6></ion-router-link>
+    </ion-col>
+      <ion-col size="6" offset="3">
+      
       </ion-col>
+      
     </ion-row>
 
   </form>
+
+  
 </ion-grid>
 </ion-content>
