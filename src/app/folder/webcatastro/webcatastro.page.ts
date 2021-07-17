@@ -13,14 +13,9 @@ export class WebcatastroPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    //Abrir link Catastro en navegador con InAppBrowser
     this.iab.create(`https://www1.sedecatastro.gob.es/Cartografia/mapa.aspx?buscar=S`, `_self`,Option);
     
   }
-
-//Abrir link Catastro en navegador con InAppBrowser
-  //Lo abro con boton
- async openUrl() {
-
-  } 
 
 }
