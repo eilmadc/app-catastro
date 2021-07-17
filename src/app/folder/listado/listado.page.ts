@@ -40,4 +40,15 @@ export class ListadoPage implements OnInit {
             }
         }
     }
+
+
+    /*
+        Petición para mostrar información de una (IParcela|IInmueble) através de su |referenciaCatastral|.
+
+        @param {string} referenciaCatastral que señala a la referencia catastral de un (IParcela|IInmueble).
+        
+    */
+    modeloCatastroDetalles(referenciaCatastral: string) {
+        console.log(referenciaCatastral)
+    }
 }
