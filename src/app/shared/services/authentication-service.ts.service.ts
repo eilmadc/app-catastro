@@ -4,7 +4,7 @@ import { User } from "../interfaces/user";
 import { Router } from "@angular/router";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { firebaseConfig } from 'src/environments/firebase/firebaseconfig';
+import { firebaseConfig } from 'src/environments/firebaseconfig';
 
 
 @Injectable({

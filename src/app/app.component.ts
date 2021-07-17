@@ -15,6 +15,7 @@ export class AppComponent {
     { title: 'Listado Inmuebles', url: './folder/listado', icon: 'list' },
     { title: 'Buscar', url: './folder/consultas', icon: 'search' },
     { title: 'Camara', url: './folder/camara', icon: 'camera' },
+    { title: 'Web Catastro', url: './folder/webcatastro', icon: 'business' },
     { title: 'Sobre nosotros', url: '/folder/aboutUs', icon: 'information' },
   ];
   //public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];

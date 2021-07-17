@@ -35,13 +35,18 @@ const routes: Routes = [
       {
         path: 'contacto',
         loadChildren: () => import('./contacto/contacto.module').then( m => m.ContactoPageModule)
-      }
+      },
+      {
+        path: 'webcatastro',
+        loadChildren: () => import('./webcatastro/webcatastro.module').then( m => m.WebcatastroPageModule)
+      },
         ]
   },
   {
     path: 'notifications',
     loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
-  }, 
+  }
+
 ];
 
 @NgModule({
