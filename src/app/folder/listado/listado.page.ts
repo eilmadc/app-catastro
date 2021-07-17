@@ -34,9 +34,10 @@ export class ListadoPage implements OnInit {
         /* rellena la matriz para visualizar en el tab */
         for (var i = 0; i < localStorage.length; i++) {
             let k = localStorage.key(i);
-            let mkl: IMarkilo = JSON.parse(localStorage.getItem(k));
-            this.markilos.push(mkl);
+            if ( (k) != 'user' ) {
+                let mkl: IMarkilo = JSON.parse(localStorage.getItem(k));
+                this.markilos.push(mkl);
+            }
         }
-
     }
 }
