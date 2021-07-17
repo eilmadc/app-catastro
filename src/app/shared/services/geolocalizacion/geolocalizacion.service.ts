@@ -15,11 +15,6 @@ export class GeolocalizacionService {
 
     //
     constructor() { }
-
-
-
-
-
     /*
         ver _coordenadas()
     */
