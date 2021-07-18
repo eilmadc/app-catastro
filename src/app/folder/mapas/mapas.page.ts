@@ -53,6 +53,10 @@ export class MapasPage implements OnInit {
   ];
 
   constructor() {}
+  
+  ngOnInit() {
+  //   this.loadMap();
+  }
 
   ionViewDidEnter() {
     this.loadMap();
