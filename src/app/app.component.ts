@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 import { FcmService } from './shared/services/fcm.service';
@@ -23,7 +24,8 @@ export class AppComponent {
     //Show/Hide side menu
     public menuCtrl: MenuController,
     private platform: Platform,
-    private fcmService: FcmService
+    private fcmService: FcmService,
+    private router: Router
   ) {
     this.initializeApp();
   }
@@ -48,6 +50,11 @@ export class AppComponent {
       // Trigger the push setup 
       this.fcmService.initPush();
     });
+  }
+
+  //Ir a PageModule SignOut
+  goToSignOut(){
+    this.router.navigate(['logout']);
   }
 
 }

@@ -18,29 +18,38 @@
         <ion-col size="10" offset="1">
           <ion-item lines="full">
             <ion-label position="floating">Email</ion-label>
-            <ion-input type="email" #email required ></ion-input>
+            <ion-input type="email" #email required placeholder="Introduce tu email"></ion-input>
+            <ion-icon name="person" slot="start"></ion-icon>
           </ion-item> 
 
           <ion-item lines="full" shape="round">
             <ion-label position="floating">Password</ion-label>
-            <ion-input type="password" #password required ></ion-input>
+            <ion-input type="password" #password required placeholder="Introduce tu contraseña"></ion-input>
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <ion-icon name="eye" slot="end"></ion-icon>
           </ion-item>
         </ion-col>
     </ion-row>
    <br>
     <ion-row>
       <ion-col size="8" offset="2">
-      <ion-button type="submit" (click)="signIn(email, password)" expand="block" shape="round"><P>INICIAR SESIÓN</P> </ion-button>
+      <ion-button type="submit" (click)="signIn(email, password)" expand="block" >
+        <P>&nbsp;INICIAR SESIÓN</P> </ion-button>
       <!-- TODO:Pendiente cambiar a la web de resetear password -->
       <ion-router-link class="underline" href="/folder/home" ><h6>¿Has olvidado tú contraseña?</h6></ion-router-link>
     </ion-col>
-      <ion-col size="6" offset="3">
-      
-      </ion-col>
-      
     </ion-row>
-
   </form>
+  <ion-row>
+    <ion-col size="8" offset="1">
+      <h4>CREAR CUENTA&nbsp;</h4>
+    </ion-col>
+    <ion-col size="8" offset="2">
+      <ion-button type="submit" (click)="goToSignUp()" expand="block" fill="outline" ><P>Crear Cuenta</P> </ion-button>
+      <!-- TODO:Pendiente Incluir los botones de Google -->
+    </ion-col>
+  </ion-row>
+
 
   
 </ion-grid>
