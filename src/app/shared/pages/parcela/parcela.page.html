@@ -1,0 +1,105 @@
+<ion-header>
+    <ion-toolbar>
+
+        <ion-grid>
+            <ion-row>
+
+                <ion-col col-8>
+                    <ion-title>Parcela: {{rcParcela}}</ion-title>
+                </ion-col>
+                <ion-col col-4>
+                    <ion-button color="secondary" 
+                                size="small" 
+                                (click)="cerrar()">cerrar</ion-button>
+                </ion-col>
+                
+            </ion-row>
+        </ion-grid>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="ion-page">
+
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>{{nota}}</ion-card-title>
+                <ion-card-subtitle>{{domicilioTributario}} <br>
+                                   {{polacion}} {{provincia}}</ion-card-subtitle>
+                <ion-card-subtitle>longitud: {{longitud}} <br>
+                                   latitud:  {{latitud}}</ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content>
+                    <ion-grid class="ion-margin">
+
+                        <ion-row class="ion-margin">
+                            <ion-col>
+                                <ion-title>
+                                    <ion-text color="default">
+                                        Lista de Inmuebles
+                                    </ion-text>
+                                </ion-title>
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-row *ngFor="let inmueble of inmuebles; index as i"
+                                style="border-bottom: groove;">
+                                <ion-col col-1>{{ i + 1 }}</ion-col>
+                                <ion-col col-5>{{ inmueble.rcInmueble }}</ion-col>
+                                <ion-col col-5>{{ inmueble.localizacionUrbana }}</ion-col>
+                        </ion-row>
+
+                </ion-grid>
+
+            </ion-card-content>
+        </ion-card>
+
+    </div>
+</ion-content>
+<!--
+            <ion-card-content>
+                <ion-content class="ion-margin">
+                    <ion-grid class="ion-margin">
+                        <ion-row>
+                            <ion-col>#</ion-col>
+                            <ion-col>Ref Catastral</ion-col>
+                            <ion-col>Gender</ion-col>
+                        </ion-row>
+                        <ion-row *ngFor="let inmueble of inmuebles; index as i">
+                            <ion-col>{{ i + 1 }}</ion-col>
+                            <ion-col>{{ inmueble.rcInmueble }}</ion-col>
+                            <ion-col>{{ inmueble.localizacionUrbana }}</ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-content>
+
+        </ion-card>
+
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>Información de los </ion-card-title>
+                <ion-card-subtitle></ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content>
+                <ion-content class="ion-margin">
+                    <ion-grid class="ion-margin">
+                        <ion-row>
+                            <ion-col>#</ion-col>
+                            <ion-col>Ref Catastral</ion-col>
+                            <ion-col>Gender</ion-col>
+                        </ion-row>
+                        <ion-row *ngFor="let inmueble of inmuebles; index as i">
+                            <ion-col>{{ i + 1 }}</ion-col>
+                            <ion-col>{{ inmueble.rcInmueble }}</ion-col>
+                            <ion-col>{{ inmueble.localizacionUrbana }}</ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-content>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>
+-->

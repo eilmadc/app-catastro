@@ -25,19 +25,20 @@
         <ng-container *ngIf="markilos.length > 0 else SinRegistros">
             <ion-item *ngFor="let markilo of markilos" >
 
-                <ion-item detail="false" (click)="modeloCatastroDetalles(markilo.modeloCatastro.rcParcela)" detail>
-                    <ion-label>{{markilo.id}}</ion-label>
-                </ion-item>
+                <ion-list (click)="modeloCatastroDetalles(markilo.irmc.modeloCatastro.rcParcela)">
+                <ion-item detail="false"  detail>
+                    <ion-label>{{markilo.id}}<br>
+                               {{markilo.nota}}</ion-label>
 
-                <ion-label>{{markilo.nota}}</ion-label>
 
                 <ion-label>{{markilo.latitud}}<br>
                            {{markilo.longitud}}</ion-label>
 
-                <ion-item detail="false" (click)="modeloCatastroDetalles(markilo.modeloCatastro.rcParcela)" detail>
-                    <ion-label>{{markilo.modeloCatastro.rcParcela}}</ion-label>
+
+                    <ion-label>{{markilo.irmc.modeloCatastro.rcParcela}}</ion-label>
                 </ion-item>
-                
+                </ion-list>
+
             </ion-item>
         </ng-container>
 

@@ -21,40 +21,36 @@
                 }
 */
 
-
 /*
     Modelo de Datos usado para contener la respuesta a las peticiones por Coordendas. 
 */
 export interface IReturnReferenciaCatastral {
-    numero:                 number,             // =-1 se ha producido un error, =0 no hay nada en esa posicion, =1 con la referencia y >0 no se espera.
-    referenciaCatastral:    string,             // 
-    xml:                    XMLDocument         //
+    numero: number,                     // =-1 se ha producido un error, =0 no hay nada en esa posicion, =1 con la referencia y >0 no se espera.
+    referenciaCatastral: string,        // 
+    xml: XMLDocument                    //
 }
-
 
 /*
     Estructura de datos para contener la respuesta a las peticiones por Referencia Catastral.
 */
 export interface IReturnModeloCatastro {
-    numero:                 number,             // número de inmuebles; 0=error, =1 es Inmueble, >1 es Parcela
-    modeloCatastro:         any,                // (IParcela|IInmueble)
-    xml:                    XMLDocument         //
+    numero: number,                     // número de inmuebles; 0=error, =1 es Inmueble, >1 es Parcela
+    modeloCatastro: any,                // (IParcela|IInmueble)
+    xml: XMLDocument                    //
 }
-
 
 /*
     Estructura para almacenar 
 */
 export interface IMarkilo {
-    id:                     string,                 // debe responder, siempore, a new Date().toLocaleString() 
-    latitud:                number,                 //
-    longitud:               number,                 //
-    modeloCatastro:         IReturnModeloCatastro,  // (IParcela|IInmueble)
-    nota:                   string                  // nota del usuario para identificar la petición
+    id:                     string,                             // debe responder, siempore, a new Date().toLocaleString() 
+    latitud:                number,                             //
+    longitud:               number,                             //
+    irmc:                   IReturnModeloCatastro,              // 
+    nota:                   string                              // nota del usuario para identificar la petición
 }
 
-
-/*
+/*º
     Inmueble.
 
    <control>
@@ -100,20 +96,20 @@ export interface IMarkilo {
 */
 export interface IInmueble {
 
-    rcParcela:              string,                 // /bico/bi/idbi/rc/pc1 +   
-                                                    // /bico/bi/idbi/rc/pc2 
-    rcInmueble:             string,                 // /bico/bi/idbi/rc/pc1 +
-                                                    // /bico/bi/idbi/rc/pc2 +
-                                                    // /bico/bi/idbi/rc/car + 
-                                                    // /bico/bi/idbi/rc/cc1 +   cc1 y cc2, en principio, son solo de control no afecta a la RC el resultado en 
-                                                    // /bico/bi/idbi/rc/cc2     la consulta no parece cambiar el resultado. Es como la letra en el DNI.
-    localizacion:           string,                 // /bico/bi/ltd                                 // domicilio tributario no estructurado (texto)
-    clase:                  string,                 // /bico/bi/idbi/cn                             // Tipo de Bien Inmueble ... no lo tengo claro. (Urbano|Vivienda|...
-    usoPrincipal:           string,                 // /bico/bi/debi/luso                           // (Residencial|Edif. Singular|...
-    superficieConstruida:   number,                 // /bico/bi/debi/sfc                            // superficie en m2
-    anoConstruccion:        number,                 // /bico/bi/debi/ant                            // año de construccion, aqui es la antiguedad
-    inmuebleParcela:        IInmuebleParcela,       //
-    inmuebleConstruccion:   IInmuebleConstruccion[] //
+    rcParcela:                  string,                 // /bico/bi/idbi/rc/pc1 +   
+                                                        // /bico/bi/idbi/rc/pc2 
+    rcInmueble:                 string,                 // /bico/bi/idbi/rc/pc1 +
+                                                        // /bico/bi/idbi/rc/pc2 +
+                                                        // /bico/bi/idbi/rc/car + 
+                                                        // /bico/bi/idbi/rc/cc1 +   cc1 y cc2, en principio, son solo de control no afecta a la RC el resultado en 
+                                                        // /bico/bi/idbi/rc/cc2     la consulta no parece cambiar el resultado. Es como la letra en el DNI.
+    localizacion:               string,                 // /bico/bi/ltd                                 // domicilio tributario no estructurado (texto)
+    clase:                      string,                 // /bico/bi/idbi/cn                             // Tipo de Bien Inmueble ... no lo tengo claro. (Urbano|Vivienda|...
+    usoPrincipal:               string,                 // /bico/bi/debi/luso                           // (Residencial|Edif. Singular|...
+    superficieConstruida:       number,                 // /bico/bi/debi/sfc                            // superficie en m2
+    anoConstruccion:            number,                 // /bico/bi/debi/ant                            // año de construccion, aqui es la antiguedad
+    inmuebleParcela:            IInmuebleParcela,       //
+    inmuebleConstruccion:       IInmuebleConstruccion[] //
 }
 
 interface IInmuebleParcela {
@@ -124,15 +120,14 @@ interface IInmuebleParcela {
 }
 
 export interface IInmuebleConstruccion {
-    usoPrincipal:           string,                 // /bico/lcons/cons[x]/lcd                       // Uso de la Unidad Constructiva
-    escalera?:              string,                 // /bico/lcons/cons[x]/dt/lourb/loint[y]/es      // escalera
-    planta?:                string,                 // /bico/lcons/cons[x]/dt/lourb/loint[y]/pt      // planta
-    puerta?:                string,                 // /bico/lcons/cons[x]/dt/lourb/loint[y]/pu      // puerta
-    superficie:             string,                 // /bico/lcons/cons[x]/dfcons/stl                // superficie, en m2
-    //tipoReforma?:           string,                 // desconozco el origen de la info           
-    //fechaReforma?:          string                  // desconozco el origen de la info
+    usoPrincipal:               string,                 // /bico/lcons/cons[x]/lcd                       // Uso de la Unidad Constructiva
+    escalera?:                  string,                 // /bico/lcons/cons[x]/dt/lourb/loint[y]/es      // escalera
+    planta?:                    string,                 // /bico/lcons/cons[x]/dt/lourb/loint[y]/pt      // planta
+    puerta?:                    string,                 // /bico/lcons/cons[x]/dt/lourb/loint[y]/pu      // puerta
+    superficie:                 string,                 // /bico/lcons/cons[x]/dfcons/stl                // superficie, en m2
+    //tipoReforma?:           string,                   // desconozco el origen de la info           
+    //fechaReforma?:          string                    // desconozco el origen de la info
 }
-
 
 /*
     Parcela. 
@@ -174,33 +169,32 @@ export interface IInmuebleConstruccion {
 */
 export interface IParcela {
 
-    rcParcela:              string,                 // /lrcdnp/rcdnp[0]/rc/pc1 +         // Es el id de la referencia catastral de la Parcela Catastral
-                                                    // /lrcdnp/rcdnp[0]/rc/pc2           // 
-    
-    //titulo: string,                               // desconozco el origen ... parece que lo deduce
-    domicilioTributario:    string,                 // /lrcdnp/rcdnp[0]/lous/lourb/dir/tv +             // en principio nos vale con los del primer
-                                                    // /lrcdnp/rcdnp[0]/lous/lourb/dir/nv +             // elemento
-                                                    // /lrcdnp/rcdnp[0]/lous/lourb/dir/pnp
-    poblacion:              string,                 // /lrcdnp/rcdnp[0]/dt/nm
-    provincia:              string,                 // /lrcdnp/rcdnp[0]/dt/np
-    parcelaInmuebles:       IParcelaInmuebles[]
+    rcParcela: string,                          // /lrcdnp/rcdnp[0]/rc/pc1 +         // Es el id de la referencia catastral de la Parcela Catastral
+                                                // /lrcdnp/rcdnp[0]/rc/pc2           // 
+                                                //titulo: string,                               // desconozco el origen ... parece que lo deduce
+    domicilioTributario: string,                // /lrcdnp/rcdnp[0]/lous/lourb/dir/tv +             // en principio nos vale con los del primer
+                                                // /lrcdnp/rcdnp[0]/lous/lourb/dir/nv +             // elemento
+                                                // /lrcdnp/rcdnp[0]/lous/lourb/dir/pnp
+    poblacion: string,                          // /lrcdnp/rcdnp[0]/dt/nm
+    provincia: string,                          // /lrcdnp/rcdnp[0]/dt/np
+    parcelaInmuebles: IParcelaInmuebles[]
 }
 
 /* */
 export interface IParcelaInmuebles {
 
-    rcInmueble:             string,                 // /lrcdnp/rcdnp[x]/rc/pc1 +         // esta referencia la necesitamos bien formada para asegurarnos
-                                                    // /lrcdnp/rcdnp[x]/rc/pc2 +         // que devuelve solo y unicamente una RC
-                                                    // /lrcdnp/rcdnp[x]/rc/car +
-                                                    // /lrcdnp/rcdnp[x]/rc/cc1 +
-                                                    // /lrcdnp/rcdnp[x]/rc/cc2              
-    localizacionUrbana:     string,                 // /lrcdnp/rcdnp[x]/lous/lourb/dir/tv +         // tipo de calle
-                                                    // /lrcdnp/rcdnp[x]/lous/lourb/dir/nv +         // nombre de la calle
-                                                    // /lrcdnp/rcdnp[x]/lous/lourb/loint/es +       // escalera
-                                                    // /lrcdnp/rcdnp[x]/lous/lourb/loint/pt +       // planta   
-                                                    // /lrcdnp/rcdnp[x]/lous/lourb/loint/pu         // puerta 
-    //usoPrincipal:           string,                 //
-    //superficieConstruida:   number,                 // 
-    //participacionInmueble:  number,                 //
-    //anoConstruccion:        number,                 //
+    rcInmueble:                 string,         // /lrcdnp/rcdnp[x]/rc/pc1 +         // esta referencia la necesitamos bien formada para asegurarnos
+                                                // /lrcdnp/rcdnp[x]/rc/pc2 +         // que devuelve solo y unicamente una RC
+                                                // /lrcdnp/rcdnp[x]/rc/car +
+                                                // /lrcdnp/rcdnp[x]/rc/cc1 +
+                                                // /lrcdnp/rcdnp[x]/rc/cc2              
+    localizacionUrbana:         string,         // /lrcdnp/rcdnp[x]/lous/lourb/dir/tv +         // tipo de calle
+                                                // /lrcdnp/rcdnp[x]/lous/lourb/dir/nv +         // nombre de la calle
+                                                // /lrcdnp/rcdnp[x]/lous/lourb/loint/es +       // escalera
+                                                // /lrcdnp/rcdnp[x]/lous/lourb/loint/pt +       // planta   
+                                                // /lrcdnp/rcdnp[x]/lous/lourb/loint/pu         // puerta 
+    //usoPrincipal:               string,         //
+    //superficieConstruida:       number,         // 
+    //participacionInmueble:      number,         //
+    //anoConstruccion:            number,         //
 }
