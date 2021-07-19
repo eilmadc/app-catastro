@@ -20,6 +20,14 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () => import('./components/login/registration/registration.module').then( m => m.RegistrationPageModule)
   },
+  {
+    path: 'parcela',
+    loadChildren: () => import('./shared/pages/parcela/parcela.module').then( m => m.ParcelaPageModule)
+  },
+  {
+    path: 'inmueble',
+    loadChildren: () => import('./shared/pages/inmueble/inmueble.module').then( m => m.InmueblePageModule)
+  },
 
 ];
 

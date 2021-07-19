@@ -7,6 +7,7 @@ import {    IParcela, IParcelaInmuebles,
             IInmueble, IInmuebleConstruccion,
             IReturnReferenciaCatastral, IReturnModeloCatastro,
             IMarkilo } from '../../interfaces/catastro.modelos';
+import { ArrayType } from '@angular/compiler';
 
 //
 //
@@ -16,11 +17,107 @@ import {    IParcela, IParcelaInmuebles,
 
 //
 //
-export class CatastroService {    
+export class CatastroService {
     
+    //
+    private markilos: IMarkilo[] = [];
+
     //
     constructor(    private httpClient: HttpClient) { }
 
+    /*
+        Añade un nuevo |markilo| a las colección de |this.markilos|
+    */
+    markiloAdd(markilo: IMarkilo) {
+        this.markilos.push(markilo);
+    }
+
+
+    /*
+        Devuelve el Markilo que responde a |referenciaCatastral| en |this.markilos|.
+
+        @param  {string} referenciaCatastral, responde a uno de los Markilos de la colección markilos.
+
+        @return {Markilo}, rtnMarkilo ... con la |referenicaCatastral| solicitada.
+    */
+    markiloGet(referenciaCatastral: string): IMarkilo {
+
+        let rtnMarkilo: IMarkilo;
+        
+        for (var i= 0; i< this.markilos.length; i++) {
+            if ( this.markilos[i].irmc.modeloCatastro.rcParcela == referenciaCatastral ) {
+                rtnMarkilo = this.markilos[i]
+                break;
+            }
+        }
+
+        return rtnMarkilo;
+    }
+
+
+    /*
+        Devuelve la coleccion de en markilos y registrados en localStorage, pero no los carga pues se delega en la
+        instruccion loadMarkilos()
+
+        // TODO
+        // recordar de hacerlo de firebase si es firebase donde se guardan.
+
+        @return IMarkilos[]
+    */
+    markilosGet(): IMarkilo[] {
+        return this.markilos;
+    }
+
+
+    /*
+        Salva la colección de |this.markilos| a localStorage, LS.
+
+        // TODO
+        // recordar de hacerlo de firebase si es firebase donde se guardan.
+    */
+    async markilosSaveLS() {
+
+        await this.markilosClearLS();
+
+        for (var i = 0; i< this.markilos.length; i++) {
+            await localStorage.setItem(this.markilos[i].id, JSON.stringify(this.markilos[i]));
+        }
+    }
+
+
+    /* 
+        Carga la coleccion de Markilos registrados en localStorage a this.markilos.
+
+        // TODO
+        // recordar de hacerlo de firebase si es firebase donde se guardan.
+    */
+    async markilosLoadLS() {
+
+        this.markilos = [];
+
+        /* rellena la matriz para visualizar en el tab */
+        for (var i = 0; i < localStorage.length; i++) {
+            let k = localStorage.key(i);
+            if ((k) != 'user') {
+                let mkl: IMarkilo = await JSON.parse(localStorage.getItem(k));
+                this.markilos.push(mkl);
+            }
+        }
+    }
+
+
+    /*
+        Vacia la coleccion de Markilos registrados en localStorage, LS.
+    
+        // TODO
+        // Habría que mirar alguna manerar de filtrar lo que no son markilos.
+        // recordar de hacerlo de firebase si es firebase donde se guardan.
+    */
+    async markilosClearLS() {
+        await localStorage.clear();
+    }
+
+    
     /* 
         Deuelve una matriz con los IInmuebles encontrados en el |modeloCatastral| llegado, (IParcela|IInumueble). Si |modeloCatastral| es ya un Inmueble
         lo devuelve como unico elemento de la matriz, y si es una (IParcela) consulta en el catastro y devuelve todos los Inmueble's que tenga la Parcela.
@@ -55,7 +152,8 @@ export class CatastroService {
 
         @param  {(IParcela|IInumueble)} modeloCatastral a examinar
 
-        @return {boolean}, b 
+        @return {boolean},  true si lo es y 
+                            false en caso contrario
     */
     esParcela(ModeloCatastral: any): any {
         return (ModeloCatastral.rcInmueble) ? false: true;
@@ -344,8 +442,8 @@ export class CatastroService {
 
         @goTo   _getCatastroDNPRC()
     */
-    async getDNPRC(prmReferenciaCatastral: string): Promise<any> {
-        return await this._getCatastroDNPRC('DNPRC', prmReferenciaCatastral);
+    async getDNPRC(referenciaCatastral: string): Promise<any> {
+        return await this._getCatastroDNPRC('DNPRC', referenciaCatastral);
     }
 
     
@@ -389,7 +487,9 @@ export class CatastroService {
                     resolve(r);
                 },
                 (e) => {                                    // se ha producido un ERROR
-                    alert(e);                               // he encontrado que cuando no hay internete llega aqui ... 
+                                                            // he encontrado que cuando no hay internete llega aqui ... 
+                    console.log(`--- ERROR ${e}; El servidor del Catastro devuelve Error`);  
+                    console.log(`--- en el recurso ${recurso}`);
                 },
                 () => {                                     // ?
                     //console.log('Request completed')
@@ -403,7 +503,7 @@ export class CatastroService {
                                                                                 // https://developer.mozilla.org/es/docs/Web/API/DOMParser
         var xmlDoc = new DOMParser().parseFromString(str, "application/xml");   // desde la cadena, string, lo convierte a XMLDocument ... 
         //console.log(xmlDoc)                                                   
-
+        
         return this.__convertToReturn(xmlDoc);
     }
 
@@ -568,6 +668,7 @@ export class CatastroService {
             modeloCatastro:     modeloCatastro,
             xml:                xmlDoc
         }
+        
         return iReturnModeloCatastro;
     }
 
@@ -667,8 +768,8 @@ export class CatastroService {
                 }
 
                 /* Inmueble o Parcela */                                    // obtienes un modelo catastral, IReturnModeloCatastro
-                let rmc = await this.getDNPRC(rrc.referenciaCatastral);
-                if (rmc.numero == 0) {
+                let irmc = await this.getDNPRC(rrc.referenciaCatastral);
+                if (irmc.numero == 0) {
                     // TODO
                     // mandar al historico
                     continue
@@ -678,11 +779,13 @@ export class CatastroService {
                     id:                 coordenadas[i].instante,     //new Date().toLocaleString()
                     latitud:            coordenadas[i].latitud,
                     longitud:           coordenadas[i].longitud,
-                    modeloCatastro:     rmc.modeloCatastro,
+                    irmc:               irmc,
                     nota:               coordenadas[i].desc
                 }
-                localStorage.setItem(markilo.id, JSON.stringify(markilo));
+                this.markiloAdd(markilo);
             }
+            await this.markilosSaveLS();
+            //this.markilosLoadLS();
         }
     }
     
@@ -698,18 +801,17 @@ export class CatastroService {
         for (var i = 0; i < localStorage.length; i++) {
             let k = localStorage.key(i);
             let mkl: IMarkilo = JSON.parse(localStorage.getItem(k));
-            if (this.esParcela(mkl.modeloCatastro)) {
-                parcelas.push(mkl.modeloCatastro)
+            if (this.esParcela(mkl.irmc.modeloCatastro) == true) {
+                parcelas.push(mkl.irmc.modeloCatastro);
             }
         }
-        console.log('//--- Lista de Todos las Parcelas')
-        console.log(parcelas.length);
-
+        console.log(`//--- Lista de Todos las Parcelas = ${parcelas.length}, y son estas;`)
         for (var i = 0; i < parcelas.length; i++) {
             console.log(`${i} - ${parcelas[i].rcParcela} - Inmuebles: ${(parcelas[i].parcelaInmuebles).length}`)
             console.log(`     - ${parcelas[i].domicilioTributario}`)
         }
     }
+
 
     /*
         Sobre los datos de test, localStorage;
@@ -724,19 +826,19 @@ export class CatastroService {
             let k = localStorage.key(i);
             let mkl: IMarkilo = JSON.parse(localStorage.getItem(k));
                         
-            if (this.esParcela(mkl.modeloCatastro) == true) {
-                let arr = await this.getInmuebles(mkl.modeloCatastro);
+            if (this.esParcela(mkl.irmc.modeloCatastro) == true) {
+                let arr = await this.getInmuebles(mkl.irmc.modeloCatastro);
                 for (var x= 0; x < arr.length; x++ ) {
                     inmuebles.push(arr[x])  
                 }
             } else {
-                inmuebles.push(mkl.modeloCatastro);
+                inmuebles.push(mkl.irmc.modeloCatastro);
             }   
         }
         console.log('//--- Lista de Todos los Inmuebles')
         for (var j = 0; j < inmuebles.length; j++) {
             console.log(`${j} - ${inmuebles[j].rcInmueble} - ${inmuebles[j].localizacion}`)
-            //console.log(`${i} - ${inmuebles[i].rcInmueble} - ${inmuebles[i].localizacion}`)
+            console.log(`       ${inmuebles[j].localizacion}`)
         }
     }
 }
