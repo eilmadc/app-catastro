@@ -10,7 +10,6 @@
               <img src="assets/logo.png" />
               </ion-col>
             </ion-row>
-          <ion-note>{{email}}</ion-note>
           </ion-grid>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
@@ -19,15 +18,21 @@
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
-
+        <ion-grid>
         <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
+          <ion-list-header>Mi usuario</ion-list-header>
+          <ion-row>
+            <ionic-col size="6" offset="5">
+              <ion-button fill="outline" (click)=" goToSignOut()">
+                <ion-icon name="log-out"></ion-icon> <p>&nbsp;CERRAR SESIÓN</p> </ion-button>
+              <ion-item *ngFor="let label of labels" lines="none">
+                <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
+                <ion-label>{{ label }}</ion-label>
+            </ion-item>
+           </ionic-col>
+          </ion-row>
         </ion-list>
+      </ion-grid>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
