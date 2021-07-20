@@ -32,3 +32,8 @@ npm-debug.log*
 /android
 /ios
 /src/environments/firebase
+
+# pjs
+package-lock.json
+package.json
+.gitignore

@@ -1,4 +1,4 @@
-
+//
 //
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -7,7 +7,7 @@ import {    IParcela, IParcelaInmuebles,
             IInmueble, IInmuebleConstruccion,
             IReturnReferenciaCatastral, IReturnModeloCatastro,
             IMarkilo } from '../../interfaces/catastro.modelos';
-import { ArrayType } from '@angular/compiler';
+import { stringify } from '@angular/compiler/src/util';
 
 //
 //
@@ -56,6 +56,24 @@ export class CatastroService {
 
 
     /*
+        Salva el |markilo| en |this.markilos| y en LocalStorage, si existe lo reeemplaza y sino lo reescribe.
+
+        @param {Markilo}, markilo a salvar.
+    */
+    markiloSet(markilo: IMarkilo) {
+
+        localStorage.setItem(   markilo.id, JSON.stringify(markilo));
+
+        for (var i = 0; i < this.markilos.length; i++) {
+            if  ( this.markilos[i].id == markilo.id ) {
+                this.markilos[i].id = markilo.id;
+                break;
+            }
+        }
+    }
+
+
+    /*
         Devuelve la coleccion de en markilos y registrados en localStorage, pero no los carga pues se delega en la
         instruccion loadMarkilos()
 
@@ -97,8 +115,9 @@ export class CatastroService {
 
         /* rellena la matriz para visualizar en el tab */
         for (var i = 0; i < localStorage.length; i++) {
-            let k = localStorage.key(i);
-            if ((k) != 'user') {
+
+            let k = localStorage.key(i);            
+            if (k.search(/\d{2}\/\d{2}\/\d{4}/) == 0 ) {
                 let mkl: IMarkilo = await JSON.parse(localStorage.getItem(k));
                 this.markilos.push(mkl);
             }
@@ -108,13 +127,17 @@ export class CatastroService {
 
     /*
         Vacia la coleccion de Markilos registrados en localStorage, LS.
-    
+        
         // TODO
-        // Habría que mirar alguna manerar de filtrar lo que no son markilos.
         // recordar de hacerlo de firebase si es firebase donde se guardan.
     */
     async markilosClearLS() {
-        await localStorage.clear();
+        for (var i = 0; i < localStorage.length; i++) {
+            let k = localStorage.key(i);
+            if (k.search(/\d{2}\/\d{2}\/\d{4}/) == 0) {
+                localStorage.removeItem(k);
+            }
+        }
     }
 
     
@@ -527,7 +550,7 @@ export class CatastroService {
         let iInmueble: IInmueble;
         let iInmuebleConstruccion: IInmuebleConstruccion;
         let iInmueblesConstruccion: IInmuebleConstruccion[];
-        //let iParcela: IParcela;
+                                                                
         let iParcelaInmuebles: IParcelaInmuebles[];
 
         let iReturnModeloCatastro: IReturnModeloCatastro;
@@ -775,12 +798,23 @@ export class CatastroService {
                     continue
                 }
 
+                let direccion: string = '';                                                     // IParcela
+                if ( this.esParcela(irmc.modeloCatastro) === true ) {
+                    direccion           =   irmc.modeloCatastro.domicilioTributario + ' ' +
+                                            irmc.modeloCatastro.poblacion + ' (' +
+                                            irmc.modeloCatastro.provincia + ')';
+                } else {                                                                        // IInmueble
+                    direccion           =   irmc.modeloCatastro.localizacion;
+                }
+
                 let markilo: IMarkilo = {
                     id:                 coordenadas[i].instante,     //new Date().toLocaleString()
                     latitud:            coordenadas[i].latitud,
                     longitud:           coordenadas[i].longitud,
                     irmc:               irmc,
-                    nota:               coordenadas[i].desc
+                    nota:               coordenadas[i].desc,
+                    direccion:          direccion,
+                    favorito:           coordenadas[i].marcador,
                 }
                 this.markiloAdd(markilo);
             }
