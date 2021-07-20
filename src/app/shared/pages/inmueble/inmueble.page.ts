@@ -28,3 +28,5 @@ export class InmueblePage implements OnInit {
         this.modalController.dismiss();
     }
 }
+
+

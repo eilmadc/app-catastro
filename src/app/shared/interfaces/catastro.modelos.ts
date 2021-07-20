@@ -51,7 +51,9 @@ export interface IMarkilo {
         longitud:               number,  
     },
     irmc:                   IReturnModeloCatastro,              // 
-    nota:                   string                             // nota del usuario para identificar la petición
+    nota:                   string,                             // nota del usuario para identificar la petición
+    direccion:              string,                             // IParcela.domicilioTributario && IInmueble.localizacion
+    favorito:               boolean
 }
 
 /*º
@@ -120,7 +122,7 @@ interface IInmuebleParcela {
     //titulo:                   string,                 // desconozco el origen ... parece que lo deduce
     localizacion:               string,                 // /bico/bi/ltd
     //superficieGrafica:        string,                 //  
-    coeficienteParticipacion:   string                  // /bico/bi/debi/cpt                        // coeficiente de participación
+    coeficienteParticipacion:   string                  // /bico/bi/debi/cpt                            // coeficiente de participación
 }
 
 export interface IInmuebleConstruccion {

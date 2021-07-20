@@ -35,8 +35,4 @@ import { ListadoPage } from '../listado/listado.page'
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ]
 })
-<<<<<<< HEAD
 export class MapasPageModule {}
-=======
-export class MapasPageModule {}
->>>>>>> mapas

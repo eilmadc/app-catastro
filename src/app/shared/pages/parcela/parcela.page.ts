@@ -16,9 +16,6 @@ import { ModalController } from '@ionic/angular';
 export class ParcelaPage implements OnInit {
 
     //
-    //@Output() modal: EventEmitter<any> = new EventEmitter();  //Salida de evento para cerrar modal
-
-    //
     constructor(public modalController: ModalController) { }
 
     //
