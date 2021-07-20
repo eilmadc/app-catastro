@@ -372,7 +372,11 @@ export class CatastroService {
                     resolve(r);
                 },
                 (e) => {                                    // se ha producido un ERROR
-                    alert(e);
+                    console.log(`ERROR:         ${e}`);                     // TODO
+                    console.log(`procedimiento: _getCatastroRCCOOR`);       // enviarlo a un log de auditoria
+                    console.log(`recurso:       ${recurso}`);
+                    console.log(`latitud:       ${latitud}`);
+                    console.log(`longitud:      ${longitud}`);
                 },
                 () => {                                     // ?
                     //console.log('Request completed')

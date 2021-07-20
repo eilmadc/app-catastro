@@ -25,6 +25,11 @@ import { RegistrationPageModule } from './components/login/registration/registra
 
 // Acceder a Catastro
 import { HttpClientModule } from '@angular/common/http';
+//import { CatastroService } from './shared/services/catastro/catastro.service';
+
+// Acceder a Geolocalizacion
+//import { GeolocalizacionService } from './shared/services/geolocalizacion/geolocalizacion.service';
+
 
 @NgModule({
   declarations: [
@@ -46,10 +51,10 @@ import { HttpClientModule } from '@angular/common/http';
       AboutusPageModule,
       LoginPageModule,
       RegistrationPageModule,
-      HttpClientModule,
+      HttpClientModule
     ],
   providers: [AngularFirestoreModule,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy,}
+      { provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }, 
   ],
   bootstrap: [AppComponent],
 })
