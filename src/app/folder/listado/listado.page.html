@@ -21,33 +21,6 @@
             <ion-label></ion-label>
         </ion-list-header>
 
-<<<<<<< HEAD
-        <ng-container *ngIf="markilos.length > 0 else SinRegistros">
-            <ion-item *ngFor="let markilo of markilos" >
-
-                <ion-list (click)="modeloCatastroDetalles(markilo.irmc.modeloCatastro.rcParcela)">
-                <ion-item detail="false"  detail>
-                    <ion-label>{{markilo.id}}<br>
-                               {{markilo.nota}}</ion-label>
-
-
-                <ion-label>{{markilo.latitud}}<br>
-                           {{markilo.longitud}}</ion-label>
-
-
-                    <ion-label>{{markilo.irmc.modeloCatastro.rcParcela}}</ion-label>
-                </ion-item>
-                </ion-list>
-
-            </ion-item>
-        </ng-container>
-
-        <ng-template #SinRegistros>
-            <ion-item class="ion-text-center">
-                <ion-label>--- No hay registros en el Historico ---</ion-label>
-            </ion-item>
-        </ng-template>
-=======
         <div    *ngIf="markilos.length > 0 else SinRegistros" 
                 class="ion-card">
 
@@ -116,7 +89,6 @@
                     <ion-label>--- No hay registros en el Historico ---</ion-label>
                 </ion-item>
             </ng-template>
->>>>>>> historico
 
         </div>
     </ion-list>

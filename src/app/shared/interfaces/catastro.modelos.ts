@@ -47,13 +47,9 @@ export interface IMarkilo {
     latitud:                number,                             //
     longitud:               number,                             //
     irmc:                   IReturnModeloCatastro,              // 
-<<<<<<< HEAD
-    nota:                   string                              // nota del usuario para identificar la petición
-=======
     nota:                   string,                             // nota del usuario para identificar la petición
     direccion:              string,                             // IParcela.domicilioTributario && IInmueble.localizacion
     favorito:               boolean
->>>>>>> historico
 }
 
 /*º

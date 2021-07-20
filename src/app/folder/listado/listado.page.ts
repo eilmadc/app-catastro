@@ -42,8 +42,6 @@ export class ListadoPage implements OnInit {
     }
 
     /*
-<<<<<<< HEAD
-=======
         Cambia el estado |makilo.favorito| a su nuevo valor. 
 
         @param  {} markilo
@@ -68,7 +66,6 @@ export class ListadoPage implements OnInit {
 
 
     /*
->>>>>>> historico
         Muestra información detallada del ítem seleccionado, desde su |referenciaCatastral|, que es el markilo.id
         de un elemento existente en |markilos|.
         La llamada a markilos[referenciaCatastral]
@@ -77,47 +74,6 @@ export class ListadoPage implements OnInit {
         @param {string} referenciaCatastral que señala a la referencia catastral de un (IParcela|IInmueble).
 
     */
-<<<<<<< HEAD
-    async modeloCatastroDetalles(referenciaCatastral: string) {
-
-        let mc;                     // (IInmueble|IParcela)
-        let paginaCatastral;
-        let componenteProps= {};
-        
-        let markilo: IMarkilo = this.catastro.markiloGet(referenciaCatastral);
-
-        if (this.catastro.esParcela(markilo.irmc.modeloCatastro) == true ) {
-            paginaCatastral = ParcelaPage;
-            componenteProps = {     'fecha':    markilo.id,
-                                    'latitud': markilo.latitud,
-                                    'longitud': markilo.longitud,
-                                    'nota': markilo.nota,
-                                    'rcParcela': markilo.irmc.modeloCatastro.rcParcela,
-                                    'domicilioTributario': markilo.irmc.modeloCatastro.domicilioTributario,
-                                    'poblacion': markilo.irmc.modeloCatastro.poblacion,
-                                    'provincia': markilo.irmc.modeloCatastro.provincia,
-                                    'rcInmueble': markilo.irmc.modeloCatastro.rcInmueble,
-                                    'inmuebles': markilo.irmc.modeloCatastro.parcelaInmuebles,
-                                };
-        } else {
-            paginaCatastral = InmueblePage;
-            componenteProps = {     'fecha': markilo.id,
-                                    'latitud': markilo.latitud,
-                                    'longitud': markilo.longitud,
-                                    'nota': markilo.nota,
-                                    'rcInmueble':   markilo.irmc.modeloCatastro.rcInmueble,
-
-
-                                };
-        };
-
-        const modal = await this.modalController.create({
-            component:          paginaCatastral,
-            cssClass:           'my-custom-class',
-            componentProps:     componenteProps
-        });
-        
-=======
     async btModeloCatastroDetalles(referenciaCatastral: string) {
 
         let mc;                                 // (IInmueble|IParcela)
@@ -163,7 +119,6 @@ export class ListadoPage implements OnInit {
             componentProps:     componenteProps
         });
         
->>>>>>> historico
         return await modal.present(); 
     }
 
