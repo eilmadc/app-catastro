@@ -22,14 +22,14 @@
         <ion-list id="labels-list">
           <ion-list-header>Mi usuario</ion-list-header>
           <ion-row>
-            <ionic-col size="6" offset="5">
+            <ion-col size="6" offset="5">
               <ion-button fill="outline" (click)=" goToSignOut()">
                 <ion-icon name="log-out"></ion-icon> <p>&nbsp;CERRAR SESIÓN</p> </ion-button>
               <ion-item *ngFor="let label of labels" lines="none">
                 <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
                 <ion-label>{{ label }}</ion-label>
             </ion-item>
-           </ionic-col>
+           </ion-col>
           </ion-row>
         </ion-list>
       </ion-grid>
