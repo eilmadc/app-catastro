@@ -811,13 +811,9 @@ export class CatastroService {
                     latitud:            coordenadas[i].latitud,
                     longitud:           coordenadas[i].longitud,
                     irmc:               irmc,
-<<<<<<< HEAD
-                    nota:               coordenadas[i].desc
-=======
                     nota:               coordenadas[i].desc,
                     direccion:          direccion,
                     favorito:           coordenadas[i].marcador,
->>>>>>> historico
                 }
                 this.markiloAdd(markilo);
             }
