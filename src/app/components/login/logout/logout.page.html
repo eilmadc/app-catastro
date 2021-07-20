@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Cerrar sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-grid>
+  <ion-row>
+    <ion-col size="8" offset="2">
+      <h1>Has cerrado sesión</h1>
+    </ion-col>
+    <ion-col size="10" offset="1">
+      <h6>Gracias por utilizar CatastroApp</h6>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="6" offset="2">
+    <ion-button (click)=" goToLoginPage()" >
+      <ion-icon name="person"></ion-icon><P>&nbsp;INICIAR SESIÓN</P> </ion-button>
+  </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="8" offset="2">
+    <ion-button (click)=" exitApp()" fill="outline"><P>CERRAR APPLICACIÓN</P> </ion-button>
+  </ion-col>
+  </ion-row>
+  <ion-list>
+
+  </ion-list>
+</ion-grid>
+</ion-content>

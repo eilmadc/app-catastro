@@ -32,17 +32,17 @@ export class AuthenticationService {
     })
   }
 
-  // Login in with email/password
+  // Login con email/password
   SignIn(email, password) {
     return this.ngFireAuth.signInWithEmailAndPassword(email, password)
   }
 
-  // Register user with email/password
+  // Registro con email/password
   RegisterUser(email, password) {
     return this.ngFireAuth.createUserWithEmailAndPassword(email, password)
   }
 
-  // Email verification when new user register
+  // Verificación de email cuando un nuevo usuario se registra
   SendVerificationMail() {
     return this.ngFireAuth.currentUser.then(e => e.sendEmailVerification())
     .then(() => {
@@ -50,7 +50,7 @@ export class AuthenticationService {
     })
   }
 
-  // Recover password
+  // Recuperar password
   PasswordRecover(passwordResetEmail) {
     return this.ngFireAuth.sendPasswordResetEmail(passwordResetEmail)
     .then(() => {
@@ -60,24 +60,24 @@ export class AuthenticationService {
     })
   }
 
-  // Returns true when user is looged in
+  // Devuelve true cuando el usuario esta logado.
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
     return (user !== null && user.emailVerified !== false) ? true : false;
   }
 
-  // Returns true when user's email is verified
+  // Devuelve true cuando el email del usuario está verificado
   get isEmailVerified(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
     return (user.emailVerified !== false) ? true : false;
   }
 
-  // Sign in with Gmail
+  // Sign in con Gmail
   GoogleAuth() {
     return this.AuthLogin(new firebase.auth.GoogleAuthProvider());
   }
 
-  // Auth providers
+  // Autenticacion con provider
   AuthLogin(provider) {
     return this.ngFireAuth.signInWithPopup(provider)
     .then((result) => {
@@ -90,7 +90,7 @@ export class AuthenticationService {
     })
   }
 
-  // Store user in localStorage
+  // Almacenar usuario en localStorage
   SetUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${user.uid}`);
     const userData: User = {
@@ -102,8 +102,15 @@ export class AuthenticationService {
     }
     return userRef.set(userData, {
       merge: true
-    })
+    });
   }
+/* 
+  SendVerificationMail() {
+    return this.ngFireAuth.auth.currentUser.sendEmailVerification()
+     .then(() => {
+       this.router.navigate(['verify-email']);
+     })
+  } */
 
   // Sign-out 
   SignOut() {

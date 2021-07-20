@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from '@capacitor/push-notifications';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +13,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePage implements OnInit {
 
-  constructor() { }
-
   ngOnInit() {
-  }
+    console.log('Initializing HomePage');
 
+
+  }
 }

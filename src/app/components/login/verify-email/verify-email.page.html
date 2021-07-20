@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Verify Your Email</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <h2> Verify Your Email</h2>
+      <p>
+        Please check your email and click on the link to verfiy your email address.
+      </p>
+      <ion-button type="submit" (click)="authenticationService.SendVerificationMail()" expand="block">
+        Resend Verification Email
+      </ion-button>
+    </ion-row>
+  </ion-grid>
+</ion-content>

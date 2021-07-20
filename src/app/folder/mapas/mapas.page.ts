@@ -1,5 +1,15 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ComponentRef, ViewChild, ElementRef, isDevMode } from '@angular/core';
 import { Geolocation } from '@capacitor/geolocation';
+import { ModalController } from '@ionic/angular';
+
+import { CatastroService } from '../../shared/services/catastro/catastro.service';
+import {    //IInmueble,
+            //IReturnModeloCatastro,
+            IMarkilo } from '../../shared/interfaces/catastro.modelos';
+import { ParcelaPage } from '../../shared/pages/parcela/parcela.page'
+import { InmueblePage } from '../../shared/pages/inmueble/inmueble.page'
+
+import { ListadoPage } from '../listado/listado.page'
 
 declare var google;
 
@@ -12,12 +22,19 @@ interface Marker {
 }
 
 
+
 @Component({
   selector: 'app-mapas',
   templateUrl: './mapas.page.html',
   styleUrls: ['./mapas.page.scss'],
 })
 export class MapasPage implements OnInit {
+
+  @Input() markilos: IMarkilo[] = [];
+
+  constructor(private catastro: CatastroService,
+    public modalController: ModalController,
+    private listadoPage: ListadoPage) {}
 
   @ViewChild('map', { read: ElementRef, static: false }) mapElement: ElementRef;
   address: string;
@@ -50,18 +67,27 @@ export class MapasPage implements OnInit {
       },
       title: 'Maloka'
     },
+    {
+      position: {
+        lat: 41.40356145365357,
+        lng: 2.1744767782584358
+      },
+      title: 'Sagrada Familia (Barcelona)'                         // es Inmueble
+    },
   ];
 
-  constructor() {}
-  
-  ngOnInit() {
-  //   this.loadMap();
+  async ngOnInit() {
+    /* Si no estamos en modo_developer recrearemos en localStorage un historico, si es que ya no esta */
+    await this.listadoPage.__test__Recrear_historico_en_localStorage_si_esta_en_mode_developer();
+        
+    /* solicitamos la colección de markilos */
+    await this.catastro.markilosLoadLS();
+    this.markilos = await this.catastro.markilosGet();
   }
 
   ionViewDidEnter() {
     this.loadMap();
   }
-
 
 
 async loadMap() {
@@ -93,13 +119,19 @@ async loadMap() {
         scale: 2,
         anchor: new google.maps.Point(15, 30),
       };  
-      this.markers.forEach(marker => {
+      this.markilos.forEach(markilo => {
              new google.maps.Marker({
-                position: marker.position,
+                // latitud: markilo.latitud,
+                // longitud: markilo.longitud,
+                position: markilo.position,
                 map: this.map,
-                title: marker.title,
+                title: markilo.nota,
                 icon: svgMarker
               });
+              console.log(markilo.position);
+              console.log(markilo.nota);
+              console.log(markilo.latitud);
+              console.log(markilo.longitud);
             });
 
 
@@ -114,11 +146,11 @@ async loadMap() {
 
     //this.addInfoWindowToMarker(this.markers);
 
-    const marker = new google.maps.Marker({
-      position: myLatLng,
-      map: this.map,
-      title: "Click to zoom",
-    });
+    // const marker = new google.maps.Marker({
+    //   position: myLatLng,
+    //   map: this.map,
+    //   title: "Click to zoom",
+    // });
 
     // marker.addListener("click", () => {
     //   this.map.setZoom(8);
@@ -133,11 +165,11 @@ async loadMap() {
     //                         '<p>Longitud: ' + this.markers.longitude + '<p>' +
     //                         '</div>';
     
-    var infowindow = new google.maps.InfoWindow();  
-    google.maps.event.addListener(this.markers, 'click', (function(markers) {
-      this.map.setZoom(8);
-      this.map.setCenter(marker.getPosition());
-    })(this.markers));
+    // var infowindow = new google.maps.InfoWindow();  
+    // google.maps.event.addListener(this.markers, 'click', (function(markers) {
+    //   this.map.setZoom(8);
+    //   this.map.setCenter(marker.getPosition());
+    // })(this.markers));
     // , (function(markers) {  
     //        return function() {  
     //          console.log('click');

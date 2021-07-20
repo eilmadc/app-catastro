@@ -9,18 +9,28 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'login', 
-    loadChildren: () => import('./components/login/login.component').then( m => m.LoginComponent)
-  },
-  {
     path: 'folder', 
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
   {
-    path: 'registration',
+    path: 'login',
+    loadChildren: () => import('./components/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'register',
     loadChildren: () => import('./components/login/registration/registration.module').then( m => m.RegistrationPageModule)
   },
+  {
+    path: 'parcela',
+    loadChildren: () => import('./shared/pages/parcela/parcela.module').then( m => m.ParcelaPageModule)
+  },
+  {
+    path: 'inmueble',
+    loadChildren: () => import('./shared/pages/inmueble/inmueble.module').then( m => m.InmueblePageModule)
+  },
+
 ];
+
 
 @NgModule({
   imports: [

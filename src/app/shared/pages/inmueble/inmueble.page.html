@@ -1,0 +1,85 @@
+<ion-header>
+    <ion-toolbar>
+
+        <ion-grid>
+            <ion-row>
+
+                <ion-col size="9">
+                    <b><ion-text color="warning">Inmueble</ion-text></b>
+                    <br>{{rcInmueble}}
+                </ion-col>
+                <ion-col size="3">
+                    <ion-button color="secondary" 
+                                size="small" 
+                                (click)="cerrar()">cerrar</ion-button>
+                </ion-col>
+
+            </ion-row>
+        </ion-grid>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="ion-page">
+
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>{{nota}}</ion-card-title>
+                <ion-card-subtitle>{{ localizacion }} <br>
+                                    {{ polacion }} {{ provincia }}</ion-card-subtitle>
+            </ion-card-header>  
+
+            <ion-card-content>                
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="6">  Latitud <br>
+                                            Longitud </ion-col>
+                        <ion-col size="6">  {{ latitud }} <br>
+                                            {{ longitud }}</ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="6">  Superficie Construida </ion-col>
+                        <ion-col size="6">  {{ superficieConstruida }} m2 </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="6">  Clase <br>
+                                            Uso Principal</ion-col>
+                        <ion-col size="6">  {{ clase }} <br>
+                                            {{ usoPrincipal }}</ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="6">  Año Construcción <br>
+                                            Coeficiente Participación</ion-col>
+                        <ion-col size="6">  {{ anoConstruccion }} <br>
+                                            {{ ipCoefParticipacion }}</ion-col>
+                    </ion-row>
+                </ion-grid>
+
+                <ion-text color="dark">Construcción</ion-text>
+
+                <ion-grid>
+                    <ion-row style="border-bottom: groove;">
+                        <ion-col col-1>#</ion-col>
+                        <ion-col col-3>Uso </ion-col>
+                        <ion-col col-2>Escalera</ion-col>
+                        <ion-col col-2>Planta</ion-col>
+                        <ion-col col-2>Puerta</ion-col>
+                        <ion-col col-2>Superficie</ion-col>
+                    </ion-row>
+
+                    <ion-row *ngFor="let construccion of icConstrucciones; index as i">
+                        <ion-col col-1 [attr.data-index]="i">{{ i + 1 }}</ion-col>
+                        <ion-col col-3 [attr.data-index]="i">{{ construccion.uso }}</ion-col>
+                        <ion-col col-2 [attr.data-index]="i">{{ construccion.escalera }}</ion-col>
+                        <ion-col col-2 [attr.data-index]="i">{{ construccion.planta }}</ion-col>
+                        <ion-col col-2 [attr.data-index]="i">{{ construccion.puerta }}</ion-col>
+                        <ion-col col-2 [attr.data-index]="i">{{ construccion.superficie }}</ion-col>
+                    </ion-row>
+                    
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+
+    </div>
+</ion-content>

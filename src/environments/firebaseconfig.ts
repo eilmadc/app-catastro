@@ -1,4 +1,3 @@
-
 export const firebaseConfig = {
     apiKey: "AIzaSyAceaZjg-qJMhOhNoyk1exzztr3ij9kE18",
     authDomain: "app-catastro.firebaseapp.com",

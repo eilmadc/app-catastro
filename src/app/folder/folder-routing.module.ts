@@ -24,21 +24,29 @@ const routes: Routes = [
         path: 'camara',
         loadChildren: () => import('./camara/camara.module').then( m => m.CamaraPageModule)
       },
-  {
-    path: 'consultas',
-    loadChildren: () => import('./consultas/consultas.module').then( m => m.ConsultasPageModule)
+      {
+        path: 'consultas',
+        loadChildren: () => import('./consultas/consultas.module').then( m => m.ConsultasPageModule)
+      },
+      {
+        path: 'aboutus',
+        loadChildren: () => import('./aboutus/aboutus.module').then( m => m.AboutusPageModule)
+      },
+      {
+        path: 'contacto',
+        loadChildren: () => import('./contacto/contacto.module').then( m => m.ContactoPageModule)
+      },
+      {
+        path: 'webcatastro',
+        loadChildren: () => import('./webcatastro/webcatastro.module').then( m => m.WebcatastroPageModule)
+      },
+        ]
   },
   {
-    path: 'aboutus',
-    loadChildren: () => import('./aboutus/aboutus.module').then( m => m.AboutusPageModule)
-  },
-  {
-    path: 'contacto',
-    loadChildren: () => import('./contacto/contacto.module').then( m => m.ContactoPageModule)
+    path: 'notifications',
+    loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
   }
-    ]
-  },
- 
+
 ];
 
 @NgModule({
