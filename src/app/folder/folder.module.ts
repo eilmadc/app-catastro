@@ -14,6 +14,7 @@ import { ConsultasPageModule } from './consultas/consultas.module';
 import { CamaraPageModule } from './camara/camara.module';
 import { ContactoPageModule } from './contacto/contacto.module';
 import { AboutusPageModule } from './aboutus/aboutus.module';
+import { WebcatastroPageModule } from './webcatastro/webcatastro.module';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { AboutusPageModule } from './aboutus/aboutus.module';
     CamaraPageModule,
     ContactoPageModule,
     AboutusPageModule,
+    WebcatastroPageModule,
   ],
   declarations: [FolderPage]
 })
