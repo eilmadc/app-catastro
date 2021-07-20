@@ -10,7 +10,8 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { firebaseConfig } from '../environments/firebase/firebaseconfig'; 
+import { firebaseConfig } from '../environments/firebaseconfig'; 
+
 
 //Components
 import { AppComponent } from './app.component';

@@ -18,6 +18,7 @@ export class GeolocalizacionService {
     /*
         ver _coordenadas()
     */
+
     coorGoogle(latitud: number, longitud: number) {
         return this._coordenadas('GOOGLE-MAP', latitud, longitud); }
 

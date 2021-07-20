@@ -684,6 +684,10 @@ export class CatastroService {
         let coordenadas = [
             {
                 instante: '16/07/2018 12:52:09',
+                position: {
+                    latitud: 40.92465644496646,
+                longitud: 0.8414186666402872,
+                },
                 latitud: 40.92465644496646,
                 longitud: 0.8414186666402872,
                 marcador: false,
@@ -691,6 +695,10 @@ export class CatastroService {
             },
             {
                 instante: '16/07/2019 00:53:09',
+                position: {
+                    latitud: 40.41634264194055,
+                longitud: -3.6966086663337605,
+                },
                 latitud: 40.41634264194055,
                 longitud: -3.6966086663337605,
                 marcador: false,
@@ -698,6 +706,10 @@ export class CatastroService {
             },
             {
                 instante: '02/11/2021 11:53:09',
+                position: {
+                    latitud: 39.47439226625097,
+                longitud: -0.37831976528385386,
+                },
                 latitud: 39.47439226625097,
                 longitud: -0.37831976528385386,
                 marcador: false,
@@ -705,6 +717,10 @@ export class CatastroService {
             },
             {
                 instante: '02/11/2021 11:03:09',
+                position: {
+                    latitud: 42.880626849444305,
+                longitud: -8.544646314889821,
+                },
                 latitud: 42.880626849444305,
                 longitud: -8.544646314889821,
                 marcador: true,
@@ -712,6 +728,10 @@ export class CatastroService {
             },
             {
                 instante: '02/11/2021 10:53:09',
+                position: {
+                    latitud: 41.40356145365357,
+                longitud: 2.1744767782584358,
+                },
                 latitud: 41.40356145365357,
                 longitud: 2.1744767782584358,
                 marcador: true,
@@ -719,6 +739,10 @@ export class CatastroService {
             },
             {
                 instante: '03/05/2021 09:53:09',
+                position: {
+                    latitud: 37.878843641773095,
+                longitud: -4.779620226997026,
+                },
                 latitud: 37.878843641773095,
                 longitud: -4.779620226997026,
                 marcador: true,
@@ -726,6 +750,10 @@ export class CatastroService {
             },
             {
                 instante: '03/01/2021 09:59:03',
+                position: {
+                    latitud: 37.17609897963017,
+                longitud: -3.588145285711672,
+                },
                 latitud: 37.17609897963017,
                 longitud: -3.588145285711672,
                 marcador: true,
@@ -733,6 +761,10 @@ export class CatastroService {
             },
             {
                 instante: '03/05/2021 11:03:03',
+                position: {
+                    latitud: 37.386348853983016,
+                longitud: -5.992602966276505,
+                },
                 latitud: 37.386348853983016,
                 longitud: -5.992602966276505,
                 marcador: true,
@@ -740,6 +772,10 @@ export class CatastroService {
             },
             {
                 instante: '03/05/2020 11:13:09',
+                position: {
+                    latitud: 40.927409337781576,
+                longitud: 0.8392742549965533,
+                },
                 latitud: 40.927409337781576,
                 longitud: 0.8392742549965533,
                 marcador: false,
@@ -747,6 +783,10 @@ export class CatastroService {
             },
             {
                 instante: '16/07/2020 12:01:09',
+                position: {
+                    latitud: 40.928752005582545,
+                longitud: 0.8503738259575321,
+                },
                 latitud: 40.928752005582545,
                 longitud: 0.8503738259575321,
                 marcador: false,
@@ -777,6 +817,7 @@ export class CatastroService {
 
                 let markilo: IMarkilo = {
                     id:                 coordenadas[i].instante,     //new Date().toLocaleString()
+                    position:           coordenadas[i].position,
                     latitud:            coordenadas[i].latitud,
                     longitud:           coordenadas[i].longitud,
                     irmc:               irmc,

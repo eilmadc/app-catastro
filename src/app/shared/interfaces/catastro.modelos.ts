@@ -43,11 +43,15 @@ export interface IReturnModeloCatastro {
     Estructura para almacenar 
 */
 export interface IMarkilo {
-    id:                     string,                             // debe responder, siempore, a new Date().toLocaleString() 
+    id:                     string,                                // debe responder, siempore, a new Date().toLocaleString() 
     latitud:                number,                             //
     longitud:               number,                             //
+    position: {
+        latitud:                number,                             //
+        longitud:               number,  
+    },
     irmc:                   IReturnModeloCatastro,              // 
-    nota:                   string                              // nota del usuario para identificar la petición
+    nota:                   string                             // nota del usuario para identificar la petición
 }
 
 /*º

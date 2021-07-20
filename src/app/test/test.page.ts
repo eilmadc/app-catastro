@@ -2,7 +2,7 @@
 //
 import { Component, OnInit } from '@angular/core';
 
-interface coordenada {
+export interface coordenada {
     latitud:    number,
     longitud:   number,
     desc:       string
