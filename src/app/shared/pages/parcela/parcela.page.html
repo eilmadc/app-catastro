@@ -4,15 +4,27 @@
         <ion-grid>
             <ion-row>
 
+<<<<<<< HEAD
                 <ion-col col-8>
                     <ion-title>Parcela: {{rcParcela}}</ion-title>
                 </ion-col>
                 <ion-col col-4>
+=======
+                <ion-col size="9">
+                    <b><ion-text color="tertiary">Parcela</ion-text></b>
+                    <br>{{rcParcela}}
+                </ion-col>
+                <ion-col size="3">
+>>>>>>> historico
                     <ion-button color="secondary" 
                                 size="small" 
                                 (click)="cerrar()">cerrar</ion-button>
                 </ion-col>
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> historico
             </ion-row>
         </ion-grid>
 
@@ -27,6 +39,7 @@
                 <ion-card-title>{{nota}}</ion-card-title>
                 <ion-card-subtitle>{{domicilioTributario}} <br>
                                    {{polacion}} {{provincia}}</ion-card-subtitle>
+<<<<<<< HEAD
                 <ion-card-subtitle>longitud: {{longitud}} <br>
                                    latitud:  {{latitud}}</ion-card-subtitle>
             </ion-card-header>
@@ -103,3 +116,44 @@
     </div>
 </ion-content>
 -->
+=======
+            </ion-card-header>
+
+            <ion-card-content>
+               <ion-grid>
+                   <ion-row>
+                       <ion-col size="6">   Latitud <br>
+                                            Longitud </ion-col>
+                       <ion-col size="6">   {{ latitud }} <br>
+                                            {{ longitud }}</ion-col>
+                   </ion-row>
+                   <ion-row>
+                       <ion-col size="6"> Superficie Construida </ion-col>
+                       <ion-col size="6"> {{ superficieConstruida }} m2 </ion-col>
+
+                   </ion-row>
+               </ion-grid>
+
+                <ion-text color="dark">Construcción</ion-text>
+
+                <ion-grid>
+                    <ion-row style="border-bottom: groove;">
+                        <ion-col col-4> #<br>
+                                        Referencia Catastral<br>
+                                        Dirección</ion-col>
+                    </ion-row>
+
+                    <ion-row *ngFor="let inmueble of pcInmuebles; index as i">
+                        <ion-col col-4 [attr.data-index]="i">   {{ i + 1 }}<br>
+                                                                {{ inmueble.rcInmueble }}<br>
+                                                                {{ inmueble.localizacionUrbana }}</ion-col>
+                    </ion-row>
+
+                </ion-grid>
+
+            </ion-card-content>
+        </ion-card>
+
+    </div>
+</ion-content>
+>>>>>>> historico

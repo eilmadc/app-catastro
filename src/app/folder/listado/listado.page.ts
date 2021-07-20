@@ -42,6 +42,33 @@ export class ListadoPage implements OnInit {
     }
 
     /*
+<<<<<<< HEAD
+=======
+        Cambia el estado |makilo.favorito| a su nuevo valor. 
+
+        @param  {} markilo
+    */
+    btMarkiloFavorito(markilo: IMarkilo){ 
+        markilo.favorito = ! markilo.favorito;
+        this.catastro.markiloSet(markilo);
+    }
+
+
+    /*
+        Nos lleva al lugar del mapa 
+
+        @param {string} referenciaCatastral que señala a la referencia catastral de un (IParcela|IInmueble).
+
+        @param  {number} latitud, responde a la coordenada de la latitud
+        @param  {number} longitud, responde a la coordenada de longitud
+    */
+    btMapaIr(latitud: number, longitud: number) {
+        // ir a Mapa
+    }
+
+
+    /*
+>>>>>>> historico
         Muestra información detallada del ítem seleccionado, desde su |referenciaCatastral|, que es el markilo.id
         de un elemento existente en |markilos|.
         La llamada a markilos[referenciaCatastral]
@@ -50,6 +77,7 @@ export class ListadoPage implements OnInit {
         @param {string} referenciaCatastral que señala a la referencia catastral de un (IParcela|IInmueble).
 
     */
+<<<<<<< HEAD
     async modeloCatastroDetalles(referenciaCatastral: string) {
 
         let mc;                     // (IInmueble|IParcela)
@@ -89,6 +117,53 @@ export class ListadoPage implements OnInit {
             componentProps:     componenteProps
         });
         
+=======
+    async btModeloCatastroDetalles(referenciaCatastral: string) {
+
+        let mc;                                 // (IInmueble|IParcela)
+        let paginaCatastral;
+        let componenteProps= {};
+        
+        let markilo: IMarkilo = this.catastro.markiloGet(referenciaCatastral);
+
+        if (this.catastro.esParcela(markilo.irmc.modeloCatastro) == true ) {
+            paginaCatastral = ParcelaPage;
+            componenteProps = {     'fecha':                markilo.id,
+                                    'latitud':              markilo.latitud,
+                                    'longitud':             markilo.longitud,
+                                    'nota':                 markilo.nota,
+                                    'rcParcela':            markilo.irmc.modeloCatastro.rcParcela,
+                                    'domicilioTributario':  markilo.irmc.modeloCatastro.domicilioTributario,
+                                    'poblacion':            markilo.irmc.modeloCatastro.poblacion,
+                                    'provincia':            markilo.irmc.modeloCatastro.provincia,
+                                    'rcInmueble':           markilo.irmc.modeloCatastro.rcInmueble,
+                                    'pcInmuebles':          markilo.irmc.modeloCatastro.parcelaInmuebles,
+                                };
+        } else {
+            paginaCatastral = InmueblePage;
+            componenteProps = {     'fecha':                markilo.id,
+                                    'latitud':              markilo.latitud,
+                                    'longitud':             markilo.longitud,
+                                    'nota':                 markilo.nota,
+                                    'rcInmueble':           markilo.irmc.modeloCatastro.rcInmueble,
+                                    'clase':                markilo.irmc.modeloCatastro.clase,
+                                    'localizacion':         markilo.irmc.modeloCatastro.localizacion,
+                                    'usoPrincipal':         markilo.irmc.modeloCatastro.usoPrincipal,
+                                    'superficieConstruida': markilo.irmc.modeloCatastro.superficieConstruida,
+                                    'anoConstruccion':      markilo.irmc.modeloCatastro.anoConstruccion,
+                                    'ipLocalizacion':       markilo.irmc.modeloCatastro.inmuebleParcela.localizacion,
+                                    'ipCoefParticipacion':  markilo.irmc.modeloCatastro.inmuebleParcela.coeficienteParticipacion,
+                                    'icConstrucciones':     markilo.irmc.modeloCatastro.inmuebleConstruccion,
+                                };
+        };
+
+        const modal = await this.modalController.create({
+            component:          paginaCatastral,
+            cssClass:           'my-custom-class',
+            componentProps:     componenteProps
+        });
+        
+>>>>>>> historico
         return await modal.present(); 
     }
 
