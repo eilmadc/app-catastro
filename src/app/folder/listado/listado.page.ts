@@ -11,6 +11,8 @@ import {    IInmueble,
 import { ParcelaPage } from '../../shared/pages/parcela/parcela.page'
 import { InmueblePage } from '../../shared/pages/inmueble/inmueble.page'
 
+import { GeolocalizacionService } from 'src/app/shared/services/geolocalizacion/geolocalizacion.service';
+
 //
 //
 @Component({
@@ -28,7 +30,8 @@ export class ListadoPage implements OnInit {
 
     //
     constructor(private catastro: CatastroService,
-                public modalController: ModalController) {}
+                public modalController: ModalController,
+                private geolocalizacionService: GeolocalizacionService) {}
 
     //
     async ngOnInit() {

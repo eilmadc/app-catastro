@@ -28,6 +28,10 @@ const routes: Routes = [
     path: 'inmueble',
     loadChildren: () => import('./shared/pages/inmueble/inmueble.module').then( m => m.InmueblePageModule)
   },
+  {
+    path: 'mapa',
+    loadChildren: () => import('./shared/pages/mapa/mapa.module').then( m => m.MapaPageModule)
+  },
 
 ];
 
