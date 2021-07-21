@@ -12,6 +12,7 @@ import { FcmService } from './shared/services/fcm.service';
 export class AppComponent {
   public appPages = [
     { title: 'Home', url: './folder/home', icon: 'home' },
+    { title: 'Favoritos', url: './folder/favoritos', icon: 'star' },
     { title: 'Mapas', url: './folder/mapas', icon: 'map' },
     { title: 'Listado Inmuebles', url: './folder/listado', icon: 'list' },
     { title: 'Buscar', url: './folder/consultas', icon: 'search' },

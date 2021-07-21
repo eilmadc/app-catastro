@@ -40,12 +40,21 @@ const routes: Routes = [
         path: 'webcatastro',
         loadChildren: () => import('./webcatastro/webcatastro.module').then( m => m.WebcatastroPageModule)
       },
+      {
+        path: 'favoritos',
+        loadChildren: () => import('./favoritos/favoritos.module').then( m => m.FavoritosPageModule)
+      },
         ]
   },
   {
     path: 'notifications',
     loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
+  },
+  {
+    path: 'favoritos',
+    loadChildren: () => import('./favoritos/favoritos.module').then( m => m.FavoritosPageModule)
   }
+
 
 ];
 

@@ -27,6 +27,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 // Acceder a Catastro
 import { HttpClientModule } from '@angular/common/http';
+import { FavoritosPage } from './folder/favoritos/favoritos.page';
+import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
 //import { CatastroService } from './shared/services/catastro/catastro.service';
 
 // Acceder a Geolocalizacion
@@ -52,6 +54,7 @@ import { HttpClientModule } from '@angular/common/http';
       ContactoPageModule,
       AboutusPageModule,
       WebcatastroPageModule,
+      FavoritosPageModule,
       LoginPageModule,
       RegistrationPageModule,
       HttpClientModule

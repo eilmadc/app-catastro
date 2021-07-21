@@ -5,7 +5,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
@@ -31,8 +31,7 @@ const routes: Routes = [
   {
     path: 'mapa',
     loadChildren: () => import('./shared/pages/mapa/mapa.module').then( m => m.MapaPageModule)
-  },
-
+  }
 ];
 
 
