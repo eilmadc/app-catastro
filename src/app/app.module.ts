@@ -27,6 +27,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 // Acceder a Catastro
 import { HttpClientModule } from '@angular/common/http';
+import { LogoutPageModule } from './components/login/logout/logout.module';
+import { ResetPasswordPageModule } from './components/login/reset-password/reset-password.module';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { HttpClientModule } from '@angular/common/http';
       WebcatastroPageModule,
       LoginPageModule,
       RegistrationPageModule,
+      LogoutPageModule,
+      ResetPasswordPageModule,
       HttpClientModule,
     ],
   providers: [AngularFirestoreModule,InAppBrowser,
