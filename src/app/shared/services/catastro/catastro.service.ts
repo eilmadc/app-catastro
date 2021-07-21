@@ -73,16 +73,25 @@ export class CatastroService {
 
 
     /*
-        Devuelve la coleccion de en markilos y registrados en localStorage, pero no los carga pues se delega en la
-        instruccion loadMarkilos()
+        Devuelve la coleccion de en markilos y registrados en localStorage, pero no los carga pues se delega en la instruccion loadMarkilos(). 
+        Puede pedirse una matriz unicamente con los que estan como |markilo.favorito|.
 
         // TODO
         // recordar de hacerlo de firebase si es firebase donde se guardan.
 
+        @param  {boolean} favoritos, si es True devolvera una matriz de IMarkilos solo con los que son |markilo.favorito|.
+
         @return IMarkilos[]
     */
-    markilosGet(): IMarkilo[] {
-        return this.markilos;
+    markilosGet(favoritos: boolean = false): IMarkilo[] {
+
+        let markilos: IMarkilo[] = this.markilos;
+
+        if (favoritos == true) {
+            markilos = markilos.filter( (markilo) => (markilo.favorito));
+        }
+
+        return markilos;
     }
 
 

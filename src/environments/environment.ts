@@ -5,7 +5,7 @@
 export const environment = {
     production: false,
     /* PJS / MapBox */
-    mapboxToken: 'MAPBOX_TOKEN'
+    mapboxToken: 'MAPBOX_TOKEN', 
 };
 
 /*

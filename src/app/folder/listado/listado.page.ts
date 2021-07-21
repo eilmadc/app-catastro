@@ -4,8 +4,6 @@ import { isDevMode } from '@angular/core';
 import { Component, OnInit, Input, ComponentRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
-import * as mapboxgl from 'mapbox-gl';
-
 import { CatastroService } from '../../shared/services/catastro/catastro.service';
 import {    IInmueble,
             IReturnModeloCatastro,
@@ -13,8 +11,6 @@ import {    IInmueble,
 import { ParcelaPage } from '../../shared/pages/parcela/parcela.page'
 import { InmueblePage } from '../../shared/pages/inmueble/inmueble.page'
 import { MapaPage } from 'src/app/shared/pages/mapa/mapa.page';
-
-import { GeolocalizacionService } from 'src/app/shared/services/geolocalizacion/geolocalizacion.service';
 
 //
 //
@@ -30,24 +26,23 @@ export class ListadoPage implements OnInit {
 
     //
     @Input() markilos: IMarkilo[] = [];
+    @Input() nMarkilos: number = 0;
 
     //
     constructor(private catastro: CatastroService,
-                public modalController: ModalController,
-                private geolocalizacionService: GeolocalizacionService) {}
+                public modalController: ModalController) {}
 
     //
     async ngOnInit() {
     
         /* Si no estamos en modo_developer recrearemos en localStorage un historico, si es que ya no esta */
         await this.__test__Recrear_historico_en_localStorage_si_esta_en_mode_developer();
-    
-        /* (mapboxgl as any).accessToken = environment.mapboxToken; } */
-        //(mapboxgl as any).accessToken = environment.mapboxToken;
 
         /* solicitamos la colección de markilos */
         await this.catastro.markilosLoadLS();
         this.markilos = await this.catastro.markilosGet();
+
+        this.nMarkilos = this.markilos.length;
     }
 
     /*

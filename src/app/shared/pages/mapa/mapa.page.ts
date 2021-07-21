@@ -42,7 +42,6 @@ export class MapaPage implements OnInit, AfterViewInit {
             interactive:    false
         });
         
-        
         new mapboxgl.Marker()                       // marca las coordenadas
             .setLngLat({lng: this.markilo.longitud, lat: this.markilo.latitud})
             .addTo(mapa);
