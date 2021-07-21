@@ -32,17 +32,17 @@ export class AuthenticationService {
     })
   }
 
-  // Login con email/password
+  /* Login con email/password */
   SignIn(email, password) {
     return this.ngFireAuth.signInWithEmailAndPassword(email, password)
   }
 
-  // Registro con email/password
+  /* Registro con email/password */
   RegisterUser(email, password) {
     return this.ngFireAuth.createUserWithEmailAndPassword(email, password)
   }
 
-  // Verificación de email cuando un nuevo usuario se registra
+  /* Verificación de email cuando un nuevo usuario se registra */
   SendVerificationMail() {
     return this.ngFireAuth.currentUser.then(e => e.sendEmailVerification())
     .then(() => {
@@ -50,7 +50,7 @@ export class AuthenticationService {
     })
   }
 
-  // Recuperar password
+  /* Recuperar password */
   PasswordRecover(passwordResetEmail) {
     return this.ngFireAuth.sendPasswordResetEmail(passwordResetEmail)
     .then(() => {
@@ -60,24 +60,24 @@ export class AuthenticationService {
     })
   }
 
-  // Devuelve true cuando el usuario esta logado.
+  /* Devuelve true cuando el usuario esta logado.*/
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
     return (user !== null && user.emailVerified !== false) ? true : false;
   }
 
-  // Devuelve true cuando el email del usuario está verificado
+  /* Devuelve true cuando el email del usuario está verificado */
   get isEmailVerified(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
     return (user.emailVerified !== false) ? true : false;
   }
 
-  // Sign in con Gmail
+  /* Sign in con Gmail */
   GoogleAuth() {
     return this.AuthLogin(new firebase.auth.GoogleAuthProvider());
   }
 
-  // Autenticacion con provider
+  /* Autenticacion con provider */
   AuthLogin(provider) {
     return this.ngFireAuth.signInWithPopup(provider)
     .then((result) => {
@@ -90,7 +90,7 @@ export class AuthenticationService {
     })
   }
 
-  // Almacenar usuario en localStorage
+  /* Almacenar usuario en localStorage */
   SetUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${user.uid}`);
     const userData: User = {

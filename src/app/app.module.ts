@@ -27,13 +27,9 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 // Acceder a Catastro
 import { HttpClientModule } from '@angular/common/http';
-import { FavoritosPage } from './folder/favoritos/favoritos.page';
+import { LogoutPageModule } from './components/login/logout/logout.module';
+import { ResetPasswordPageModule } from './components/login/reset-password/reset-password.module';
 import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
-//import { CatastroService } from './shared/services/catastro/catastro.service';
-
-// Acceder a Geolocalizacion
-//import { GeolocalizacionService } from './shared/services/geolocalizacion/geolocalizacion.service';
-
 
 @NgModule({
   declarations: [
@@ -57,7 +53,9 @@ import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
       FavoritosPageModule,
       LoginPageModule,
       RegistrationPageModule,
-      HttpClientModule
+      LogoutPageModule,
+      ResetPasswordPageModule,
+      HttpClientModule,
     ],
   providers: [AngularFirestoreModule,
       { provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }, 
