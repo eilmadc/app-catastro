@@ -4,7 +4,7 @@
       <ion-content>
         <ion-list id="menu-list">
           <ion-grid>
-            
+
 <!--  CABECERA MENU - LOGO     -->        
             <ion-row>
               <ion-list-header slot="end">App Catastro</ion-list-header>
@@ -25,6 +25,11 @@
         </ion-list>
 
         <ion-list>
+          <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+            <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+            <ion-label>{{ Mi Cuenta}}</ion-label>
+          </ion-item>
+
 <!--       BOTON CERRAR SESIÓN -->
             <ion-row>
               <ion-col size="6" offset="2">

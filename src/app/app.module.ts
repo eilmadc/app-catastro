@@ -30,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LogoutPageModule } from './components/login/logout/logout.module';
 import { ResetPasswordPageModule } from './components/login/reset-password/reset-password.module';
 import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
+import { MicuentaPageModule } from './components/micuenta/micuenta.module';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
       LogoutPageModule,
       ResetPasswordPageModule,
       HttpClientModule,
+      MicuentaPageModule,
     ],
   providers: [AngularFirestoreModule,
       { provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }, 
