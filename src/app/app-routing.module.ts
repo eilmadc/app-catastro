@@ -31,11 +31,11 @@ const routes: Routes = [
   {
     path: 'mapa',
     loadChildren: () => import('./shared/pages/mapa/mapa.module').then( m => m.MapaPageModule)
-  },  {
+  },
+  {
     path: 'test',
     loadChildren: () => import('./components/test/test.module').then( m => m.TestPageModule)
-  }
-
+  },
 ];
 
 

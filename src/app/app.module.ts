@@ -29,6 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LogoutPageModule } from './components/login/logout/logout.module';
 import { ResetPasswordPageModule } from './components/login/reset-password/reset-password.module';
 import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
+import { TestPageModule } from './components/test/test.module';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
       RegistrationPageModule,
       LogoutPageModule,
       ResetPasswordPageModule,
+      TestPageModule,
       HttpClientModule,
     ],
   providers: [AngularFirestoreModule,
