@@ -10,6 +10,7 @@ import {    IInmueble,
             IMarkilo                } from '../../shared/interfaces/catastro.modelos';
 import { ParcelaPage } from '../../shared/pages/parcela/parcela.page'
 import { InmueblePage } from '../../shared/pages/inmueble/inmueble.page'
+import { MapaPage } from 'src/app/shared/pages/mapa/mapa.page';
 
 //
 //
@@ -25,6 +26,7 @@ export class ListadoPage implements OnInit {
 
     //
     @Input() markilos: IMarkilo[] = [];
+    @Input() nMarkilos: number = 0;
 
     //
     constructor(private catastro: CatastroService,
@@ -35,16 +37,18 @@ export class ListadoPage implements OnInit {
     
         /* Si no estamos en modo_developer recrearemos en localStorage un historico, si es que ya no esta */
         await this.__test__Recrear_historico_en_localStorage_si_esta_en_mode_developer();
-        
+
         /* solicitamos la colección de markilos */
         await this.catastro.markilosLoadLS();
         this.markilos = await this.catastro.markilosGet();
+
+        this.nMarkilos = this.markilos.length;
     }
 
     /*
         Cambia el estado |makilo.favorito| a su nuevo valor. 
 
-        @param  {} markilo
+        @param  {IMarkilo} markilo
     */
     btMarkiloFavorito(markilo: IMarkilo){ 
         markilo.favorito = ! markilo.favorito;
@@ -53,15 +57,20 @@ export class ListadoPage implements OnInit {
 
 
     /*
-        Nos lleva al lugar del mapa 
+        Nos lleva al lugar del mapa del |markilo|.
 
-        @param {string} referenciaCatastral que señala a la referencia catastral de un (IParcela|IInmueble).
-
-        @param  {number} latitud, responde a la coordenada de la latitud
-        @param  {number} longitud, responde a la coordenada de longitud
+        @param  {IMarkilo} markilo
     */
-    btMapaIr(latitud: number, longitud: number) {
-        // ir a Mapa
+    async btMarkiloMapa(markilo: IMarkilo) {
+
+        const modal = await this.modalController.create({
+            component:              MapaPage,
+            //cssClass:             'my-custom-class',
+            componentProps: {       markilo:  markilo,
+                                    }
+        });
+
+        return await modal.present();
     }
 
 

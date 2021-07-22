@@ -25,10 +25,6 @@ const routes: Routes = [
         loadChildren: () => import('./camara/camara.module').then( m => m.CamaraPageModule)
       },
       {
-        path: 'consultas',
-        loadChildren: () => import('./consultas/consultas.module').then( m => m.ConsultasPageModule)
-      },
-      {
         path: 'aboutus',
         loadChildren: () => import('./aboutus/aboutus.module').then( m => m.AboutusPageModule)
       },
@@ -40,12 +36,21 @@ const routes: Routes = [
         path: 'webcatastro',
         loadChildren: () => import('./webcatastro/webcatastro.module').then( m => m.WebcatastroPageModule)
       },
+      {
+        path: 'favoritos',
+        loadChildren: () => import('./favoritos/favoritos.module').then( m => m.FavoritosPageModule)
+      },
         ]
   },
   {
     path: 'notifications',
     loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
+  },
+  {
+    path: 'favoritos',
+    loadChildren: () => import('./favoritos/favoritos.module').then( m => m.FavoritosPageModule)
   }
+
 
 ];
 

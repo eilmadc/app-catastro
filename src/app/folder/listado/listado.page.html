@@ -1,31 +1,21 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>listado</ion-title>
+        <ion-title>Listado Historico</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-    <ion-header collapse="condense">
-        <ion-toolbar>
-            <ion-title size="large">Historico</ion-title>
-        </ion-toolbar>
-    </ion-header>
-
     <ion-list>
         <ion-list-header lines="inset">
-            <ion-label>Fecha:Hora</ion-label>
-            <ion-label>nota</ion-label>
-            <ion-label>latitud:longitud</ion-label>
-            <ion-label>RefCatastral</ion-label>
-            <ion-label></ion-label>
+            <ion-title>Historico ({{nMarkilos}})</ion-title>
         </ion-list-header>
 
         <div    *ngIf="markilos.length > 0 else SinRegistros" 
                 class="ion-card">
 
             <ng-container *ngFor="let markilo of markilos">
-                <ion-item >
+                <ion-item>
                     <ion-card >
                         <ion-card-header>
                             <ion-card-title><ion-icon name="location-outline"></ion-icon>{{ markilo.nota }}</ion-card-title>
@@ -46,34 +36,32 @@
                                         <div *ngIf="markilo.favorito; then thenBlock else elseBlock">
                                         </div>
                                             <ng-template #thenBlock>
-                                                <ion-button
-                                                    (click)="btMarkiloFavorito(markilo)"
-                                                    size="small" 
-                                                    fill="solid"
-                                                    color="danger">Favorito
+                                                <ion-button (click)="btMarkiloFavorito(markilo)"
+                                                            size="small" 
+                                                            fill="solid"
+                                                            color="danger">Favorito
                                                 </ion-button>
                                             </ng-template>
 
                                             <ng-template #elseBlock>
-                                                <ion-button
-                                                    (click)="btMarkiloFavorito(markilo)"
-                                                    size="small" 
-                                                    fill="outline"
-                                                    color="danger">Favorito
+                                                <ion-button (click)="btMarkiloFavorito(markilo)"
+                                                            size="small" 
+                                                            fill="outline"
+                                                            color="danger">Favorito
                                                 </ion-button>
                                             </ng-template>
                                     </ion-col>
                                     <ion-col size="3">
-                                        <ion-button (click)="btMapaIr(markilo.latitud, markilo.altitud)" 
+                                        <ion-button (click)="btMarkiloMapa(markilo)"
                                                     size="small"
                                                     fill="outline" 
                                                     color="warning">Mapa</ion-button>
                                     </ion-col>
                                     <ion-col size="3">
                                         <ion-button (click)="btModeloCatastroDetalles(markilo.irmc.modeloCatastro.rcParcela)"
-                                                        size="small" 
-                                                        fill="outline" 
-                                                        color="secondary">Detalles</ion-button>
+                                                    size="small" 
+                                                    fill="outline" 
+                                                    color="secondary">Detalles</ion-button>
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>

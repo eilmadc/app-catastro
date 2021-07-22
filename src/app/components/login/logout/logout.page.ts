@@ -23,12 +23,12 @@ export class LogoutPage implements OnInit {
     this.as.SignOut;
   }
 
-  //Ir a Login
+  /* Ir a Login */
   goToLoginPage(){
     this.router.navigate(['login']);
   }
 
-  //Salir de la app
+  /* Salir de la app */
   exitApp(){
     navigator['app'].exitApp();
   }

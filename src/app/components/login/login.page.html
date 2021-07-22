@@ -3,7 +3,7 @@
 <ion-content>
 <ion-grid>
   <ion-row>
-    <ion-col size="6" offset="3">
+    <ion-col size="4" offset="4">
       <img src="assets/logo.png" />
     </ion-col>
   </ion-row>
@@ -15,7 +15,7 @@
  
     <form> 
       <ion-row>   
-        <ion-col size="10" offset="1">
+        <ion-col size="8" offset="2">
           <ion-item lines="full">
             <ion-label position="floating">Email</ion-label>
             <ion-input type="email" #email required placeholder="Introduce tu email"></ion-input>
@@ -30,22 +30,25 @@
           </ion-item>
         </ion-col>
     </ion-row>
-   <br>
     <ion-row>
-      <ion-col size="8" offset="2">
-      <ion-button type="submit" (click)="signIn(email, password)" expand="block" >
-        <P>&nbsp;INICIAR SESIÓN</P> </ion-button>
-      <!-- TODO:Pendiente cambiar a la web de resetear password -->
-      <ion-router-link class="underline" href="/folder/home" ><h6>¿Has olvidado tú contraseña?</h6></ion-router-link>
+      <ion-col size="10" offset="1">
+      <ion-button type="submit" (click)="signIn(email, password)" expand="block" fill="outline">
+        <P>&nbsp;ENTRAR CON EMAIL</P> </ion-button>
+      <!-- TODO:Pendiente cambiar a la web de resetear password href="/folder/home"  -->
+      <ion-router-link class="underline" (click)="recoverPassword();" color="black"><h6>¿Has olvidado tú contraseña?</h6></ion-router-link>
+    <!--   INICIAR SESION CON GOOGLE -->
+      <ion-button type="submit" (click)="googleAuth()" expand="block" fill="outline"> 
+        <ion-icon name="logo-google"></ion-icon>&nbsp;CONTINUA CON GOOGLE </ion-button>
     </ion-col>
     </ion-row>
+
   </form>
   <ion-row>
     <ion-col size="8" offset="1">
       <h4>CREAR CUENTA&nbsp;</h4>
     </ion-col>
     <ion-col size="8" offset="2">
-      <ion-button type="submit" (click)="goToSignUp()" expand="block" fill="outline" ><P>Crear Cuenta</P> </ion-button>
+      <ion-button type="submit" (click)="goToSignUp()" expand="block"><P>Crear Cuenta</P> </ion-button>
       <!-- TODO:Pendiente Incluir los botones de Google -->
     </ion-col>
   </ion-row>

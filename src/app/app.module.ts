@@ -10,7 +10,6 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { firebaseConfig } from '../environments/firebaseconfig'; 
 
 //Components
 import { AppComponent } from './app.component';
@@ -18,7 +17,6 @@ import { LoginPageModule } from './components/login/login.module'
 import { HomePageModule } from './folder/home/home.module';
 import { MapasPageModule } from './folder/mapas/mapas.module';
 import { ListadoPageModule } from './folder/listado/listado.module';
-import { ConsultasPageModule } from './folder/consultas/consultas.module';
 import { ContactoPageModule } from './folder/contacto/contacto.module';
 import { AboutusPageModule } from './folder/aboutus/aboutus.module';
 import { WebcatastroPageModule} from './folder/webcatastro/webcatastro.module'
@@ -27,6 +25,9 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 // Acceder a Catastro
 import { HttpClientModule } from '@angular/common/http';
+import { LogoutPageModule } from './components/login/logout/logout.module';
+import { ResetPasswordPageModule } from './components/login/reset-password/reset-password.module';
+import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
 
 @NgModule({
   declarations: [
@@ -36,23 +37,24 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [BrowserModule,
       IonicModule.forRoot(),
       AppRoutingModule,
-      AngularFireModule.initializeApp(firebaseConfig),
       AngularFireAuthModule,
       AngularFireDatabaseModule,
       AngularFirestoreModule,
       HomePageModule,
       MapasPageModule,
       ListadoPageModule,
-      ConsultasPageModule,
       ContactoPageModule,
       AboutusPageModule,
       WebcatastroPageModule,
+      FavoritosPageModule,
       LoginPageModule,
       RegistrationPageModule,
+      LogoutPageModule,
+      ResetPasswordPageModule,
       HttpClientModule,
     ],
-  providers: [AngularFirestoreModule,InAppBrowser,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy,}
+  providers: [AngularFirestoreModule,
+      { provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }, 
   ],
   bootstrap: [AppComponent],
 })

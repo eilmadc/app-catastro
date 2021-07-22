@@ -26,7 +26,7 @@ interface Marker {
 })
 export class MapasPage implements OnInit {
 
-  @Input() markilos: IMarkilo[] = [];
+ @Input() markilos: IMarkilo[] = [];
 
   constructor(private catastro: CatastroService,
     public modalController: ModalController,
@@ -76,7 +76,6 @@ export class MapasPage implements OnInit {
     /* solicitamos la colección de markilos */
     await this.catastro.markilosLoadLS();
     this.markilos = await this.catastro.markilosGet();
-    console.log('markilos: ',this.markilos);
   }
 
   ionViewDidEnter() {
@@ -116,10 +115,7 @@ async loadMap() {
         anchor: new google.maps.Point(15, 30),
       };
 
-      // var infowindow = new google.maps.InfoWindow();
-
       this.markilos.forEach(markilo => {
-        console.log('foreach');
             //crea la variable position usada en google.maps.Marker para posicionar los marcadores en el mapa
             let position = {
               lat: markilo.latitud,
@@ -132,40 +128,34 @@ async loadMap() {
                 title: markilo.nota,
                 icon: svgMarker
               });
-              console.log('markilo');
 
               globalArray.push( markilo );
 
-              google.maps.event.addListener(markilo, 'click', function () {
-                infowindow.setContent('<h3>' + this.title + '</h3>');
-                infowindow.open(this.map, this);
-                console.log('click');
-              });
   
             });
-     
+
 
       mapEle.classList.add('show-map');
 
-      const contentString = '<div id="content" style="color: red;">' +
-      '<h1 id="firstHeading" class="firstHeading">' + 'globalArray[0].nota' + '<h1>' +
-      '<p>Latitud: ' + 'globalArray[0].latitud' + '<p>' +
-      '<p>Longitud: ' + 'globalArray[0].longitud' + '<p>' +
+      const contentString = '<div style="color: red;">' +
+      '<h1 id="firstHeading" class="firstHeading">' + globalArray[0].nota + '<h1>' +
+      '<p>Latitud: ' + this.latitude + '<p>' +
+      '<p>Longitud: ' + this.longitude + '<p>' +
       '</div>';
 
       const infowindow = new google.maps.InfoWindow({
         content: contentString,
       });
   
-      const markilo = new google.maps.Marker({
+      const local = new google.maps.Marker({
         position: myLatLng,
         map: this.map,
-        title: "Uluru (Ayers Rock)",
+        title: globalArray[0].nota,
       });
 
-      markilo.addListener("click", () => {
+      local.addListener("click", () => {
         infowindow.open({
-          anchor: markilo,
+          anchor: local,
           map: this.map,
           shouldFocus: false,
         });
