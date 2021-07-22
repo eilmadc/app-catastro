@@ -18,7 +18,6 @@ import { LoginPageModule } from './components/login/login.module'
 import { HomePageModule } from './folder/home/home.module';
 import { MapasPageModule } from './folder/mapas/mapas.module';
 import { ListadoPageModule } from './folder/listado/listado.module';
-import { ConsultasPageModule } from './folder/consultas/consultas.module';
 import { ContactoPageModule } from './folder/contacto/contacto.module';
 import { AboutusPageModule } from './folder/aboutus/aboutus.module';
 import { WebcatastroPageModule} from './folder/webcatastro/webcatastro.module'
@@ -46,7 +45,6 @@ import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
       HomePageModule,
       MapasPageModule,
       ListadoPageModule,
-      ConsultasPageModule,
       ContactoPageModule,
       AboutusPageModule,
       WebcatastroPageModule,

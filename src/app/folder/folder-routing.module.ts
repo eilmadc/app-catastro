@@ -25,10 +25,6 @@ const routes: Routes = [
         loadChildren: () => import('./camara/camara.module').then( m => m.CamaraPageModule)
       },
       {
-        path: 'consultas',
-        loadChildren: () => import('./consultas/consultas.module').then( m => m.ConsultasPageModule)
-      },
-      {
         path: 'aboutus',
         loadChildren: () => import('./aboutus/aboutus.module').then( m => m.AboutusPageModule)
       },
