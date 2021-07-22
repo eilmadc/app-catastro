@@ -27,7 +27,7 @@
 export interface IReturnReferenciaCatastral {
     numero: number,                     // =-1 se ha producido un error, =0 no hay nada en esa posicion, =1 con la referencia y >0 no se espera.
     referenciaCatastral: string,        // 
-    xml: XMLDocument                    //
+    xml: XMLDocument,              //
 }
 
 /*
@@ -36,25 +36,22 @@ export interface IReturnReferenciaCatastral {
 export interface IReturnModeloCatastro {
     numero: number,                     // número de inmuebles; 0=error, =1 es Inmueble, >1 es Parcela
     modeloCatastro: any,                // (IParcela|IInmueble)
-    xml: XMLDocument                    //
+    xml: XMLDocument,            //
 }
 
 /*
     Estructura para almacenar 
 */
 export interface IMarkilo {
-    id:                     string,                                // debe responder, siempore, a new Date().toLocaleString() 
-    latitud:                number,                             //
-    longitud:               number,                             //
-    position: {
-        latitud:                number,                             //
-        longitud:               number,  
-    },
-    irmc:                   IReturnModeloCatastro,              // 
-    nota:                   string,                             // nota del usuario para identificar la petición
-    direccion:              string,                             // IParcela.domicilioTributario && IInmueble.localizacion
-    favorito:               boolean
+    id:                     string;                                // debe responder, siempore, a new Date().toLocaleString() 
+    latitud:                number;                             //
+    longitud:               number;    
+    irmc:                   IReturnModeloCatastro;             // 
+    nota:                   string;                           // nota del usuario para identificar la petición
+    direccion:              string;                             // IParcela.domicilioTributario && IInmueble.localizacion
+    favorito:               boolean;
 }
+
 
 /*º
     Inmueble.
@@ -115,7 +112,7 @@ export interface IInmueble {
     superficieConstruida:       number,                 // /bico/bi/debi/sfc                            // superficie en m2
     anoConstruccion:            number,                 // /bico/bi/debi/ant                            // año de construccion, aqui es la antiguedad
     inmuebleParcela:            IInmuebleParcela,       //
-    inmuebleConstruccion:       IInmuebleConstruccion[] //
+    inmuebleConstruccion:       IInmuebleConstruccion[],
 }
 
 interface IInmuebleParcela {
@@ -183,7 +180,7 @@ export interface IParcela {
                                                 // /lrcdnp/rcdnp[0]/lous/lourb/dir/pnp
     poblacion: string,                          // /lrcdnp/rcdnp[0]/dt/nm
     provincia: string,                          // /lrcdnp/rcdnp[0]/dt/np
-    parcelaInmuebles: IParcelaInmuebles[]
+    parcelaInmuebles: IParcelaInmuebles[],
 }
 
 /* */
