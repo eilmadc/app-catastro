@@ -1,9 +1,21 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>micuenta</ion-title>
+    <ion-title>Mi cuenta</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-card>
+    <ion-card-content>
+<h2>{{userInfo?.userName}}</h2>
+<p>{{userInfo?.userId}}</p>
+      <p>{{userInfo?.userEmail}}</p>
+      <p>{{userInfo?.userPhone}}</p>
+      <p>{{userInfo?.userPhoto}}</p>
+      <p>{{userInfo?.createdAt}}</p>
+      <p>{{userInfo?.userol}}</p>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

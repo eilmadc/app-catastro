@@ -34,7 +34,7 @@
       <ion-col size="10" offset="1">
       <ion-button type="submit" (click)="signIn(email, password)" expand="block" fill="outline">
         <P>&nbsp;ENTRAR CON EMAIL</P> </ion-button>
-      <!-- TODO:Pendiente cambiar a la web de resetear password href="/folder/home"  -->
+        <!-- RECUPERAR PASSWORD  -->
       <ion-router-link class="underline" (click)="recoverPassword();" color="black"><h6>¿Has olvidado tú contraseña?</h6></ion-router-link>
     <!--   INICIAR SESION CON GOOGLE -->
       <ion-button type="submit" (click)="googleAuth()" expand="block" fill="outline"> 
@@ -49,7 +49,6 @@
     </ion-col>
     <ion-col size="8" offset="2">
       <ion-button type="submit" (click)="goToSignUp()" expand="block"><P>Crear Cuenta</P> </ion-button>
-      <!-- TODO:Pendiente Incluir los botones de Google -->
     </ion-col>
   </ion-row>
 

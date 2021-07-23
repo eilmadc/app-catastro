@@ -32,7 +32,7 @@ signIn(email, password){
 
 /* GOTOSIGNUP: Redirección a la pagina de registro*/
 goToSignUp(){
-  this.router.navigate(['login/registration']);
+  this.router.navigate(['login/register']);
 }
 
 /* GOOGLEAUTH: Signin con Google Authentication */  

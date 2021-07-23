@@ -15,7 +15,6 @@ export class AppComponent {
     { title: 'Favoritos', url: './folder/favoritos', icon: 'star' },
     { title: 'Mapas', url: './folder/mapas', icon: 'map' },
     { title: 'Listado Inmuebles', url: './folder/listado', icon: 'list' },
-    { title: 'Buscar', url: './folder/consultas', icon: 'search' },
     { title: 'Camara', url: './folder/camara', icon: 'camera' },
     { title: 'Web Catastro', url: './folder/webcatastro', icon: 'business' },
     { title: 'Sobre nosotros', url: '/folder/aboutUs', icon: 'information' },
@@ -56,6 +55,11 @@ export class AppComponent {
   //Ir a PageModule SignOut
   goToSignOut(){
     this.router.navigate(['logout']);
+  }
+
+  //Ir a PageModule Micuenta
+  goToMiCuenta(){
+    this.router.navigate(['micuenta']);
   }
 
 }

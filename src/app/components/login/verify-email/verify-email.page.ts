@@ -15,4 +15,7 @@ export class VerifyEmailPage implements OnInit {
   ngOnInit() {
   }
 
+  verifyEmail(){
+    this.as.SendVerificationMail;
+  }
 }

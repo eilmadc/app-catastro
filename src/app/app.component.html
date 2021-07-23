@@ -25,10 +25,7 @@
         </ion-list>
 
         <ion-list>
-          <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-            <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-            <ion-label>{{ Mi Cuenta}}</ion-label>
-          </ion-item>
+          <ion-router-link (click)="goToMiCuenta();" color="black"><h6>Mi Cuenta</h6></ion-router-link>
 
 <!--       BOTON CERRAR SESIÓN -->
             <ion-row>

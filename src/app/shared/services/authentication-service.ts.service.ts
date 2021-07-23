@@ -1,10 +1,11 @@
 import { Injectable, NgZone } from '@angular/core';
 import  firebase from 'firebase/app';
-import { User } from "../interfaces/user";
+import { User , Roles, UserExtended} from "../interfaces/user";
 import { Router } from "@angular/router";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { firebaseConfig } from 'src/environments/firebaseconfig';
+import { ToastController } from '@ionic/angular';
 
 
 @Injectable({
@@ -13,12 +14,14 @@ import { firebaseConfig } from 'src/environments/firebaseconfig';
 
 export class AuthenticationService {
   userData: any;
+  user$:UserExtended;
 
   constructor(
     public afStore: AngularFirestore,
     public ngFireAuth: AngularFireAuth,
     public router: Router,  
-    public ngZone: NgZone 
+    public ngZone: NgZone ,
+    private toastr: ToastController
   ) {
     this.ngFireAuth.authState.subscribe(user => {
       if (user) {
@@ -33,25 +36,74 @@ export class AuthenticationService {
   }
 
   /* Login con email/password */
-  SignIn(email, password) {
+  async SignIn(email, password) {
     return this.ngFireAuth.signInWithEmailAndPassword(email, password)
   }
 
   /* Registro con email/password */
-  RegisterUser(email, password) {
+  async RegisterUser(email, password) {
     return this.ngFireAuth.createUserWithEmailAndPassword(email, password)
   }
 
   /* Verificación de email cuando un nuevo usuario se registra */
-  SendVerificationMail() {
+  async SendVerificationMail() {
     return this.ngFireAuth.currentUser.then(e => e.sendEmailVerification())
     .then(() => {
       this.router.navigate(['verify-email']);
+      this.createUserInCollection(this.userData);
     })
   }
 
+  /* Crear usuario en colección */
+  async createUserInCollection(user){
+    const currentUser = firebase.auth().currentUser;
+    this.afStore.collection('users').doc(currentUser.uid).set({
+      'userId' : user.uid,
+      'userName': user.displayName,
+      'userEmail': user.email,
+      'userPhone': '',
+      'userPhoto': user.photoURL,
+      'createdAt': Date.now(),
+      'userrol' : 'viewer',
+    })
+    
+  }
+
+  /* Obtener datos de la colección en Firebase*/
+  async getUserFromCollection(){
+    const currentUser = firebase.auth().currentUser;
+    console.log(currentUser);
+    return currentUser;
+   /*  this.afStore.collection('users').doc(currentUser.uid).get()
+    .subscribe((doc) =>{
+      if (doc.exists) {
+        console.log("Document data: ", doc.data());
+        const data = doc.data();
+        return doc.data();
+      }else{
+        console.log("No such document");
+        return ("")
+      }
+    }); */
+  }
+
+  /* Actualizar información del usuario */
+  async updateUserInCollection(user){
+    const currentUser = firebase.auth().currentUser;
+    this.afStore.collection('users').doc(currentUser.uid).set({
+      'userId' : user.uid,
+      'userName': user.displayName,
+      'userEmail': user.email,
+      'userPhone': '',
+      'userPhoto': user.photoURL,
+      'createdAt': Date.now(),
+      'userrol' : 'viewer',
+    })
+    console.log('Current User: ',currentUser);
+  }
+
   /* Recuperar password */
-  PasswordRecover(passwordResetEmail) {
+  async PasswordRecover(passwordResetEmail) {
     return this.ngFireAuth.sendPasswordResetEmail(passwordResetEmail)
     .then(() => {
       window.alert('Password reset email has been sent, please check your inbox.');
@@ -73,12 +125,12 @@ export class AuthenticationService {
   }
 
   /* Sign in con Gmail */
-  GoogleAuth() {
+  async GoogleAuth() {
     return this.AuthLogin(new firebase.auth.GoogleAuthProvider());
   }
 
   /* Autenticacion con provider */
-  AuthLogin(provider) {
+  async AuthLogin(provider) {
     return this.ngFireAuth.signInWithPopup(provider)
     .then((result) => {
        this.ngZone.run(() => {
@@ -91,7 +143,7 @@ export class AuthenticationService {
   }
 
   /* Almacenar usuario en localStorage */
-  SetUserData(user) {
+  async SetUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${user.uid}`);
     const userData: User = {
       uid: user.uid,
@@ -104,20 +156,25 @@ export class AuthenticationService {
       merge: true
     });
   }
-/* 
-  SendVerificationMail() {
-    return this.ngFireAuth.auth.currentUser.sendEmailVerification()
-     .then(() => {
-       this.router.navigate(['verify-email']);
-     })
-  } */
 
   // Sign-out 
-  SignOut() {
+  async SignOut() {
     return this.ngFireAuth.signOut().then(() => {
       localStorage.removeItem('user');
       this.router.navigate(['login']);
     })
+  }
+
+  //Metodo para envío de mensajes Toast.
+  async toast(mensaje,status)
+  {
+    const toast = await this.toastr.create({
+      message: mensaje,
+      color:status,
+      position: 'top',
+      duration: 2000
+    });
+    toast.present();
   }
 
 }
