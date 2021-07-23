@@ -5,7 +5,8 @@ import { ModalController } from '@ionic/angular';
 import { CatastroService } from '../../shared/services/catastro/catastro.service';
 import { IMarkilo } from '../../shared/interfaces/catastro.modelos';
 
-import { ListadoPage } from '../listado/listado.page'
+import { ListadoPage } from '../listado/listado.page';
+import { FavoritosPage }  from '../favoritos/favoritos.page';
 
 declare var google;
 
@@ -41,36 +42,6 @@ export class MapasPage implements OnInit {
   infoWindows: any = [];
 
   map = null;
-  markers: Marker[] = [
-    {
-      position: {
-        lat: 41.3918415,
-        lng: 2.1156554,
-      },
-      title: 'Jardín Botánico'
-    },
-    {
-      position: {
-        lat: 41.3918415,
-        lng: 2.1166554,
-      },
-      title: 'Parque la 93'
-    },
-    {
-      position: {
-        lat: 41.3918415,
-        lng: 2.2256554,
-      },
-      title: 'Maloka'
-    },
-    {
-      position: {
-        lat: 41.40356145365357,
-        lng: 2.1744767782584358
-      },
-      title: 'Sagrada Familia (Barcelona)'                         // es Inmueble
-    },
-  ];
 
   async ngOnInit() {
     /* solicitamos la colección de markilos */
@@ -86,6 +57,8 @@ export class MapasPage implements OnInit {
 async loadMap() {
 
   var globalArray=[];
+
+  var showFav = true;
 
       const coordinates = await Geolocation.getCurrentPosition();
       this.latitude = coordinates.coords.latitude;
@@ -105,6 +78,8 @@ async loadMap() {
 
 
     google.maps.event.addListenerOnce(this.map, 'idle', () => {
+
+      //marcadores genéricos
       const svgMarker = {
         path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
         fillColor: "darkorange",
@@ -115,6 +90,19 @@ async loadMap() {
         anchor: new google.maps.Point(15, 30),
       };
 
+
+      //marcadores en favoritos
+      const favMarker = {
+        path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
+        fillColor: "goldenrod",
+        fillOpacity: 0.9,
+        strokeWeight: 0,
+        rotation: 0,
+        scale: 2,
+        anchor: new google.maps.Point(15, 30),
+      };
+
+      
       this.markilos.forEach(markilo => {
             //crea la variable position usada en google.maps.Marker para posicionar los marcadores en el mapa
             let position = {
@@ -122,18 +110,27 @@ async loadMap() {
               lng: markilo.longitud
             }
 
-             new google.maps.Marker({
+            //los marcadores tienen colores distinos dependiendo de si están o no en el listado de favoritos
+            if (markilo.favorito == true && showFav == true) {
+              new google.maps.Marker({
                 position: position,
                 map: this.map,
                 title: markilo.nota,
-                icon: svgMarker
+                icon: favMarker
               });
-
+          }else{
+            new google.maps.Marker({
+              position: position,
+              map: this.map,
+              title: markilo.nota,
+              icon: svgMarker
+            });
+          }
+          
               globalArray.push( markilo );
 
-  
-            });
 
+            });
 
       mapEle.classList.add('show-map');
 
@@ -169,12 +166,25 @@ async loadMap() {
       this.longitude = this.map.center.lng();
     });
 
-    
+//     console.log(globalArray);
+//       // Sets the map on all markers in the array.
+// function setMapOnAll(map) {
+//   for (let i = 0; i < globalArray.length; i++) {
+//     if (globalArray[i].favorito == true && showFav == true) {
+//     globalArray[i].setMap(map);
+//   }
+// };
+// }
+//       // Removes the markers from the map, but keeps them in the array.
+//       function hideMarkers(): void {
+//         setMapOnAll(null);
+//         console.log('hide');
+//       };
 
-    
- 
-    
+//        document
+//           .getElementById("hide-fav")!
+//           .addEventListener("click", hideMarkers);
 
-
-      }
+      
   }
+}
