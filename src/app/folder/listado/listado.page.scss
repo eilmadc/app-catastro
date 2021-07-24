@@ -1,8 +1,24 @@
-//
-//
+/*
+    PJS / para que card se expanda a lo ancho
+*/
 ion-card {
     display:            flex;
     flex-direction:     column;
     width:              95% !important;
     margin:             5 !important;
+}
+
+/*
+    PJS / para que la foto del markilo este centrada y no se descontrole el tamaño
+*/
+#foto {
+    width: 175px;
+    align-content: center;
+}
+
+/* 
+    PJS / reduce el tamaño del texto dentro de las filas
+*/
+ion-row {
+    font-size: 75%;
 }

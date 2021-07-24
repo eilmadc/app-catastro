@@ -24,6 +24,7 @@ export class CatastroService {
     //
     constructor(    private httpClient: HttpClient) { }
 
+    
     /*
         Añade un nuevo |markilo| a las colección de |this.markilos|
     */
@@ -61,7 +62,7 @@ export class CatastroService {
     */
     markiloSet(markilo: IMarkilo) {
 
-        localStorage.setItem(   markilo.id, JSON.stringify(markilo));
+        localStorage.setItem(markilo.id, JSON.stringify(markilo));
 
         for (var i = 0; i < this.markilos.length; i++) {
             if  ( this.markilos[i].id == markilo.id ) {
@@ -717,75 +718,85 @@ export class CatastroService {
     async test__CrearHistorico_en_localStorage() {
 
         let coordenadas = [
-            {
+            {                                                               // es Parcela
                 instante: '16/07/2018 12:52:09',
                 latitud: 40.92465644496646,
                 longitud: 0.8414186666402872,
                 marcador: false,
-                desc: 'Casa Cruz Gamada (Tarragona)'                        // es Parcela
+                desc: 'Casa Cruz Gamada (Tarragona)', 
+                foto: 'casa_cruz_gamada__tarragona.jpg'
             },
-            {
+            {                                                               // es Inmueble
                 instante: '16/07/2019 00:53:09',
                 latitud: 40.41634264194055,
                 longitud: -3.6966086663337605,
                 marcador: false,
-                desc: 'Congreso de los Diputados (Madrid)'                  // es Inmueble
+                desc: 'Congreso de los Diputados (Madrid)',
+                foto: 'congreso_de_los_diputados__madrid.jpg'
             },
-            {
+            {                                                               // es Inmueble
                 instante: '02/11/2021 11:53:09',
                 latitud: 39.47439226625097,
                 longitud: -0.37831976528385386,
                 marcador: false,
-                desc: 'La Lonja de la Seda (Valencia)'                      // es Inmueble
+                desc: 'La Lonja de la Seda (Valencia)',
+                foto: 'la_lonja_de_la_seda__valencia.jpg'
             },
-            {
+            {                                                               // es Inmueble
                 instante: '02/11/2021 11:03:09',
                 latitud: 42.880626849444305,
                 longitud: -8.544646314889821,
                 marcador: true,
-                desc: 'Catedral de Santiago de Compostela (La Coruña)'      // es Inmueble
+                desc: 'Catedral de Santiago de Compostela (La Coruña)',
+                foto: 'catedral_de_santiago_de_compostela__la_coruña.jpg'
             },
-            {
+            {                                                               // es Inmueble
                 instante: '02/11/2021 10:53:09',
                 latitud: 41.40356145365357,
                 longitud: 2.1744767782584358,
                 marcador: true,
-                desc: 'Sagrada Familia (Barcelona)'                         // es Inmueble
+                desc: 'Sagrada Familia (Barcelona)',
+                foto: 'sagrada_familia__barcelona.jpg'
             },
-            {
+            {                                                               // es Inmueble
                 instante: '03/05/2021 09:53:09',
                 latitud: 37.878843641773095,
                 longitud: -4.779620226997026,
                 marcador: true,
-                desc: 'La Mezquita (Cordoba)'                               // es Inmueble
+                desc: 'La Mezquita (Cordoba)',
+                foto: 'la_mezquita__cordoba.jpg'
             },
-            {
+            {                                                               // es Inmueble
                 instante: '03/01/2021 09:59:03',
                 latitud: 37.17609897963017,
                 longitud: -3.588145285711672,
                 marcador: true,
-                desc: 'La Alhambra (Granada)'                               // es Inmueble
+                desc: 'La Alhambra (Granada)',
+                foto: 'la_alhambra__granada.jpg'
             },
-            {
+            {                                                               // es Parcela
                 instante: '03/05/2021 11:03:03',
                 latitud: 37.386348853983016,
                 longitud: -5.992602966276505,
                 marcador: true,
-                desc: 'La Giralda (Sevilla)'                                // es Parcela
+                desc: 'La Giralda (Sevilla)',
+                foto: 'la_giralda__sevilla.jpg'
             },
-            {
+            {                                                               // ... No hay Referencia Catastral 
                 instante: '03/05/2020 11:13:09',
                 latitud: 40.927409337781576,
                 longitud: 0.8392742549965533,
                 marcador: false,
-                desc: '---Es un punto en las Vias de Tren---'               // ... No hay Referencia Catastral 
+                desc: '---Es un punto en las Vias de Tren---',
+                foto: ''
             },
-            {
+            {                                                               // es Inmueble
                 instante: '16/07/2020 12:01:09',
                 latitud: 40.928752005582545,
                 longitud: 0.8503738259575321,
                 marcador: false,
-                desc: 'Port Esportiu Calafat'                               // es Inmueble
+                desc: 'Port Esportiu Calafat',
+                foto: 'port_esportiu_calafat__tarragona.jpg'
             }
         ];
 
@@ -827,6 +838,7 @@ export class CatastroService {
                     nota:               coordenadas[i].desc,
                     direccion:          direccion,
                     favorito:           coordenadas[i].marcador,
+                    foto:               null,
                 }
                 this.markiloAdd(markilo);
             }

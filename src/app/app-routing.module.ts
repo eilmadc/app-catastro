@@ -31,6 +31,10 @@ const routes: Routes = [
   {
     path: 'mapa',
     loadChildren: () => import('./shared/pages/mapa/mapa.module').then( m => m.MapaPageModule)
+  },
+  {
+    path: 'foto',
+    loadChildren: () => import('./shared/pages/foto/foto.module').then( m => m.FotoPageModule)
   }
 ];
 

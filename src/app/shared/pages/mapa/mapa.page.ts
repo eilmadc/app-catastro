@@ -11,9 +11,9 @@ import { IMarkilo } from '../../interfaces/catastro.modelos';
 
 //
 @Component({
-                    selector: 'app-mapa',
-                    templateUrl: './mapa.page.html',
-                    styleUrls: ['./mapa.page.scss'],
+                    selector:       'app-mapa',
+                    templateUrl:    './mapa.page.html',
+                    styleUrls:      ['./mapa.page.scss'],
                 })
 
 //
@@ -38,8 +38,10 @@ export class MapaPage implements OnInit, AfterViewInit {
             container:      this.divMapa.nativeElement,
             style:          'mapbox://styles/mapbox/streets-v11',
             center:         {lng: this.markilo.longitud, lat: this.markilo.latitud},
-            zoom:           18,
-            interactive:    false
+            zoom:           16,
+            interactive:    true,
+            pitch:          60,     // pitch in degrees
+            bearing:        -60,    // bearing in degrees
         });
         
         new mapboxgl.Marker()                       // marca las coordenadas
@@ -50,10 +52,12 @@ export class MapaPage implements OnInit, AfterViewInit {
             mapa.resize();
         });
 
-        new mapboxgl.Popup({ closeOnClick: false })
+        new mapboxgl.Popup({ closeOnClick: false, anchor: 'top', offset: 50 })
             .setLngLat({ lng: this.markilo.longitud, lat: this.markilo.latitud })
-            .setHTML('<h3>' + this.markilo.nota + '</h3>')
+            .setHTML('<b>' + this.markilo.nota + '</b>')
             .addTo(mapa);
+
+        mapa.addControl(new mapboxgl.NavigationControl());
     }
 
     /* 

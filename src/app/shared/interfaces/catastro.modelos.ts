@@ -21,6 +21,8 @@
                 }
 */
 
+import { IFoto } from "./foto.modelo";
+
 /*
     Modelo de Datos usado para contener la respuesta a las peticiones por Coordendas. 
 */
@@ -49,7 +51,8 @@ export interface IMarkilo {
     irmc:                   IReturnModeloCatastro,              // 
     nota:                   string,                             // nota del usuario para identificar la petición
     direccion:              string,                             // IParcela.domicilioTributario && IInmueble.localizacion
-    favorito:               boolean
+    favorito:               boolean,
+    foto?:                  IFoto                               // puede albergar una foto ... o quizas la uri
 }
 
 /*º
