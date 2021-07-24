@@ -6,9 +6,9 @@ import { ModalController } from '@ionic/angular';
 //
 //
 @Component({
-                    selector: 'app-inmueble',
-                    templateUrl: './inmueble.page.html',
-                    styleUrls: ['./inmueble.page.scss'],
+                    selector:       'app-inmueble',
+                    templateUrl:    './inmueble.page.html',
+                    styleUrls:      ['./inmueble.page.scss'],
                 })
 
 //
