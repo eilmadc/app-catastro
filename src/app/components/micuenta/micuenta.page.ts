@@ -23,8 +23,9 @@ export class MicuentaPage {
   }
 
   ionViewDidEnter() {
-    const currentUser = firebase.default.auth().currentUser;
-    this.afStore.collection('users').doc(currentUser.uid).get()
+    const currentUserUid = firebase.default.auth().currentUser.uid;
+    console.log(currentUserUid);
+    this.afStore.collection('users').doc(currentUserUid).get()
     .subscribe((doc) =>{
       if (doc.exists) {
         console.log("Document data: ", doc.data());
@@ -34,7 +35,8 @@ export class MicuentaPage {
         console.log("No such document");
         //return ("")
       }
-    });
+    },(error) => {console.error("Error:")}
+    );
     /* const userInfo = this.auth.getUserFromCollection()
     .then((doc) =>{
       console.log(`Successfully fetched user data`);
