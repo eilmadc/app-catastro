@@ -5,17 +5,47 @@
 </ion-header>
 
 <ion-content>
+    <ion-grid>
+      
+      <ion-row>
+       
+        <ion-col size="4" offset="4">
+          <ion-avatar>
+            <img src={{this.userInfo.userPhoto}} />
+          </ion-avatar>
+        </ion-col>
+      </ion-row>
 
-  <ion-card>
-    <ion-card-content>
-<h2>{{userInfo?.userName}}</h2>
-<p>{{userInfo?.userId}}</p>
-      <p>{{userInfo?.userEmail}}</p>
-      <p>{{userInfo?.userPhone}}</p>
-      <p>{{userInfo?.userPhoto}}</p>
-      <p>{{userInfo?.createdAt}}</p>
-      <p>{{userInfo?.userol}}</p>
-    </ion-card-content>
-  </ion-card>
+      <ion-row>
+         
+        <ion-col size="10" offset="1">
+          <ion-input (ionChange)="getValueInput($event)" placeholder={{this.userInfo.userName}}><h5>User : </h5></ion-input>
+          <ion-input (ionChange)="getValueInput($event)" placeholder={{this.userInfo.userEmail}} disabled="true"><h5>Email : </h5></ion-input>
+          <ion-input (ionChange)="getValueInput($event)" placeholder={{this.userInfo.userPhone}}><h5>Teléfono : </h5></ion-input>
+          <ion-input (ionChange)="getValueInput($event)" placeholder={{this.userInfo.createdAt}} disabled="true"><h5>Creado : </h5></ion-input>
+          <ion-input (ionChange)="getValueInput($event)" placeholder={{this.userInfo.userrol}}><h5>Rol de Usuario : </h5></ion-input>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col size="8" offset="2">  
+          <!-- GUARDAR CAMBIOS  -->
+          <ion-button class="submit" (click)="updateUser();" ><h6>Guardar los cambios</h6></ion-button>
+        </ion-col>
+            
+        <ion-col size="8" offset="2">  
+          <!-- RECUPERAR PASSWORD  -->
+          <ion-button class="submit" (click)="recoverPassword();" fill="outline"><p>Cambiar mi contraseña</p></ion-button>
+        </ion-col>
+      </ion-row>
+           
+      <ion-row>
+        <ion-col size="10" offset="1">  
+          <ion-item (click)="goToFavoritos()">
+            <h1 ><ion-icon name="star"></ion-icon> Mis Favoritos</h1>
+          </ion-item>
+        </ion-col>
+      </ion-row>  
 
+    </ion-grid>
 </ion-content>

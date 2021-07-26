@@ -20,16 +20,22 @@
                   <ion-label>{{ p.title }}</ion-label>
                 </ion-item>
               </ion-menu-toggle>
-
           </ion-grid>
         </ion-list>
 
         <ion-list>
-          <ion-router-link (click)="goToMiCuenta();" color="black"><h6>Mi Cuenta</h6></ion-router-link>
+          <ion-row>
+            <ion-col size="10">
+              <ion-item>
+              <ion-router-link (click)="goToMiCuenta();" color="black">
+                  <ion-icon name="person"></ion-icon>
+                  <ion-label><h5>Mi Cuenta</h5></ion-label></ion-router-link>
+                </ion-item>
+            </ion-col>
 
-<!--       BOTON CERRAR SESIÓN -->
-            <ion-row>
-              <ion-col size="6" offset="2">
+  <!--       BOTON CERRAR SESIÓN -->
+            
+              <ion-col size="4" offset="4">
                 <ion-button fill="outline" (click)=" goToSignOut()">
                 <ion-icon name="log-out"></ion-icon> <p>&nbsp;CERRAR SESIÓN</p> </ion-button>
               </ion-col>

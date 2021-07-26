@@ -59,10 +59,10 @@ export class AuthenticationService {
     const currentUser = firebase.auth().currentUser;
     this.afStore.collection('users').doc(currentUser.uid).set({
       'userId' : user.uid,
-      'userName': user.displayName,
+      'userName': 'Mi nombre',
       'userEmail': user.email,
-      'userPhone': '',
-      'userPhoto': user.photoURL,
+      'userPhone': '000-000-000',
+      'userPhoto': 'assets/User-Icon-Grey.png',
       'createdAt': Date.now(),
       'userrol' : 'viewer',
     })
@@ -74,28 +74,17 @@ export class AuthenticationService {
     const currentUser = firebase.auth().currentUser;
     console.log(currentUser);
     return currentUser;
-   /*  this.afStore.collection('users').doc(currentUser.uid).get()
-    .subscribe((doc) =>{
-      if (doc.exists) {
-        console.log("Document data: ", doc.data());
-        const data = doc.data();
-        return doc.data();
-      }else{
-        console.log("No such document");
-        return ("")
-      }
-    }); */
   }
 
   /* Actualizar información del usuario */
-  async updateUserInCollection(user){
+  async updateUserInCollection(userExtended){
     const currentUser = firebase.auth().currentUser;
     this.afStore.collection('users').doc(currentUser.uid).set({
-      'userId' : user.uid,
-      'userName': user.displayName,
-      'userEmail': user.email,
-      'userPhone': '',
-      'userPhoto': user.photoURL,
+      'userId' : userExtended.userId,
+      'userName': userExtended.userName,
+      'userEmail': userExtended.userEmail,
+      'userPhone': userExtended.userPhone,
+      'userPhoto': userExtended.userPhoto,
       'createdAt': Date.now(),
       'userrol' : 'viewer',
     })

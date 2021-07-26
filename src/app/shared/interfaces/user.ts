@@ -18,5 +18,5 @@ export interface UserExtended{
     userPhone?: string;
     userPhoto?: string;
     createdAt: Date;
-    userol?: Roles;
+    userrol: Roles;
 }

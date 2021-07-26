@@ -5,6 +5,7 @@ import { UserExtended } from 'src/app/shared/interfaces/user';
 import { AuthenticationService } from 'src/app/shared/services/authentication-service.ts.service';
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-micuenta',
@@ -12,12 +13,15 @@ import { AngularFireAuth } from '@angular/fire/auth';
   styleUrls: ['./micuenta.page.scss'],
 })
 export class MicuentaPage {
+    userInfo: any = "";
+    userExtended: UserExtended;
 
   constructor(
     public auth: AuthenticationService,
     public ngFireAuth: AngularFireAuth,
     private afStore: AngularFirestore,
     private loadingCtrl: LoadingController,
+    private router: Router,
   ) { 
     
   }
@@ -29,8 +33,7 @@ export class MicuentaPage {
     .subscribe((doc) =>{
       if (doc.exists) {
         console.log("Document data: ", doc.data());
-        const userInfo= doc.data();
-        //return doc.data();
+        this.userInfo= doc.data();
       }else{
         console.log("No such document");
         //return ("")
@@ -48,9 +51,12 @@ export class MicuentaPage {
     console.log('UserInfo: ',userInfo); */
   }
 
+  getValueInput(event: CustomEvent){
+    console.log(event.detail.userName.getValueInput);
+  }
 
  updateUser(){
-    //this.auth.updateUserInCollection();  
+    this.auth.updateUserInCollection(this.userExtended);  
   } 
   /* async updateUser(){
     const loading = await this.loadingCtrl.create({
@@ -73,4 +79,16 @@ export class MicuentaPage {
   }
   }
  */
+    /* GOTOFAVORITOS: Redirección a la pagina de favoritos*/
+    goToFavoritos(){
+      this.router.navigate(['folder/favoritos']);
+    }
+
+
+    /* GOTORESETPASSWORD: Redirección a resetpassword page */
+    recoverPassword(){
+      this.router.navigate(['login/reset-password']);
+    }
+
+  
 }
