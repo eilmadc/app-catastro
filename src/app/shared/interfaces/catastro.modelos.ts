@@ -52,7 +52,8 @@ export interface IMarkilo {
     nota:                   string,                             // nota del usuario para identificar la petición
     direccion:              string,                             // IParcela.domicilioTributario && IInmueble.localizacion
     favorito:               boolean,
-    foto?:                  IFoto                               // puede albergar una foto ... o quizas la uri
+    foto?:                  IFoto,                              // puede albergar una foto ... o quizas la uri
+    fotografia:             string,                             // 
 }
 
 /*º

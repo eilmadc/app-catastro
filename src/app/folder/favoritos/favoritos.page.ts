@@ -44,7 +44,7 @@ export class FavoritosPage implements OnInit {
         await this.__test__Recrear_historico_en_localStorage_si_esta_en_mode_developer();
 
         /* solicitamos la colección de markilos */
-        await this.catastro.markilosLoadLS();
+        await this.catastro.markilosLoad();
         this.markilos = await this.catastro.markilosGet(true);
 
         this.nFavoritos = this.markilos.length;
@@ -150,17 +150,15 @@ export class FavoritosPage implements OnInit {
     */
     async btFotoAsignar(markilo: IMarkilo) {
 
-        let componenteProps = {};
-
         let fotos: IFoto[] = await this.camaraServicio.fotosGet();
 
         const modal = await this.modalController.create({
-            component: FotoPage,
-            //cssClass:             'my-custom-class',
+            component:      FotoPage,
+            cssClass:       'my-custom-class',
             componentProps: {
-                markilo:    markilo,
-                fotos:      fotos,
-            }
+                                markilo:    markilo,
+                                fotos:      fotos,
+                            }
         });
 
         return await modal.present();

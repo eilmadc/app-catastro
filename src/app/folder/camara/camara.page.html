@@ -19,9 +19,8 @@
         <ion-row>
             <ion-col size="6" *ngFor="let foto of camaraServicio.fotos; index as posicion; let indice=index">
                 
-                {{foto.filepath}}
                 <ion-img [src]="foto.webviewPath" (click)="btImagenMostrarAcciones(foto, indice)"></ion-img>
-                
+
             </ion-col>
         </ion-row>
     </ion-grid>

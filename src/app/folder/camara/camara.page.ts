@@ -34,6 +34,7 @@ export class CamaraPage implements OnInit {
         await this.camaraServicio.fotosLoad();
     }
 
+
     /*
         Hace una foto, ni más nimenos.
 
@@ -51,11 +52,11 @@ export class CamaraPage implements OnInit {
         @return {booelan} indica si |foto| ha sido localizado en la colección de markilos.
 
     */
-    public async fotoEnMarkilos(foto: IFoto): Promise<boolean> {
+    public async fotoEstaEnMarkilos(foto: IFoto): Promise<boolean> {
 
         let rBoolean: boolean = false;
 
-        await this.catastroServicio.markilosLoadLS();
+        await this.catastroServicio.markilosLoad();
         let markilos: IMarkilo[] = this.catastroServicio.markilosGet();
 
         for (var i= 0; i < markilos.length; i++) {
@@ -72,7 +73,7 @@ export class CamaraPage implements OnInit {
 
 
     /*
-        Opciones para la foto Seleccionada [Asignar|Borrar||Cancelar]
+        Opciones para la foto Seleccionada [Asignar|Borrar|Cancelar]
 
         @param  {IFoto}
         @param  {number} posicion 
@@ -89,11 +90,12 @@ export class CamaraPage implements OnInit {
                                 text: 'Borrar',
                                 role: 'destructive',
                                 icon: 'trash',
-                                 handler: () => {   if (!this.fotoEnMarkilos(foto)) {
-                                                        
+                                 handler: () => {   /*if (!this.fotoEstaEnMarkilos(foto)) {                                                        
                                                         this.camaraServicio.fotoBorrar(foto, posicion);
                                                         location.reload();
-                                                    }}
+                                                    }*/
+                                                    this.camaraServicio.fotoBorrar(foto, posicion);
+                                                }
                             }, {
                                 text: 'Cancelar',
                                 role: 'cancel',
