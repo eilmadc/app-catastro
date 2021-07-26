@@ -43,10 +43,12 @@ export class ListadoPage implements OnInit {
         await this.__test__Recrear_historico_en_localStorage_si_esta_en_mode_developer();
 
         /* solicitamos la colección de markilos */
-        await this.catastro.markilosLoadLS();
+        await this.catastro.markilosLoad();
         this.markilos = await this.catastro.markilosGet();
 
-        this.nMarkilos = this.markilos.length;
+        this.nMarkilos = await this.markilos.length;
+
+        //this.fotos = await this.camaraServicio.fotosGet()
 
         /* preparamos las imagenes asignadas a los markilos */
         
@@ -59,9 +61,9 @@ export class ListadoPage implements OnInit {
 
         @param  {IMarkilo} markilo
     */
-    btMarkiloFavorito(markilo: IMarkilo){ 
+    async btMarkiloFavorito(markilo: IMarkilo){ 
         markilo.favorito = ! markilo.favorito;
-        this.catastro.markiloSet(markilo);
+        await this.catastro.markiloSet(markilo);
     }
 
 

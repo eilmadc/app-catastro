@@ -27,20 +27,19 @@ export class FotoPage implements OnInit {
                 public camaraServicio: CamaraService) { }
 
     //
-    async ngOnInit() { 
-        //alert('entrando en foto/ngOnInit')
-        //await this.camaraServicio.fotosLoad();
-        //alert(this.camaraServicio.fotos.length)
-    }
+    async ngOnInit() {  }
 
 
     /*
-        ...
+        Asigna una IFoto a |markilo| y cierra la pagina.
 
+        @param  {IMarkilo}, markilo 
+        @param  {IFoto}, foto que sera añadido al |markilo|
     */
-    async btFotoAsignarAMarkilo(foto: IFoto, i: number, markilo: IMarkilo) {
+    async btFotoAsignarAMarkilo(markilo: IMarkilo, foto: IFoto) {
 
         markilo.foto = foto;
+        markilo.fotografia = foto.webviewPath;
         await this.catastroServicio.markiloSet(markilo);
     
         this.cerrar();
