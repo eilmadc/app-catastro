@@ -21,9 +21,6 @@ import { IMarkilo } from '../../shared/interfaces/catastro.modelos';
 export class CamaraPage implements OnInit {
 
     //
-    //public fotos: IFoto[] = [];
-
-    //
     constructor(public camaraServicio: CamaraService,
                 public actionSheetController: ActionSheetController,
                 public catastroServicio: CatastroService) {
@@ -90,11 +87,10 @@ export class CamaraPage implements OnInit {
                                 text: 'Borrar',
                                 role: 'destructive',
                                 icon: 'trash',
-                                 handler: () => {   /*if (!this.fotoEstaEnMarkilos(foto)) {                                                        
+                                 handler: () => {   if (!this.fotoEstaEnMarkilos(foto)) {                                                        
                                                         this.camaraServicio.fotoBorrar(foto, posicion);
                                                         location.reload();
-                                                    }*/
-                                                    this.camaraServicio.fotoBorrar(foto, posicion);
+                                                    }
                                                 }
                             }, {
                                 text: 'Cancelar',

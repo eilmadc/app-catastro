@@ -46,8 +46,8 @@ export class CamaraService {
         }).then(acierto, fracaso);
 
             function fracaso(error: any) {
-                alert(`mal muy mal: ${error}`)
-                return error}
+                console.log(`Se ha producido un error: fotoHacer() / ${error}`)
+                return error }
 
             function acierto(respuesta: Photo) {
                 bien = true;
@@ -55,7 +55,10 @@ export class CamaraService {
 
         if (bien) {
             const saveImageFile = await this.fotoGuardar(foto);
-            
+            console.log('guardar')
+            console.log(this.fotos)
+            console.log(saveImageFile)
+
             this.fotos.unshift(saveImageFile);
 
             await Storage.set({ key:    this.FOTO_STORAGE,
@@ -84,13 +87,11 @@ export class CamaraService {
                                                         directory:  Directory.Data  });
 
         if (this.plataforma.is('hybrid')) {                                           // la plataforma condiciona el destino
-            alert(`Capacitor.convertFileSrc`)
             alert(Capacitor.convertFileSrc)
             return {    filepath:       archivo.uri,
                         webviewPath:    Capacitor.convertFileSrc(archivo.uri), };
 
         } else {
-            alert(`cameraPhoto.webPath`)
             alert(cameraPhoto.webPath)
             return {    filepath:       fotoNombre,               
                         webviewPath:    cameraPhoto.webPath, };
@@ -156,6 +157,9 @@ export class CamaraService {
         @return IFoto[], |this.fotos|
     */
     public fotosGet() {
+        //alert('load')
+        //console.log('load')
+        //console.log(this.fotos)
         return this.fotos;
     }
 
@@ -167,17 +171,29 @@ export class CamaraService {
     public async fotosLoad() {
 
         const fotos = await Storage.get({ key: this.FOTO_STORAGE });
-        this.fotos = JSON.parse(fotos.value) || [];
+        this.fotos = await JSON.parse(fotos.value) || [];
         
         if (!this.plataforma.is('hybrid')) {
             for (let foto of this.fotos) {
                 const leerFile = await Filesystem.readFile({
                     path:       foto.filepath,
                     directory:  Directory.Data
-                });
-                foto.webviewPath = `data:image/jpeg;base64,${leerFile.data}`;
+                }).then(acierto, fracaso);
+
+                function fracaso(error: any) {
+                    alert(`mal muy mal: ${error}`)
+                    return error
+                }
+
+                function acierto(respuesta: any) {
+                    //bien = true;
+                    return respuesta;
+                }
+
+                foto.webviewPath = await `data:image/jpeg;base64,${leerFile.data}`;
             }
         }
+
     }
 
     
@@ -209,7 +225,7 @@ export class CamaraService {
 
         @param  {Blob} blob a convertir
     */
-    convertirBlobABase64 =
+    convertirBlobABase64 = 
         (blob: Blob) =>
             new Promise((resolve, reject) => {
 
