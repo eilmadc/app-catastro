@@ -27,7 +27,9 @@ export class FotoPage implements OnInit {
                 public camaraServicio: CamaraService) { }
 
     //
-    async ngOnInit() {  }
+    async ngOnInit() {  
+        await this.camaraServicio.fotosLoad(); 
+    }
 
 
     /*
@@ -41,15 +43,15 @@ export class FotoPage implements OnInit {
         markilo.foto = foto;
         markilo.fotografia = foto.webviewPath;
         await this.catastroServicio.markiloSet(markilo);
-    
-        this.cerrar();
+        
+        this.btCerrar();
     }
-
-
+    
     /* 
-        Cierra esta pagina
+    Cierra esta pagina
     */
-    async cerrar() {
+   async btCerrar() {
+        //await this.camaraServicio.fotosLoad();
         await this.modalController.dismiss();
     }
 }

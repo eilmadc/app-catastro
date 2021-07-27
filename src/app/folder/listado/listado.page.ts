@@ -28,7 +28,7 @@ export class ListadoPage implements OnInit {
 
     //
     @Input() markilos: IMarkilo[] = [];
-    @Input() fotos: IFoto[] = [];
+    //@Input() fotos: IFoto[] = [];
     @Input() nMarkilos: number = 0;
 
     //
@@ -42,18 +42,13 @@ export class ListadoPage implements OnInit {
         /* Si no estamos en modo_developer recrearemos en localStorage un historico, si es que ya no esta */
         await this.__test__Recrear_historico_en_localStorage_si_esta_en_mode_developer();
 
+        /* Carga las fotos */
+        await this.camaraServicio.fotosLoad();
+
         /* solicitamos la colección de markilos */
         await this.catastro.markilosLoad();
         this.markilos = await this.catastro.markilosGet();
-
         this.nMarkilos = await this.markilos.length;
-
-        //this.fotos = await this.camaraServicio.fotosGet()
-
-        /* preparamos las imagenes asignadas a los markilos */
-        
-
-
     }
 
     /*

@@ -46,8 +46,9 @@ export class FavoritosPage implements OnInit {
         /* solicitamos la colección de markilos */
         await this.catastro.markilosLoad();
         this.markilos = await this.catastro.markilosGet(true);
-
         this.nFavoritos = this.markilos.length;
+
+        await this.camaraServicio.fotosLoad();
     }
 
 
@@ -146,10 +147,10 @@ export class FavoritosPage implements OnInit {
        Permite seleccionar una |Foto.web| al |markilo.foto|.
 
         @param  {IMarkilo} markilo
-
     */
     async btFotoAsignar(markilo: IMarkilo) {
 
+        await this.camaraServicio.fotosLoad();
         let fotos: IFoto[] = await this.camaraServicio.fotosGet();
 
         const modal = await this.modalController.create({

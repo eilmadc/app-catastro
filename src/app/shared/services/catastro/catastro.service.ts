@@ -24,13 +24,35 @@ export class CatastroService {
 
     //
     constructor(    private httpClient: HttpClient) { }
-
     
+
     /*
         Añade un nuevo |markilo| a las colección de |this.markilos|
     */
     markiloAdd(markilo: IMarkilo) {
         this.markilos.push(markilo);
+    }
+
+
+    /*
+        Devuelve el Markilo de |this.markilos| con el |markilo.id|.
+
+        @param  {string} id 
+
+        @return {Markilo}, rtnMarkilo ... con el |id| solicitada.
+    */
+    markiloGetId(markiloId: string): IMarkilo {
+
+        let rtnMarkilo: IMarkilo;
+
+        for (var i = 0; i < this.markilos.length; i++) {
+            if (this.markilos[i].id == markiloId) {
+                rtnMarkilo = this.markilos[i]
+                break;
+            }
+        }
+
+        return rtnMarkilo;
     }
 
 
@@ -61,13 +83,13 @@ export class CatastroService {
 
         @param {Markilo}, markilo a salvar.
     */
-    markiloSet(markilo: IMarkilo) {
+    async markiloSet(markilo: IMarkilo) {
 
-        localStorage.setItem(markilo.id, JSON.stringify(markilo));
+        await localStorage.setItem(markilo.id, JSON.stringify(markilo));
 
         for (var i = 0; i < this.markilos.length; i++) {
             if  ( this.markilos[i].id == markilo.id ) {
-                this.markilos[i].id = markilo.id;
+                this.markilos[i].id =  await markilo.id;
                 break;
             }
         }
@@ -327,7 +349,7 @@ export class CatastroService {
             numEstado = -1
 
         } else {                                                                                                // un error inesperado ... hay que auditar el xml
-            alert('getRCCOOR ... esto no se esperaba !')
+            console.log('Se ha producido un error; getRCCOOR()')
             numEstado = -1
             // TODO
             /* tendria que volcarse al log.ERR */

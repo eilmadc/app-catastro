@@ -55,7 +55,7 @@ export class CamaraService {
 
         if (bien) {
             const saveImageFile = await this.fotoGuardar(foto);
-            console.log('guardar')
+            console.log('----- guardar')
             console.log(this.fotos)
             console.log(saveImageFile)
 
@@ -87,12 +87,10 @@ export class CamaraService {
                                                         directory:  Directory.Data  });
 
         if (this.plataforma.is('hybrid')) {                                           // la plataforma condiciona el destino
-            alert(Capacitor.convertFileSrc)
             return {    filepath:       archivo.uri,
                         webviewPath:    Capacitor.convertFileSrc(archivo.uri), };
 
         } else {
-            alert(cameraPhoto.webPath)
             return {    filepath:       fotoNombre,               
                         webviewPath:    cameraPhoto.webPath, };
         };
@@ -101,17 +99,16 @@ export class CamaraService {
 
     /*
         Elimina una IFoto, |foto|, del Storage y actualiza |this.fotos|.
+        Antes de ejecutar este proceso asegurarse antes de que no esta asociada a ningún markilo.
 
         @param  {IFoto} |foto| a borrar
         @param  {number} |posicion| donde se loclaliza la |foto|
     */
     public async fotoBorrar(foto: IFoto, posicion: number) {
 
-        console.log(this.fotos)
-        await this.fotos.splice(posicion, 1);                         // borra la |foto| de la colección [fotos]
-        console.log(this.fotos)
+        await this.fotos.splice(posicion, 1);          // borra la |foto| de la colección [fotos]
 
-        await Storage.set({                                     // reescribe Storage con la colección [fotos]
+        await Storage.set({                            // reescribe Storage con la colección [fotos]
             key:    this.FOTO_STORAGE,
             value:  JSON.stringify(this.fotos)
         });
@@ -123,8 +120,7 @@ export class CamaraService {
                 directory:  Directory.Data
             });
         } catch (e) {
-            alert(`${nombreArchivo}; ${e}`)
-            console.log(`deletePicture. Error, controlado, al eliminar ${nombreArchivo}; ${e}}`);
+            console.log(`fotoBorrar() deletePicture  al eliminar ${nombreArchivo}; ${e}}`);
         }
     }
 
@@ -152,14 +148,11 @@ export class CamaraService {
 
 
     /*
-        Devuelve la coleccion de |this.fotos|.
+        Devuelve la coleccion de |this.fotos|. Antes debe haberse ejecutado fotosLoad().
 
         @return IFoto[], |this.fotos|
     */
     public fotosGet() {
-        //alert('load')
-        //console.log('load')
-        //console.log(this.fotos)
         return this.fotos;
     }
 
@@ -181,19 +174,17 @@ export class CamaraService {
                 }).then(acierto, fracaso);
 
                 function fracaso(error: any) {
-                    alert(`mal muy mal: ${error}`)
+                    console.log(`Se ha producido un error; fotosLoad() ${error}`)
                     return error
                 }
 
                 function acierto(respuesta: any) {
-                    //bien = true;
                     return respuesta;
                 }
 
                 foto.webviewPath = await `data:image/jpeg;base64,${leerFile.data}`;
             }
         }
-
     }
 
     
