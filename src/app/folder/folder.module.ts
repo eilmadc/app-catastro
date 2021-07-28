@@ -15,6 +15,7 @@ import { ContactoPageModule } from './contacto/contacto.module';
 import { AboutusPageModule } from './aboutus/aboutus.module';
 import { WebcatastroPageModule } from './webcatastro/webcatastro.module';
 import { FavoritosPageModule } from './favoritos/favoritos.module';
+import { MicuentaPageModule } from './micuenta/micuenta.module';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { FavoritosPageModule } from './favoritos/favoritos.module';
     AboutusPageModule,
     WebcatastroPageModule,
     FavoritosPageModule,
+    MicuentaPageModule,
   ],
   declarations: [FolderPage]
 })

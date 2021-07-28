@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from 'src/app/shared/services/authentication-service.ts.service';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 import { Router } from '@angular/router';
-import { IonicSafeString } from '@ionic/angular';
+import { IonicSafeString, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
 
 
 @Component({
@@ -10,11 +10,17 @@ import { IonicSafeString } from '@ionic/angular';
   styleUrls: ['./logout.page.scss'],
 })
 export class LogoutPage implements OnInit {
+  @ViewChildren(IonRouterOutlet) routerOutlets: QueryList<IonRouterOutlet>;
 
   constructor(
     private as: AuthenticationService,
     private router: Router,
-  ) { }
+    private platform: Platform,
+    private navController:NavController,
+  ) { 
+      //this.as.initializeApp();
+      this.backButtonEvent();
+  }
 
   ngOnInit() {
   }
@@ -32,5 +38,18 @@ export class LogoutPage implements OnInit {
   exitApp(){
     navigator['app'].exitApp();
   }
+
+  backButtonEvent() {
+    this.platform.backButton.subscribe(async () => {
+
+        this.routerOutlets.forEach((outlet: IonRouterOutlet) => {
+            if (outlet && outlet.canGoBack()) {
+                outlet.pop();
+            } else  {
+                 navigator['app'].exitApp();
+            }
+        });
+    });
+}
 
 }

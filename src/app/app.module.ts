@@ -15,10 +15,10 @@ import { RegistrationPageModule } from './components/login/registration/registra
 import { LoginPageModule } from './components/login/login.module'
 import { LogoutPageModule } from './components/login/logout/logout.module';
 import { ResetPasswordPageModule } from './components/login/reset-password/reset-password.module';
-import { MicuentaPageModule } from './components/micuenta/micuenta.module';
+
 
 //Autenticacion Servicios
-import { AuthenticationService } from "./shared/services/authentication-service.ts.service";
+import { AuthenticationService } from "./shared/services/authentication.service";
 
 //AppComponent + Menu Pages
 import { AppComponent } from './app.component';
@@ -29,6 +29,7 @@ import { ContactoPageModule } from './folder/contacto/contacto.module';
 import { AboutusPageModule } from './folder/aboutus/aboutus.module';
 import { WebcatastroPageModule} from './folder/webcatastro/webcatastro.module'
 import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
+import { MicuentaPageModule } from './folder/micuenta/micuenta.module';
 
 //WebCatastro navegador App.
 import { InAppBrowser } from '@ionic-native/in-app-browser';

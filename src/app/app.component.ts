@@ -17,7 +17,9 @@ export class AppComponent {
     { title: 'Listado Inmuebles', url: './folder/listado', icon: 'list' },
     { title: 'Camara', url: './folder/camara', icon: 'camera' },
     { title: 'Web Catastro', url: './folder/webcatastro', icon: 'business' },
-    { title: 'Sobre nosotros', url: '/folder/aboutUs', icon: 'information' },
+    { title: 'Sobre nosotros', url: '/folder/aboutus', icon: 'information' },
+    { title: 'Mi Cuenta', url: '/folder/micuenta', icon: 'person' },
+    
   ];
   //public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   constructor(

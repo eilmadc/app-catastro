@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService} from 'src/app/shared/services/authentication-service.ts.service'
+import { AuthenticationService} from 'src/app/shared/services/authentication.service'
 
 @Component({
   selector: 'app-registration',
@@ -21,7 +21,7 @@ export class RegistrationPage implements OnInit {
     this.as.RegisterUser(email.value, password.value).then((rs) =>{
       this.as.SendVerificationMail();
       //this.route.navigate(['verify-email']);
-      console.log('Registration!!');
+      console.log('Registrado!!');
     }).catch((error) => {
       window.alert(error.message);
     });

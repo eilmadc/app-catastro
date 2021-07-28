@@ -25,10 +25,6 @@ const routes: Routes = [
     loadChildren: () => import('./components/login/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   },
   {
-    path: 'micuenta',
-    loadChildren: () => import('./components/micuenta/micuenta.module').then( m => m.MicuentaPageModule)
-  },
-  {
     path: 'parcela',
     loadChildren: () => import('./shared/pages/parcela/parcela.module').then( m => m.ParcelaPageModule)
   },
@@ -40,10 +36,6 @@ const routes: Routes = [
     path: 'mapa',
     loadChildren: () => import('./shared/pages/mapa/mapa.module').then( m => m.MapaPageModule)
   },
-  {
-    path: 'micuenta',
-    loadChildren: () => import('./components/micuenta/micuenta.module').then( m => m.MicuentaPageModule)
-  }
 
 ];
 
