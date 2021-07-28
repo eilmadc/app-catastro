@@ -291,6 +291,8 @@ export class CatastroService {
     */
     async getRCCOOR(latitud: number, longitud: number): Promise<any> {
 
+        console.log('catastro gps');
+
         let numEstado: number;
         let strReferenciaCatastral: string = '';
 
