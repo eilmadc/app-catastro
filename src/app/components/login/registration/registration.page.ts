@@ -18,7 +18,8 @@ export class RegistrationPage implements OnInit {
   }
 
   signUp(email,password){
-    this.as.RegisterUser(email.value, password.value).then((rs) =>{
+    this.as.RegisterUser(email.value, password.value)
+    .then((rs) =>{
       this.as.SendVerificationMail();
       //this.route.navigate(['verify-email']);
       console.log('Registrado!!');

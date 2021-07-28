@@ -34,13 +34,16 @@ export class AuthenticationService {
       } else {
         localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user'));
-      }
-    })
-  }
+    }
+  })
+}
+
 
   /* SIGNIN mail: Login con email/password */
   async SignIn(email, password) {
-    return this.ngFireAuth.signInWithEmailAndPassword(email, password)
+    return this.ngFireAuth.signInWithEmailAndPassword(email, password).then(() =>{
+       this.toast("Login correcto", "warning");
+    },(err => console.log(err)));
   }
 
   /* CREATE NEW USER: Registro con email/password */
@@ -52,9 +55,13 @@ export class AuthenticationService {
   async SendVerificationMail() {
     return this.ngFireAuth.currentUser.then(e => e.sendEmailVerification())
     .then(() => {
+      /* Se redirige la navegación a la pagina de verificacion de email */
       this.router.navigate(['verify-email']);
+      /* Creación del usuario en la coleccion 'users' */
       this.userCrud.createUserInCollection(this.userData);
-    })
+    }).catch((error) => {
+      window.alert(error.message);
+    });
   }
 
   /* PASSWORD-RECOVER: Recuperar password */
@@ -89,7 +96,7 @@ export class AuthenticationService {
     return this.ngFireAuth.signInWithPopup(provider)
     .then((result) => {
        this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['folder/home']);
         })
       this.SetUserData(result.user);
       this.userCrud.createUserInCollection(result.user);
@@ -116,12 +123,21 @@ export class AuthenticationService {
   /* SIGNOUT : Cerrar sesión de usuario*/
   async SignOut() {
     return this.ngFireAuth.signOut().then(() => {
-      localStorage.removeItem('user');
+      this.deleteLocalStorage();
       this.router.navigate(['login']);
-      this.toast("La sesiín ha sido cerrada", "blank");
+      this.toast("La sesión ha sido cerrada", "warning");
+    }).catch((error) => {
+      window.alert(error);
     })
   }
 
+  async deleteLocalStorage(){
+    this.ngFireAuth = null;
+    this.userData = null;
+    await localStorage.remove('token');
+    await localStorage.remove('user');
+    localStorage.clear();
+  }
     //Metodo para envío de mensajes Toast.
     async toast(mensaje,status)
     {

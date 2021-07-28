@@ -27,7 +27,6 @@ export class UsersCrudService {
 /* Crear usuario en colección */
 async createUserInCollection(user){
   const currentUser = firebase.auth().currentUser;
-  console.log(firebase.firestore.FieldValue.serverTimestamp());
   this.docRef.doc(currentUser.uid).set({
     'userId' : user.uid,
     'userName': '',
@@ -49,11 +48,8 @@ async createUserInCollection(user){
 
   /*READ: Obtener datos del usuario de Firebase*/
   async getUserInfoFromCollection(){
-    return this.docRef.snapshotChanges().pipe(map(user =>{
-      console.log(user);
-      return user.map;
-    }));
-    
+    const currentUser = firebase.auth().currentUser;
+    return this.docRef.doc(currentUser.uid).valueChanges();    
   }
   /*     const currentUser = firebase.auth().currentUser;
     console.log(currentUser);
@@ -62,7 +58,8 @@ async createUserInCollection(user){
   /* UPLOAD: Actualizar información del usuario */
     async updateUserInCollection(username,userphone,userrol){
       const currentUser = firebase.auth().currentUser;
-      this.docRef.doc(currentUser.uid).set({
+      console.log(currentUser)
+      this.docRef.doc(currentUser.uid).update({
         'userName': username,
         'userPhone': userphone,
         'userrol' : userrol,

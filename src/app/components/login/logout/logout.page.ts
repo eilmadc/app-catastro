@@ -28,7 +28,7 @@ export class LogoutPage {
   }
 
   signOut(){
-    this.as.SignOut;
+    this.as.SignOut();
   }
 
   /* Ir a Login */

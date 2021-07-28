@@ -35,13 +35,14 @@ export class MicuentaPage implements OnInit {
 
   ionViewDidEnter() {
     /* LLamada a OBTENER INFO DEL USUARIO ACTUAL EN FIREBASE*/
-    this.getCurrentUserInfo();
+    this.showUser();
   }
 
-  /* OBTENER INFO DEL USUARIO ACTUAL EN FIREBASE*/
+ /*  /* OBTENER INFO DEL USUARIO ACTUAL EN FIREBASE
  async getCurrentUserInfo(){
     const currentUserUid = firebase.default.auth().currentUser.uid;
-    this.docRef.doc(currentUserUid).get().subscribe((doc) =>{
+    this.docRef.doc(currentUserUid).get()
+    .subscribe((doc) =>{
       if (doc.exists) {
         console.log("Document data: ", doc.data());
         this.userInfo= doc.data();
@@ -51,17 +52,21 @@ export class MicuentaPage implements OnInit {
       }
     },(error) => {console.error("Error:")}
     );
-  }
+  } */
 
   /* CREATED DATE FORMATED: Formateo a dd-MM-yyyy el campo createdAt del usuario en FB*/
   async getCreatedAtFormatted(){
-    this.time = this.userInfo.createdAt.toDate();
-    console.log(this.time);
+    this.time =await  this.userInfo.createdAt.toDate();
   }
 
- /* READ USER INFO: Leer la info del usuario */
+ /* READ USER INFO: Leer la info del usuario
+ * metodo: getUserInfoFromCollection */
  async showUser(){
-   this.userCrud.getUserInfoFromCollection();
+  return (await this.userCrud.getUserInfoFromCollection()).subscribe((data)=>{
+     this.userInfo = data;
+     console.log(this.userInfo);
+     this.getCreatedAtFormatted();
+   })
  }
 
   /*TODO: UPDATE PHOTOURL PIC */
@@ -71,7 +76,7 @@ export class MicuentaPage implements OnInit {
  
   /* ACTUALIZAR DATOS DEL USUARIO en collection 'users' */
  async updateUserCollection(username, userphone, userrol){
-   this.userCrud.updateUserInCollection(username,userphone,userrol);
+   this.userCrud.updateUserInCollection(username.value,userphone.value,userrol.value);
  /*  const currentUserUid = firebase.default.auth().currentUser.uid;
   this.docRef.doc(currentUserUid).set({
     'userId' : this.userInfo.userId,

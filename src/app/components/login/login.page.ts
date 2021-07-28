@@ -21,12 +21,13 @@ export class LoginPage {
   }
   
 /* LOGIN : llamada al método en servicio -> SignIn*/
-signIn(email, password){
-  this.as.SignIn(email.value, password.value).then ((rs) =>{
+async signIn(email, password){
+  this.as.SignIn(email.value, password.value)
+  .then ((rs) =>{
     if (this.as.isEmailVerified){
       this.router.navigate(['folder/home']);
     } else { 
-      window.alert('El email introducido no es correcto');
+      window.alert('El email no ha sido verificado. Por favor, verifica tu bandeja de entrada para confirmar.');
       return false;
     }
   }).catch((error) => {
@@ -35,17 +36,17 @@ signIn(email, password){
 }
 
 /* GOTOSIGNUP: Redirección a la pagina de registro*/
-goToSignUp(){
+async goToSignUp(){
   this.router.navigate(['login/register']);
 }
 
 /* GOOGLEAUTH: Signin con Google Authentication */  
-googleAuth() {
+async googleAuth() {
   this.as.GoogleAuth();
 }
 
 /* GOTORESETPASSWORD: Redirección a resetpassword page */
-recoverPassword(){
+async recoverPassword(){
   this.router.navigate(['login/reset-password']);
 }
 
