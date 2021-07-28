@@ -16,6 +16,7 @@ export class AppComponent {
     { title: 'Mapas', url: './folder/mapas', icon: 'map' },
     { title: 'Listado Inmuebles', url: './folder/listado', icon: 'list' },
     { title: 'Camara', url: './folder/camara', icon: 'camera' },
+    { title: 'Estadísticas', url: './folder/estadisticas', icon: 'trending-up' },
     { title: 'Web Catastro', url: './folder/webcatastro', icon: 'business' },
     { title: 'Sobre nosotros', url: '/folder/aboutUs', icon: 'information' },
   ];

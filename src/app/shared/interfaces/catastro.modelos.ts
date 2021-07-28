@@ -21,6 +21,8 @@
                 }
 */
 
+import { IFoto } from "./foto.modelo";
+
 /*
     Modelo de Datos usado para contener la respuesta a las peticiones por Coordendas. 
 */
@@ -43,13 +45,15 @@ export interface IReturnModeloCatastro {
     Estructura para almacenar 
 */
 export interface IMarkilo {
-    id:                     string;                                // debe responder, siempore, a new Date().toLocaleString() 
-    latitud:                number;                             //
-    longitud:               number;    
-    irmc:                   IReturnModeloCatastro;             // 
-    nota:                   string;                           // nota del usuario para identificar la petición
-    direccion:              string;                             // IParcela.domicilioTributario && IInmueble.localizacion
-    favorito:               boolean;
+    id:                     string,                             // debe responder, siempore, a new Date().toLocaleString() 
+    latitud:                number,                             //
+    longitud:               number,                             //
+    irmc:                   IReturnModeloCatastro,              // 
+    nota:                   string,                             // nota del usuario para identificar la petición
+    direccion:              string,                             // IParcela.domicilioTributario && IInmueble.localizacion
+    favorito:               boolean,
+    foto?:                  IFoto,                              // puede albergar una foto ... o quizas la uri
+    fotografia:             string,                             // 
 }
 
 

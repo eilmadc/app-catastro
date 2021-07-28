@@ -2,6 +2,7 @@
 //
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+//import { Storage } from '@capacitor/storage';
 
 import {    IParcela, IParcelaInmuebles,
             IInmueble, IInmuebleConstruccion,
@@ -23,12 +24,35 @@ export class CatastroService {
 
     //
     constructor(    private httpClient: HttpClient) { }
+    
 
     /*
         Añade un nuevo |markilo| a las colección de |this.markilos|
     */
     markiloAdd(markilo: IMarkilo) {
         this.markilos.push(markilo);
+    }
+
+
+    /*
+        Devuelve el Markilo de |this.markilos| con el |markilo.id|.
+
+        @param  {string} id 
+
+        @return {Markilo}, rtnMarkilo ... con el |id| solicitada.
+    */
+    markiloGetId(markiloId: string): IMarkilo {
+
+        let rtnMarkilo: IMarkilo;
+
+        for (var i = 0; i < this.markilos.length; i++) {
+            if (this.markilos[i].id == markiloId) {
+                rtnMarkilo = this.markilos[i]
+                break;
+            }
+        }
+
+        return rtnMarkilo;
     }
 
 
@@ -56,13 +80,13 @@ export class CatastroService {
         Salva el |markilo| en |this.markilos| y en LocalStorage, si existe lo reeemplaza y sino lo reescribe.
         @param {Markilo}, markilo a salvar.
     */
-    markiloSet(markilo: IMarkilo) {
+    async markiloSet(markilo: IMarkilo) {
 
-        localStorage.setItem(   markilo.id, JSON.stringify(markilo));
+        await localStorage.setItem(markilo.id, JSON.stringify(markilo));
 
         for (var i = 0; i < this.markilos.length; i++) {
             if  ( this.markilos[i].id == markilo.id ) {
-                this.markilos[i].id = markilo.id;
+                this.markilos[i].id =  await markilo.id;
                 break;
             }
         }
@@ -97,9 +121,9 @@ export class CatastroService {
         // TODO
         // recordar de hacerlo de firebase si es firebase donde se guardan.
     */
-    async markilosSaveLS() {
+    async markilosSave() {
 
-        await this.markilosClearLS();
+        await this.markilosClear();
 
         for (var i = 0; i< this.markilos.length; i++) {
             await localStorage.setItem(this.markilos[i].id, JSON.stringify(this.markilos[i]));
@@ -112,7 +136,7 @@ export class CatastroService {
         // TODO
         // recordar de hacerlo de firebase si es firebase donde se guardan.
     */
-    async markilosLoadLS() {
+    async markilosLoad() {
 
         this.markilos = [];
 
@@ -120,11 +144,12 @@ export class CatastroService {
         for (var i = 0; i < localStorage.length; i++) {
 
             let k = localStorage.key(i);            
-            if (k.search(/\d{2}\/\d{2}\/\d{4}/) == 0 ) {
+            if (k.search(/\d{4}\/\d{2}\/\d{2}/) == 0 ) {
                 let mkl: IMarkilo = await JSON.parse(localStorage.getItem(k));
                 this.markilos.push(mkl);
             }
         }
+        this.markilos.sort((a, b) => b.id.localeCompare(a.id));
     }
 
 
@@ -134,10 +159,10 @@ export class CatastroService {
         // TODO
         // recordar de hacerlo de firebase si es firebase donde se guardan.
     */
-    async markilosClearLS() {
+    async markilosClear() {
         for (var i = 0; i < localStorage.length; i++) {
             let k = localStorage.key(i);
-            if (k.search(/\d{2}\/\d{2}\/\d{4}/) == 0) {
+            if (k.search(/\d{4}\/\d{2}\/\d{2}/) == 0) {
                 localStorage.removeItem(k);
             }
         }
@@ -310,7 +335,7 @@ export class CatastroService {
             numEstado = -1
 
         } else {                                                                                                // un error inesperado ... hay que auditar el xml
-            alert('getRCCOOR ... esto no se esperaba !')
+            console.log('Se ha producido un error; getRCCOOR()')
             numEstado = -1
             // TODO
             /* tendria que volcarse al log.ERR */
@@ -693,86 +718,96 @@ export class CatastroService {
     */
     async test__CrearHistorico_en_localStorage() {
 
-        let coordenadas = [
-            {
-                instante: '16/07/2018 12:52:09',
+        let preMarkilos = [
+            {                                                               // es Parcela
+                instante: '2018/07/16 12:52:09',
                 latitud: 40.92465644496646,
                 longitud: 0.8414186666402872,
                 marcador: false,
-                desc: 'Casa Cruz Gamada (Tarragona)'                        // es Parcela
+                desc: 'Casa Cruz Gamada (Tarragona)',
+                foto: 'casa_cruz_gamada__tarragona.jpg'
             },
-            {
-                instante: '16/07/2019 00:53:09',
+            {                                                               // es Inmueble
+                instante: '2019/07/16 00:53:09',
                 latitud: 40.41634264194055,
                 longitud: -3.6966086663337605,
                 marcador: false,
-                desc: 'Congreso de los Diputados (Madrid)'                  // es Inmueble
+                desc: 'Congreso de los Diputados (Madrid)',
+                foto: 'congreso_de_los_diputados__madrid.jpg'
             },
-            {
-                instante: '02/11/2021 11:53:09',
+            {                                                               // es Inmueble
+                instante: '2021/11/02 11:53:09',
                 latitud: 39.47439226625097,
                 longitud: -0.37831976528385386,
                 marcador: false,
-                desc: 'La Lonja de la Seda (Valencia)'                      // es Inmueble
+                desc: 'La Lonja de la Seda (Valencia)',
+                foto: 'la_lonja_de_la_seda__valencia.jpg'
             },
-            {
-                instante: '02/11/2021 11:03:09',
+            {                                                               // es Inmueble
+                instante: '2021/11/02 11:03:09',
                 latitud: 42.880626849444305,
                 longitud: -8.544646314889821,
                 marcador: true,
-                desc: 'Catedral de Santiago de Compostela (La Coruña)'      // es Inmueble
+                desc: 'Catedral de Santiago de Compostela (La Coruña)',
+                foto: 'catedral_de_santiago_de_compostela__la_coruña.jpg'
             },
-            {
-                instante: '02/11/2021 10:53:09',
+            {                                                               // es Inmueble
+                instante: '2021/11/02 10:53:09',
                 latitud: 41.40356145365357,
                 longitud: 2.1744767782584358,
                 marcador: true,
-                desc: 'Sagrada Familia (Barcelona)'                         // es Inmueble
+                desc: 'Sagrada Familia (Barcelona)',
+                foto: 'sagrada_familia__barcelona.jpg'
             },
-            {
-                instante: '03/05/2021 09:53:09',
+            {                                                               // es Inmueble
+                instante: '2021/05/03 09:53:09',
                 latitud: 37.878843641773095,
                 longitud: -4.779620226997026,
                 marcador: true,
-                desc: 'La Mezquita (Cordoba)'                               // es Inmueble
+                desc: 'La Mezquita (Cordoba)',
+                foto: 'la_mezquita__cordoba.jpg'
             },
-            {
-                instante: '03/01/2021 09:59:03',
+            {                                                               // es Inmueble
+                instante: '2021/01/03 09:59:03',
                 latitud: 37.17609897963017,
                 longitud: -3.588145285711672,
                 marcador: true,
-                desc: 'La Alhambra (Granada)'                               // es Inmueble
+                desc: 'La Alhambra (Granada)',
+                foto: 'la_alhambra__granada.jpg'
             },
-            {
-                instante: '03/05/2021 11:03:03',
+            {                                                               // es Parcela
+                instante: '2021/05/03 11:03:03',
                 latitud: 37.386348853983016,
                 longitud: -5.992602966276505,
                 marcador: true,
-                desc: 'La Giralda (Sevilla)'                                // es Parcela
+                desc: 'La Giralda (Sevilla)',
+                foto: 'la_giralda__sevilla.jpg'
             },
-            {
-                instante: '03/05/2020 11:13:09',
+            {                                                               // ... No hay Referencia Catastral 
+                instante: '2020/05/03 11:13:09',
                 latitud: 40.927409337781576,
                 longitud: 0.8392742549965533,
                 marcador: false,
-                desc: '---Es un punto en las Vias de Tren---'               // ... No hay Referencia Catastral 
+                desc: '---Es un punto en las Vias de Tren---',
+                foto: ''
             },
-            {
-                instante: '16/07/2020 12:01:09',
+            {                                                               // es Inmueble
+                instante: '2020/07/16 12:01:09',
                 latitud: 40.928752005582545,
                 longitud: 0.8503738259575321,
                 marcador: false,
-                desc: 'Port Esportiu Calafat'                               // es Inmueble
+                desc: 'Port Esportiu Calafat',
+                foto: 'port_esportiu_calafat__tarragona.jpg'
             }
         ];
 
-        if (!localStorage.getItem(coordenadas[0].instante)) {
+        if (!localStorage.getItem(preMarkilos[0].instante)) {
 
             let rc;
 
-            for (var i = 0; i < coordenadas.length; i++) {
+            for (var i = 0; i < preMarkilos.length; i++) {
                                                                             // obtienes una Referencia Catastral, IReturnReferenciaCatastral, (parcela|inmueble)
-                let rrc = await this.getRCCOOR(coordenadas[i]['latitud'], coordenadas[i]['longitud']);
+                let rrc = await this.getRCCOOR(preMarkilos[i]['latitud'], preMarkilos[i]['longitud']);
                 if (rrc.numero == -1) {                                     // se ha produciod un error en la peticion de coordenadas
                     // TODO
                     // mandar al historico
@@ -797,18 +832,20 @@ export class CatastroService {
                 }
 
                 let markilo: IMarkilo = {
-                    id:                 coordenadas[i].instante,     //new Date().toLocaleString()
-                    latitud:            coordenadas[i].latitud,
-                    longitud:           coordenadas[i].longitud,
+                    id:                 preMarkilos[i].instante,     //new Date().toLocaleString()
+                    latitud:            preMarkilos[i].latitud,
+                    longitud:           preMarkilos[i].longitud,
                     irmc:               irmc,
-                    nota:               coordenadas[i].desc,
+                    nota:               preMarkilos[i].desc,
                     direccion:          direccion,
-                    favorito:           coordenadas[i].marcador,
+                    favorito:           preMarkilos[i].marcador,
+                    foto:               null,
+                    fotografia:         null,
                 }
                 this.markiloAdd(markilo);
             }
-            await this.markilosSaveLS();
-            //this.markilosLoadLS();
+            await this.markilosSave();
+            //this.markilosLoad();
         }
     }
     

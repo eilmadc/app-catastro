@@ -5,8 +5,6 @@ import { ModalController } from '@ionic/angular';
 import { CatastroService } from '../../shared/services/catastro/catastro.service';
 import { IMarkilo } from '../../shared/interfaces/catastro.modelos';
 
-import { ListadoPage } from '../listado/listado.page';
-
 declare var google;
 
 @Component({
@@ -19,10 +17,10 @@ export class MapasPage implements OnInit {
  @Input() markilos: IMarkilo[] = [];
 
   constructor(private catastro: CatastroService,
-    public modalController: ModalController,
-    private listadoPage: ListadoPage) {}
+              public modalController: ModalController) {}
 
   @ViewChild('map', { read: ElementRef, static: false }) mapElement: ElementRef;
+
   address: string;
 
   latitude: number;
@@ -34,7 +32,7 @@ export class MapasPage implements OnInit {
 
   async ngOnInit() {
     /* solicitamos la colección de markilos */
-    await this.catastro.markilosLoadLS();
+    await this.catastro.markilosLoad();
     this.markilos = await this.catastro.markilosGet();
   }
 
@@ -44,8 +42,6 @@ export class MapasPage implements OnInit {
 
 
   async loadMap() {
-
-    var globalArray=[];
 
     var showFav = true;
 
@@ -93,23 +89,16 @@ export class MapasPage implements OnInit {
         };
 
               for (var i = 0; i < this.markilos.length; i++) {
+                console.log('entra for');
                 var data = this.markilos[i];
                 var myLatlng = new google.maps.LatLng(data.latitud, data.longitud);
-                  var marker = new google.maps.Marker({
+                var marker = new google.maps.Marker({
                     position: myLatlng,
                     map: this.map,
                     title: data.nota,   
                     //los marcadores tienen colores distinos dependiendo de si están o no en el listado de favoritos
                     icon: (data.favorito == true && showFav == true) ? favMarker : svgMarker
                   });
-
-                  const contentString = (data.favorito == true && showFav == true) ?  '<div style="color: purple;width:200px;min-height:40px">' 
-                  : '<div style="color: darkorange;width:200px;min-height:40px">' +  
-                  '<h1 id="firstHeading" class="firstHeading">' +
-                   data.nota + '</h1>' +
-                  '<p>Latitud: ' + data.latitud + '<p>' +
-                  '<p>Longitud: ' + data.longitud + '<p>' +
-                  '</div>';
             
               //Evento de click en cada marcador
             (function (marker, data) {
@@ -140,7 +129,6 @@ export class MapasPage implements OnInit {
   //        document
   //           .getElementById("hide-fav")!
   //           .addEventListener("click", hideMarkers);
-
         
   }
 }

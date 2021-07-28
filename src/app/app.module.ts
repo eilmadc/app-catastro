@@ -29,6 +29,7 @@ import { LogoutPageModule } from './components/login/logout/logout.module';
 import { ResetPasswordPageModule } from './components/login/reset-password/reset-password.module';
 import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
 import { TestPageModule } from './components/test/test.module';
+import { EstadisticasPageModule } from './folder/estadisticas/estadisticas.module';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { TestPageModule } from './components/test/test.module';
       AboutusPageModule,
       WebcatastroPageModule,
       FavoritosPageModule,
+      EstadisticasPageModule,
       LoginPageModule,
       RegistrationPageModule,
       LogoutPageModule,

@@ -5,9 +5,11 @@ import { Component, OnInit, Input, ComponentRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import { CatastroService } from '../../shared/services/catastro/catastro.service';
+import { CamaraService } from 'src/app/shared/services/camara.service';
 import {    IInmueble,
             IReturnModeloCatastro,
             IMarkilo                } from '../../shared/interfaces/catastro.modelos';
+import { IFoto } from '../../shared/interfaces/foto.modelo'
 import { ParcelaPage } from '../../shared/pages/parcela/parcela.page'
 import { InmueblePage } from '../../shared/pages/inmueble/inmueble.page'
 import { MapaPage } from 'src/app/shared/pages/mapa/mapa.page';
@@ -15,9 +17,9 @@ import { MapaPage } from 'src/app/shared/pages/mapa/mapa.page';
 //
 //
 @Component({
-                selector: 'app-listado',
-                templateUrl: './listado.page.html',
-                styleUrls: ['./listado.page.scss'],
+                selector:       'app-listado',
+                templateUrl:    './listado.page.html',
+                styleUrls:      ['./listado.page.scss'],
             })
 
 //
@@ -26,11 +28,13 @@ export class ListadoPage implements OnInit {
 
     //
     @Input() markilos: IMarkilo[] = [];
+    //@Input() fotos: IFoto[] = [];
     @Input() nMarkilos: number = 0;
 
     //
     constructor(private catastro: CatastroService,
-                public modalController: ModalController) {}
+                public modalController: ModalController,
+                public camaraServicio: CamaraService) {}
 
     //
     async ngOnInit() {
@@ -38,11 +42,13 @@ export class ListadoPage implements OnInit {
         /* Si no estamos en modo_developer recrearemos en localStorage un historico, si es que ya no esta */
         await this.__test__Recrear_historico_en_localStorage_si_esta_en_mode_developer();
 
-        /* solicitamos la colección de markilos */
-        await this.catastro.markilosLoadLS();
-        this.markilos = await this.catastro.markilosGet();
+        /* Carga las fotos */
+        await this.camaraServicio.fotosLoad();
 
-        this.nMarkilos = this.markilos.length;
+        /* solicitamos la colección de markilos */
+        await this.catastro.markilosLoad();
+        this.markilos = await this.catastro.markilosGet();
+        this.nMarkilos = await this.markilos.length;
     }
 
     /*
@@ -50,9 +56,9 @@ export class ListadoPage implements OnInit {
 
         @param  {IMarkilo} markilo
     */
-    btMarkiloFavorito(markilo: IMarkilo){ 
+    async btMarkiloFavorito(markilo: IMarkilo){ 
         markilo.favorito = ! markilo.favorito;
-        this.catastro.markiloSet(markilo);
+        await this.catastro.markiloSet(markilo);
     }
 
 
@@ -81,7 +87,6 @@ export class ListadoPage implements OnInit {
         Petición para mostrar información de una (IParcela|IInmueble) através de su |referenciaCatastral|.
 
         @param {string} referenciaCatastral que señala a la referencia catastral de un (IParcela|IInmueble).
-
     */
     async btModeloCatastroDetalles(referenciaCatastral: string) {
 
@@ -106,7 +111,8 @@ export class ListadoPage implements OnInit {
                                 };
         } else {
             paginaCatastral = InmueblePage;
-            componenteProps = {     'fecha':                markilo.id,
+            componenteProps = {     'markilo':              markilo,
+                                    'fecha':                markilo.id,
                                     'latitud':              markilo.latitud,
                                     'longitud':             markilo.longitud,
                                     'nota':                 markilo.nota,

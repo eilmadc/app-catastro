@@ -4,13 +4,16 @@ import { isDevMode } from '@angular/core';
 import { Component, OnInit, Input, ComponentRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
+import { CamaraService } from 'src/app/shared/services/camara.service';
 import { CatastroService } from '../../shared/services/catastro/catastro.service';
 import {    IInmueble,
             IReturnModeloCatastro,
             IMarkilo } from '../../shared/interfaces/catastro.modelos';
+import { IFoto } from 'src/app/shared/interfaces/foto.modelo';
 import { ParcelaPage } from '../../shared/pages/parcela/parcela.page'
 import { InmueblePage } from '../../shared/pages/inmueble/inmueble.page'
 import { MapaPage } from 'src/app/shared/pages/mapa/mapa.page';
+import { FotoPage } from 'src/app/shared/pages/foto/foto.page';
 
 //
 //
@@ -25,12 +28,14 @@ import { MapaPage } from 'src/app/shared/pages/mapa/mapa.page';
 export class FavoritosPage implements OnInit {
 
     //
+    @Input() fotos: IFoto[] = [];
     @Input() markilos: IMarkilo[] = [];
     @Input() nFavoritos: number = 0;
 
     //
     constructor(private catastro: CatastroService,
-                public modalController: ModalController) { }
+                public modalController: ModalController,
+                public camaraServicio: CamaraService) { }
 
     //
     async ngOnInit() {
@@ -39,11 +44,13 @@ export class FavoritosPage implements OnInit {
         await this.__test__Recrear_historico_en_localStorage_si_esta_en_mode_developer();
 
         /* solicitamos la colección de markilos */
-        await this.catastro.markilosLoadLS();
+        await this.catastro.markilosLoad();
         this.markilos = await this.catastro.markilosGet(true);
-
         this.nFavoritos = this.markilos.length;
+
+        await this.camaraServicio.fotosLoad();
     }
+
 
     /*
         Cambia el estado |makilo.favorito| a su nuevo valor. 
@@ -54,8 +61,6 @@ export class FavoritosPage implements OnInit {
         markilo.favorito = !markilo.favorito;
         this.catastro.markiloSet(markilo);
         this.nFavoritos--;
-        //this.markilos = await this.catastro.markilosGet();
-        //window.location.reload();
     }
 
 
@@ -98,44 +103,68 @@ export class FavoritosPage implements OnInit {
         if (this.catastro.esParcela(markilo.irmc.modeloCatastro) == true) {
             paginaCatastral = ParcelaPage;
             componenteProps = {
-                'fecha': markilo.id,
-                'latitud': markilo.latitud,
-                'longitud': markilo.longitud,
-                'nota': markilo.nota,
-                'rcParcela': markilo.irmc.modeloCatastro.rcParcela,
-                'domicilioTributario': markilo.irmc.modeloCatastro.domicilioTributario,
-                'poblacion': markilo.irmc.modeloCatastro.poblacion,
-                'provincia': markilo.irmc.modeloCatastro.provincia,
-                'rcInmueble': markilo.irmc.modeloCatastro.rcInmueble,
-                'pcInmuebles': markilo.irmc.modeloCatastro.parcelaInmuebles,
+                'fecha':                markilo.id,
+                'latitud':              markilo.latitud,
+                'longitud':             markilo.longitud,
+                'nota':                 markilo.nota,
+                'rcParcela':            markilo.irmc.modeloCatastro.rcParcela,
+                'domicilioTributario':  markilo.irmc.modeloCatastro.domicilioTributario,
+                'poblacion':            markilo.irmc.modeloCatastro.poblacion,
+                'provincia':            markilo.irmc.modeloCatastro.provincia,
+                'rcInmueble':           markilo.irmc.modeloCatastro.rcInmueble,
+                'pcInmuebles':          markilo.irmc.modeloCatastro.parcelaInmuebles,
             };
         } else {
             paginaCatastral = InmueblePage;
             componenteProps = {
-                'fecha': markilo.id,
-                'latitud': markilo.latitud,
-                'longitud': markilo.longitud,
-                'nota': markilo.nota,
-                'rcInmueble': markilo.irmc.modeloCatastro.rcInmueble,
-                'clase': markilo.irmc.modeloCatastro.clase,
-                'localizacion': markilo.irmc.modeloCatastro.localizacion,
-                'usoPrincipal': markilo.irmc.modeloCatastro.usoPrincipal,
+                'fecha':                markilo.id,
+                'latitud':              markilo.latitud,
+                'longitud':             markilo.longitud,
+                'nota':                 markilo.nota,
+                'rcInmueble':           markilo.irmc.modeloCatastro.rcInmueble,
+                'clase':                markilo.irmc.modeloCatastro.clase,
+                'localizacion':         markilo.irmc.modeloCatastro.localizacion,
+                'usoPrincipal':         markilo.irmc.modeloCatastro.usoPrincipal,
                 'superficieConstruida': markilo.irmc.modeloCatastro.superficieConstruida,
-                'anoConstruccion': markilo.irmc.modeloCatastro.anoConstruccion,
-                'ipLocalizacion': markilo.irmc.modeloCatastro.inmuebleParcela.localizacion,
-                'ipCoefParticipacion': markilo.irmc.modeloCatastro.inmuebleParcela.coeficienteParticipacion,
-                'icConstrucciones': markilo.irmc.modeloCatastro.inmuebleConstruccion,
+                'anoConstruccion':      markilo.irmc.modeloCatastro.anoConstruccion,
+                'ipLocalizacion':       markilo.irmc.modeloCatastro.inmuebleParcela.localizacion,
+                'ipCoefParticipacion':  markilo.irmc.modeloCatastro.inmuebleParcela.coeficienteParticipacion,
+                'icConstrucciones':     markilo.irmc.modeloCatastro.inmuebleConstruccion,
             };
         };
 
         const modal = await this.modalController.create({
-            component: paginaCatastral,
-            cssClass: 'my-custom-class',
+            component:      paginaCatastral,
+            cssClass:       'my-custom-class',
             componentProps: componenteProps
         });
 
         return await modal.present();
     }
+
+
+    /*
+       Permite seleccionar una |Foto.web| al |markilo.foto|.
+
+        @param  {IMarkilo} markilo
+    */
+    async btFotoAsignar(markilo: IMarkilo) {
+
+        await this.camaraServicio.fotosLoad();
+        let fotos: IFoto[] = await this.camaraServicio.fotosGet();
+
+        const modal = await this.modalController.create({
+            component:      FotoPage,
+            cssClass:       'my-custom-class',
+            componentProps: {
+                                markilo:    markilo,
+                                fotos:      fotos,
+                            }
+        });
+
+        return await modal.present();
+    }
+
 
     /* 
         Solo si esta en mode developer ... recrea en locaStorage una serie de registros, IMarkilo, para tests. 
