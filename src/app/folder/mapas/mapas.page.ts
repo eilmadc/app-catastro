@@ -40,7 +40,7 @@ export class MapasPage implements OnInit {
     this.loadMap();
   }
 
-
+  //comentario 
   async loadMap() {
 
     var showFav = true;
