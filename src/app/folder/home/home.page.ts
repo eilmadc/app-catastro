@@ -5,6 +5,7 @@ import {
   PushNotifications,
   Token,
 } from '@capacitor/push-notifications';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -12,10 +13,20 @@ import {
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  
+  constructor(
+    private menuCtrl:MenuController,
+  ){
+
+  }
 
   ngOnInit() {
     console.log('Initializing HomePage');
+  }
 
-
+  
+  ionViewWillEnter() {
+    this.menuCtrl.enable(true);
+    this.menuCtrl.swipeGesture(true);
   }
 }

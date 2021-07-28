@@ -50,8 +50,11 @@ const routes: Routes = [
     path: 'notifications',
     loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
   },
-
-];
+      {
+        path: 'micuenta',
+        loadChildren: () => import('./micuenta/micuenta.module').then( m => m.MicuentaPageModule)
+      }    
+    ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

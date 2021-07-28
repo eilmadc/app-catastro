@@ -4,12 +4,17 @@
       <ion-content>
         <ion-list id="menu-list">
           <ion-grid>
-            
+
 <!--  CABECERA MENU - LOGO     -->        
             <ion-row>
-              <ion-list-header slot="end">App Catastro</ion-list-header>
-              <ion-col size="4" offset="4">
-              <img src="assets/logo.png" />
+              <ion-col size="4" offset="3">
+                <img src="assets/logo.png" />
+              </ion-col>
+              <ion-col size="10" offset="1">
+              <ion-list-header *ngIf="this.as.userData as user">
+                <ion-label color="primary" >Hola <strong><h3>{{user.email}}</h3></strong></ion-label>
+                <ion-note> </ion-note>
+              </ion-list-header>
               </ion-col>
             </ion-row>
 
@@ -20,14 +25,16 @@
                   <ion-label>{{ p.title }}</ion-label>
                 </ion-item>
               </ion-menu-toggle>
-
           </ion-grid>
         </ion-list>
 
         <ion-list>
-<!--       BOTON CERRAR SESIÓN -->
-            <ion-row>
-              <ion-col size="6" offset="2">
+          <ion-row>
+            
+
+  <!--       BOTON CERRAR SESIÓN -->
+            
+              <ion-col size="4" offset="1">
                 <ion-button fill="outline" (click)=" goToSignOut()">
                 <ion-icon name="log-out"></ion-icon> <p>&nbsp;CERRAR SESIÓN</p> </ion-button>
               </ion-col>

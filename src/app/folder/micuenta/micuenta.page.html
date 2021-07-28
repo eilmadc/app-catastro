@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" ></ion-menu-button>
+      <ion-back-button routerLink="/folder/home" ></ion-back-button>
+      <ion-title>Mi cuenta</ion-title>
+  </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+      
+      <ion-row>
+        <ion-col size="4" offset="4">
+          <ion-avatar>
+            <ion-img src={{this.userInfo.userPhoto}}></ion-img>
+          </ion-avatar>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+         
+        <ion-col size="10" offset="1">
+          <ion-input #username placeholder={{userInfo.userName}}><h5>User : </h5></ion-input>
+          <ion-input placeholder={{userInfo.userEmail}} disabled="true"><h5>Email : </h5></ion-input>
+          <ion-input #userphone placeholder={{userInfo.userPhone}}><h5>Teléfono : </h5></ion-input>
+          <ion-input [ngModel]="this.time | date:'dd-MM-yyyy hh:mm:ss'" disabled="true"><h5>Creado : </h5></ion-input>
+        </ion-col>
+          <ion-col size="8" offset="1">      
+            <ion-item >
+              <ion-label>Rol de Usuario: </ion-label>
+              <ion-select #userrol [(ngModel)]="this.userInfo.userrol" interface="action-sheet">
+                <ion-select-option value="viewer">Standard</ion-select-option>
+                <ion-select-option value="admin">Admin</ion-select-option>
+              </ion-select>
+            </ion-item> 
+          </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col size="8" offset="2">  
+          <!-- GUARDAR CAMBIOS  -->
+          <ion-button class="submit" (click)="updateUserCollection(username,userphone,userrol)" ><h6>Guardar los cambios</h6></ion-button>
+        </ion-col>
+            
+        <ion-col size="8" offset="2">  
+          <!-- RECUPERAR PASSWORD  -->
+          <ion-button class="submit" (click)="recoverPassword();" fill="outline"><p>Cambiar mi contraseña</p></ion-button>
+        </ion-col>
+
+
+      <ion-col size="8" offset="2">  
+        <!-- BORRAR USUARIO  -->
+        <ion-button class="submit" (click)="remove();" fill="outline"><p>Darse de baja</p></ion-button>
+      </ion-col>
+    </ion-row>
+           
+      <ion-row>
+        <ion-col size="10" offset="1">  
+          <ion-card>
+          <ion-item (click)="goToFavoritos()">
+            <h1 ><ion-icon name="star"></ion-icon> Mis Favoritos</h1>
+          </ion-item>
+        </ion-card>
+        </ion-col>
+      </ion-row>  
+
+    </ion-grid>
+</ion-content>

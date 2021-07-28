@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -11,25 +10,40 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
-//Components
-import { AppComponent } from './app.component';
+//Componentes de Login, Perfil de usuario.
+import { RegistrationPageModule } from './components/login/registration/registration.module';
 import { LoginPageModule } from './components/login/login.module'
+import { LogoutPageModule } from './components/login/logout/logout.module';
+import { ResetPasswordPageModule } from './components/login/reset-password/reset-password.module';
+
+
+//Autenticacion Servicios
+import { AuthenticationService } from "./shared/services/authentication.service";
+
+//AppComponent + Menu Pages
+import { AppComponent } from './app.component';
 import { HomePageModule } from './folder/home/home.module';
 import { MapasPageModule } from './folder/mapas/mapas.module';
 import { ListadoPageModule } from './folder/listado/listado.module';
 import { ContactoPageModule } from './folder/contacto/contacto.module';
 import { AboutusPageModule } from './folder/aboutus/aboutus.module';
 import { WebcatastroPageModule} from './folder/webcatastro/webcatastro.module'
-import { RegistrationPageModule } from './components/login/registration/registration.module';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
+import { MicuentaPageModule } from './folder/micuenta/micuenta.module';
+
+//WebCatastro navegador App.
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 // Acceder a Catastro
 import { HttpClientModule } from '@angular/common/http';
-import { LogoutPageModule } from './components/login/logout/logout.module';
-import { ResetPasswordPageModule } from './components/login/reset-password/reset-password.module';
-import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
 import { TestPageModule } from './components/test/test.module';
 import { EstadisticasPageModule } from './folder/estadisticas/estadisticas.module';
+
+import { FormsModule } from '@angular/forms';
+
+//Enviroments
+import { firebaseConfig } from '../environments/firebaseconfig'; 
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @NgModule({
   declarations: [
@@ -50,14 +64,19 @@ import { EstadisticasPageModule } from './folder/estadisticas/estadisticas.modul
       WebcatastroPageModule,
       FavoritosPageModule,
       EstadisticasPageModule,
+      MicuentaPageModule,
       LoginPageModule,
       RegistrationPageModule,
       LogoutPageModule,
       ResetPasswordPageModule,
       TestPageModule,
       HttpClientModule,
+      FormsModule,
     ],
-  providers: [AngularFirestoreModule,
+  providers: [
+    AngularFirestoreModule,
+    AuthenticationService,
+    StatusBar,
       { provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }, 
   ],
   bootstrap: [AppComponent],
