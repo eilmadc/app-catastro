@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import  firebase from 'firebase/app';
-import { User , Roles, UserExtended} from "../interfaces/user";
+import { User } from "../interfaces/user";
 import { Router } from "@angular/router";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
@@ -51,9 +51,6 @@ async createUserInCollection(user){
     const currentUser = firebase.auth().currentUser;
     return this.docRef.doc(currentUser.uid).valueChanges();    
   }
-  /*     const currentUser = firebase.auth().currentUser;
-    console.log(currentUser);
-    return currentUser; */
 
   /* UPLOAD: Actualizar información del usuario */
     async updateUserInCollection(username,userphone,userrol){
@@ -67,6 +64,17 @@ async createUserInCollection(user){
       console.log('Current User: ',currentUser);
     }
 
+/* DELETE: Borrar el usuario de la colección y Firebase */
+delete ( id ){
+  this.afStore.doc('users/'+ id).delete();
+  const currentUser = firebase.auth().currentUser;
+  currentUser.delete().then(()=>{
+    this.toast("Usuario borrado de la app.", "warning");
+    this.router.navigate(['login']);
+  }).catch((error) => {
+    this.toast(error, "danger");
+  });
+}
   /**
    * Metodo para mostrar mensajes pasados por parametros en un Toast
    * @param mensaje 

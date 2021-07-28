@@ -15,7 +15,6 @@ import { UsersCrudService} from "src/app/shared/services/users-crud.service";
 })
 export class MicuentaPage implements OnInit {
   userInfo: any = "";
-  userExtended: UserExtended;
   docRef = this.afStore.collection('users');
   time:any;
 
@@ -27,32 +26,18 @@ export class MicuentaPage implements OnInit {
     private afStore: AngularFirestore,
     private loadingCtrl: LoadingController,
     private router: Router,
-    
-  ) { }
+        /* LLamada a OBTENER INFO DEL USUARIO ACTUAL EN FIREBASE*/
+  ) { 
+    this.userInfo = this.getUser();
+  }
 
   ngOnInit() {
+    
   }
 
   ionViewDidEnter() {
-    /* LLamada a OBTENER INFO DEL USUARIO ACTUAL EN FIREBASE*/
-    this.showUser();
+    this.userInfo = this.getUser();
   }
-
- /*  /* OBTENER INFO DEL USUARIO ACTUAL EN FIREBASE
- async getCurrentUserInfo(){
-    const currentUserUid = firebase.default.auth().currentUser.uid;
-    this.docRef.doc(currentUserUid).get()
-    .subscribe((doc) =>{
-      if (doc.exists) {
-        console.log("Document data: ", doc.data());
-        this.userInfo= doc.data();
-        this.getCreatedAtFormatted();
-      }else{
-        console.log("No such document");
-      }
-    },(error) => {console.error("Error:")}
-    );
-  } */
 
   /* CREATED DATE FORMATED: Formateo a dd-MM-yyyy el campo createdAt del usuario en FB*/
   async getCreatedAtFormatted(){
@@ -61,7 +46,7 @@ export class MicuentaPage implements OnInit {
 
  /* READ USER INFO: Leer la info del usuario
  * metodo: getUserInfoFromCollection */
- async showUser(){
+ async getUser(){
   return (await this.userCrud.getUserInfoFromCollection()).subscribe((data)=>{
      this.userInfo = data;
      console.log(this.userInfo);
@@ -69,48 +54,26 @@ export class MicuentaPage implements OnInit {
    })
  }
 
-  /*TODO: UPDATE PHOTOURL PIC */
+  /*TODO: UPDATE PHOTOURL PICK */
   updatePhoto(){
 
   }
  
-  /* ACTUALIZAR DATOS DEL USUARIO en collection 'users' */
+  /* UPDATE USER INFO: Actualizar datos del usuario en collection 'users' */
  async updateUserCollection(username, userphone, userrol){
    this.userCrud.updateUserInCollection(username.value,userphone.value,userrol.value);
- /*  const currentUserUid = firebase.default.auth().currentUser.uid;
-  this.docRef.doc(currentUserUid).set({
-    'userId' : this.userInfo.userId,
-    'userName': username.value,
-    'userEmail': this.userInfo.userEmail,
-    'userPhone': userphone.value,
-    'userPhoto': this.userInfo.userPhoto,
-    'createdAt': this.userInfo.createdAt,
-    'userrol' : userrol.value,
-  }) */
-    //this.auth.updateUserInCollection(this.userExtended);  
   } 
 
-  /* async updateUser(){
-    const loading = await this.loadingCtrl.create({
-      message: 'Actualizando..',
-      spinner: 'crescent',
-      showBackdrop: true
-    });
+  /* DELETE USER INFO: Borrar datos del usuario en collection 'users' y en Firebase */
+  async remove( ){
+    this.getUser();
+    console.log(this.userInfo.userId);
+    if (window.confirm('¿Estas seguro?')){
+      this.userCrud.delete(this.userInfo.userId);
+    }
+  }
 
-    loading.present();
- 
-    this.afStore.collection('users').doc(currentUser.uid).set({
-      'userId' : user.uid,
-      'userName': user.displayName,
-      'userEmail': user.email,
-      'userPhone': '',
-      'userPhoto': user.photoURL,
-      'createdAt': Date.now(),
-      'userrol' : 'viewer',
-    })
-  }
-  }
- */
+
     /* GOTOFAVORITOS: Redirección a la pagina de favoritos*/
     goToFavoritos(){
       this.router.navigate(['folder/favoritos']);
