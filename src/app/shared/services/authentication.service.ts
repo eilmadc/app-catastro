@@ -118,6 +118,19 @@ export class AuthenticationService {
     return this.ngFireAuth.signOut().then(() => {
       localStorage.removeItem('user');
       this.router.navigate(['login']);
+      this.toast("La sesiín ha sido cerrada", "blank");
     })
   }
+
+    //Metodo para envío de mensajes Toast.
+    async toast(mensaje,status)
+    {
+      const toast = await this.toastr.create({
+        message: mensaje,
+        color:status,
+        position: 'top',
+        duration: 1000
+      });
+      toast.present();
+    }
 }

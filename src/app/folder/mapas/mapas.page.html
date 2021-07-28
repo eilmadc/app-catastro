@@ -1,11 +1,15 @@
 <ion-header [translucent]="true">
 
   <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" ></ion-menu-button>
+      <ion-back-button routerLink="/folder/home" ></ion-back-button>
     <ion-button (click)="loadMap()" shape="round" color="dark">
       <ion-icon slot="start" name="locate"></ion-icon>
       Donde estoy
     </ion-button>
     <ion-title slot="end">Google Map</ion-title>
+    </ion-buttons>
   </ion-toolbar>
 
 </ion-header>

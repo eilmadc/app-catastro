@@ -59,10 +59,16 @@ export class MicuentaPage implements OnInit {
     console.log(this.time);
   }
 
-  /* UPDATE PHOTOURL PIC */
+ /* READ USER INFO: Leer la info del usuario */
+ async showUser(){
+   this.userCrud.getUserInfoFromCollection();
+ }
+
+  /*TODO: UPDATE PHOTOURL PIC */
   updatePhoto(){
 
   }
+ 
   /* ACTUALIZAR DATOS DEL USUARIO en collection 'users' */
  async updateUserCollection(username, userphone, userrol){
    this.userCrud.updateUserInCollection(username,userphone,userrol);

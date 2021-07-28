@@ -1,19 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 import { AuthenticationService} from '../../shared/services/authentication.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
 
   constructor(
     public as: AuthenticationService,
-    public router: Router
+    public router: Router,
+    private menuCtrl: MenuController
   ) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    this.menuCtrl.enable(false);
+    this.menuCtrl.swipeGesture(false);
   }
   
 /* LOGIN : llamada al método en servicio -> SignIn*/

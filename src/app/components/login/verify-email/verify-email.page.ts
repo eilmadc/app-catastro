@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuController } from '@ionic/angular';
 import { AuthenticationService} from '../../../shared/services/authentication.service'
 
 @Component({
@@ -6,15 +7,17 @@ import { AuthenticationService} from '../../../shared/services/authentication.se
   templateUrl: './verify-email.page.html',
   styleUrls: ['./verify-email.page.scss'],
 })
-export class VerifyEmailPage implements OnInit {
+export class VerifyEmailPage{
 
   constructor(
-    public as: AuthenticationService
+    public as: AuthenticationService,
+    private menuCtrl:MenuController
   ) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    this.menuCtrl.enable(false);
+    this.menuCtrl.swipeGesture(false);
   }
-
   verifyEmail(){
     this.as.SendVerificationMail;
   }

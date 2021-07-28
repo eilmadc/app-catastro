@@ -16,6 +16,7 @@ import { AboutusPageModule } from './aboutus/aboutus.module';
 import { WebcatastroPageModule } from './webcatastro/webcatastro.module';
 import { FavoritosPageModule } from './favoritos/favoritos.module';
 import { MicuentaPageModule } from './micuenta/micuenta.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { MicuentaPageModule } from './micuenta/micuenta.module';
     WebcatastroPageModule,
     FavoritosPageModule,
     MicuentaPageModule,
+    HttpClientModule 
   ],
   declarations: [FolderPage]
 })

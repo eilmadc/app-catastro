@@ -6,6 +6,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { firebaseConfig } from 'src/environments/firebaseconfig';
 import { ToastController } from '@ionic/angular';
+import { map} from 'rxjs/operators';
 
 
 @Injectable({
@@ -13,7 +14,6 @@ import { ToastController } from '@ionic/angular';
 })
 export class UsersCrudService {
   userData: any;
-  user$:UserExtended;
   docRef = this.afStore.collection('users');
 
   constructor(
@@ -47,7 +47,19 @@ async createUserInCollection(user){
     return currentUser;
   }
 
-    /* Actualizar información del usuario */
+  /*READ: Obtener datos del usuario de Firebase*/
+  async getUserInfoFromCollection(){
+    return this.docRef.snapshotChanges().pipe(map(user =>{
+      console.log(user);
+      return user.map;
+    }));
+    
+  }
+  /*     const currentUser = firebase.auth().currentUser;
+    console.log(currentUser);
+    return currentUser; */
+
+  /* UPLOAD: Actualizar información del usuario */
     async updateUserInCollection(username,userphone,userrol){
       const currentUser = firebase.auth().currentUser;
       this.docRef.doc(currentUser.uid).set({
@@ -58,14 +70,18 @@ async createUserInCollection(user){
       console.log('Current User: ',currentUser);
     }
 
-  //Metodo para envío de mensajes Toast.
+  /**
+   * Metodo para mostrar mensajes pasados por parametros en un Toast
+   * @param mensaje 
+   * @param status 
+   */
   async toast(mensaje,status)
   {
     const toast = await this.toastr.create({
       message: mensaje,
       color:status,
       position: 'top',
-      duration: 2000
+      duration: 1000
     });
     toast.present();
   }

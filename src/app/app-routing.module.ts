@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { MyCanActivate } from './shared/guards/session.guard';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
-    path: 'folder', 
+    path: 'folder', canActivate: [MyCanActivate],
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
   {

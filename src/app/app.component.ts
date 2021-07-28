@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
+import { AuthenticationService } from './shared/services/authentication.service';
 import { FcmService } from './shared/services/fcm.service';
 
 @Component({
@@ -10,6 +11,8 @@ import { FcmService } from './shared/services/fcm.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  userInfo: any;
+
   public appPages = [
     { title: 'Home', url: './folder/home', icon: 'home' },
     { title: 'Favoritos', url: './folder/favoritos', icon: 'star' },
@@ -21,19 +24,23 @@ export class AppComponent {
     { title: 'Mi Cuenta', url: '/folder/micuenta', icon: 'person' },
     
   ];
-  //public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  
   constructor(
     //Show/Hide side menu
     public menuCtrl: MenuController,
     private platform: Platform,
     private fcmService: FcmService,
-    private router: Router
+    private router: Router,
+    private as: AuthenticationService,
   ) {
     this.initializeApp();
   }
 
+  ionDidViewDidEnter(){}
+
   openMenu(){
     this.menuCtrl.open();
+    //this.getCurrentUser();
   }
 
   closeMenu(){
@@ -55,13 +62,9 @@ export class AppComponent {
   }
 
   //Ir a PageModule SignOut
-  goToSignOut(){
+  async goToSignOut(){
     this.router.navigate(['logout']);
   }
 
-  //Ir a PageModule Micuenta
-  goToMiCuenta(){
-    this.router.navigate(['micuenta']);
-  }
 
 }
