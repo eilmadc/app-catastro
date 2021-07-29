@@ -743,7 +743,7 @@ export class CatastroService {
 
         let preMarkilos = [
             {                                                               // es Parcela
-                instante: '2018/07/16 12:52:09',
+                instante: '2016/07/16 12:52:09',
                 latitud: 40.92465644496646,
                 longitud: 0.8414186666402872,
                 marcador: false,
@@ -751,7 +751,7 @@ export class CatastroService {
                 foto: 'casa_cruz_gamada__tarragona.jpg'
             },
             {                                                               // es Inmueble
-                instante: '2019/07/16 00:53:09',
+                instante: '2017/07/16 00:53:09',
                 latitud: 40.41634264194055,
                 longitud: -3.6966086663337605,
                 marcador: false,
@@ -759,7 +759,7 @@ export class CatastroService {
                 foto: 'congreso_de_los_diputados__madrid.jpg'
             },
             {                                                               // es Inmueble
-                instante: '2021/11/02 11:53:09',
+                instante: '2019/11/02 11:53:09',
                 latitud: 39.47439226625097,
                 longitud: -0.37831976528385386,
                 marcador: false,
@@ -767,7 +767,7 @@ export class CatastroService {
                 foto: 'la_lonja_de_la_seda__valencia.jpg'
             },
             {                                                               // es Inmueble
-                instante: '2021/11/02 11:03:09',
+                instante: '2020/11/02 11:03:09',
                 latitud: 42.880626849444305,
                 longitud: -8.544646314889821,
                 marcador: true,
@@ -775,7 +775,7 @@ export class CatastroService {
                 foto: 'catedral_de_santiago_de_compostela__la_coruña.jpg'
             },
             {                                                               // es Inmueble
-                instante: '2021/11/02 10:53:09',
+                instante: '2018/11/02 10:53:09',
                 latitud: 41.40356145365357,
                 longitud: 2.1744767782584358,
                 marcador: true,

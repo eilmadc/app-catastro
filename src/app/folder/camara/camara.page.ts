@@ -80,7 +80,6 @@ export class CamaraPage implements OnInit {
     /*
         Intentara eliminar la |foto| si no esta asignada a ningun markilo.
 
-
     */
     public async fotoEliminarSiEsPosible(foto: IFoto, posicion: number) {
 
@@ -88,15 +87,16 @@ export class CamaraPage implements OnInit {
 
         if (!markiloId) {
             await this.camaraServicio.fotoBorrar(foto, posicion);
-            this.msgInformacion('Información',
-                                'Orden de Borrado',
-                                'La imagén fue borrada');            
+            await this.msgInformacion(  'Información',
+                                        'Orden de Borrado',
+                                        'La imagén fue borrada');            
             location.reload();
 
         } else {
-            this.msgInformacion('Información',
-                                'Orden de Borrado',
-                                'No se borrará la imagen seleccionada porque la tiene asignada un Markilo.');
+
+            await this.msgInformacion(  'Información',
+                                        'Orden de Borrado',
+                                        'No se borrará la imagen seleccionada porque la tiene asignada un Markilo.');
         }
     }
 
