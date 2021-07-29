@@ -55,7 +55,6 @@ async createUserInCollection(user){
   /* UPLOAD: Actualizar información del usuario */
     async updateUserInCollection(username,userphone,userrol){
       const currentUser = firebase.auth().currentUser;
-      console.log(currentUser)
       this.docRef.doc(currentUser.uid).update({
         'userName': username,
         'userPhone': userphone,
