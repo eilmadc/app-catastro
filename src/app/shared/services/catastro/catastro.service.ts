@@ -24,13 +24,71 @@ export class CatastroService {
 
     //
     constructor(    private httpClient: HttpClient) { }
-    
+
 
     /*
-        Añade un nuevo |markilo| a las colección de |this.markilos|
+        Añade un nuevo |markilo| a las colección de |this.markilos| ... pero no lo guarda. 
     */
     markiloAdd(markilo: IMarkilo) {
         this.markilos.push(markilo);
+    }
+
+
+    /*
+        Genera un markilo con |markilo| a las colección de |this.markilos| y devuelve el id asignado. Si |id| llega se usara como tal, en caso contrario
+        se generara uno al vuelo.
+
+        @param  {IReturnReferenciaCatastral}, irrc con el que construir 
+        @param  {string} id que se usara como |markilo.id|
+
+        @return {string} que responde a |markilo.id|
+    */
+    async markiloGenerateSave(latitud: number, longitud: number, irrc: IReturnReferenciaCatastral, id: string = null): Promise<string> {
+
+        if ( (id) || (id.search(/\d{4}\/\d{2}\/\d{2}/) != 0) ) {
+            var ahora =     Date.now();
+            var date =      new Date();
+            var id =        date.getFullYear() + "/" +
+                                ("00" + (date.getMonth() + 1)).slice(-2) + "/" +
+                                ("00" + date.getDate()).slice(-2) + " " +
+                                ("00" + date.getHours()).slice(-2) + ":" +
+                                ("00" + date.getMinutes()).slice(-2) + ":" +
+                                ("00" + date.getSeconds()).slice(-2);
+        }
+        
+        /* Inmueble o Parcela */                                                        // obtienes un modelo catastral, IReturnModeloCatastro
+        let irmc = await this.getDNPRC(irrc.referenciaCatastral);
+        if (irmc.numero == 0) {
+            // TODO
+            // mandar al historico
+        }
+
+        let direccion: string = '';                                                     // IParcela
+        if (this.esParcela(irmc.modeloCatastro) === true) {
+            direccion = irmc.modeloCatastro.domicilioTributario + ' ' +
+                irmc.modeloCatastro.poblacion + ' (' +
+                irmc.modeloCatastro.provincia + ')';
+        } else {                                                                        // IInmueble
+            direccion = irmc.modeloCatastro.localizacion;
+        }
+
+        let markilo: IMarkilo = {
+            id:         id,
+            latitud:    latitud,
+            longitud:   longitud,
+            irmc:       irmc,
+            nota:       ahora.toString(),
+            direccion:  direccion,
+            favorito:   false,
+            fotografia: null,
+        }
+                   
+        console.log(markilo);
+
+        //this.markiloAdd(markilo);
+        //this.markiloSet(markilo);
+
+        return markilo.id;
     }
 
 
@@ -58,7 +116,9 @@ export class CatastroService {
 
     /*
         Devuelve el Markilo que responde a |referenciaCatastral| en |this.markilos|.
+
         @param  {string} referenciaCatastral, responde a uno de los Markilos de la colección markilos.
+
         @return {Markilo}, rtnMarkilo ... con la |referenicaCatastral| solicitada.
     */
     markiloGet(referenciaCatastral: string): IMarkilo {
@@ -78,6 +138,7 @@ export class CatastroService {
 
     /*
         Salva el |markilo| en |this.markilos| y en LocalStorage, si existe lo reeemplaza y sino lo reescribe.
+
         @param {Markilo}, markilo a salvar.
     */
     async markiloSet(markilo: IMarkilo) {
@@ -118,6 +179,7 @@ export class CatastroService {
 
     /*
         Salva la colección de |this.markilos| a localStorage, LS.
+
         // TODO
         // recordar de hacerlo de firebase si es firebase donde se guardan.
     */
@@ -133,6 +195,7 @@ export class CatastroService {
 
     /* 
         Carga la coleccion de Markilos registrados en localStorage a this.markilos.
+
         // TODO
         // recordar de hacerlo de firebase si es firebase donde se guardan.
     */
@@ -172,7 +235,9 @@ export class CatastroService {
     /* 
         Deuelve una matriz con los IInmuebles encontrados en el |modeloCatastral| llegado, (IParcela|IInumueble). Si |modeloCatastral| es ya un Inmueble
         lo devuelve como unico elemento de la matriz, y si es una (IParcela) consulta en el catastro y devuelve todos los Inmueble's que tenga la Parcela.
+
         @param  {(IParcela|IInumueble)} modeloCatastral para extraer los IInumuebles
+
         @return {Array}, arrInmuebles
     */
     async getInmuebles(ModeloCatastral: any): Promise<any> {
@@ -198,7 +263,9 @@ export class CatastroService {
 
     /* 
         Deuelve un boolean si el |ModeloCatastral| llegado, (IParcela|IInumueble), es una IParcela.
+
         @param  {(IParcela|IInumueble)} modeloCatastral a examinar
+        
         @return {boolean},  true si lo es y 
                             false en caso contrario
     */
@@ -257,6 +324,7 @@ export class CatastroService {
                     </coordd>
                 </coordenadas_distancias>
             </consulta_coordenadas_distancias>
+
         @param  {number} latitud, responde a la coordenada de la latitud
         @param  {number} longitud, responde a la coordenada de longitud
  
@@ -306,8 +374,10 @@ export class CatastroService {
                     </err>
                 </lerr>
             </consulta_coordenadas>
+
         @param  {number} latitud, responde a la coordenada de la latitud
         @param  {number} longitud, responde a la coordenada de longitud
+
         @return IReturnReferenciaCatastral {
                     {number} numEstado (-1|0|>0) =-1 se ha producido un error, =0 no hay nada en esa posicion, =1 con la referencia y >0 no se espera.
                     {string} strReferenciaCatastral, si fue un exito concatena 'pc1' + 'pc1'. Que responden solo a la Parcela, no al Inmueble.
@@ -353,6 +423,7 @@ export class CatastroService {
 
     /*
         Según el |recurso| seleccionado se devolvera un |xmlDocument|, ver los detalles en las funciones correspondientes.
+
         @param  {string} recurso, cual de los dos recursos vamos a querer la información; (['RCCOOR']|'RCCOOR_Distancia')
         @param  {number} longitud, responde a la coordenada de longitud
         @param  {number} latitud, responde a la coordenada de la latitud
@@ -482,6 +553,7 @@ export class CatastroService {
                     </lspr>
                 </bico>
             </consulta_dnp>
+
         @goTo   _getCatastroDNPRC()
     */
     async getDNPRC(referenciaCatastral: string): Promise<any> {
@@ -491,8 +563,10 @@ export class CatastroService {
     
     /*
         Según el |recurso| seleccionado proporcionara ver los detalles en las funciones correspondientes.
+
         @param  {string} recurso, cual de los dos recursos vamos a querer la información; (['DNPRC']|)
         @param  {string} prmReferenciaCatastral, cadena que se forma con pc1 + pc2 
+
         @return IReturnModeloCatastro {
                     {number} numInmuebles, número de inmuebles de los que se proporcionan datos, cuando "cudnp" es [1, >1]
                     {(Inmueble|IParcela)} modeloCatastro es uno de los dos objetos según la situación cuando cudnp(=1, >1)
@@ -553,6 +627,7 @@ export class CatastroService {
         Hoy conocemos 3 tipos de diferentes de respuestas; las que responden a una Parcela, IParcela, las que responden a un Inmueble, IInmueble, y 
         las que responden a un Error, IParcela con los datos en blanco.
         En cualquier caso, despues de manipularlo devolvera la información apropiadamente en un objeto; IReturnModeloCatastro. 
+
         @param  {XMLDocument} xmlDoc es el XML del que partimos para extraer la información
         
         @return IReturnModeloCatastro { 
@@ -839,7 +914,7 @@ export class CatastroService {
                     nota:               preMarkilos[i].desc,
                     direccion:          direccion,
                     favorito:           preMarkilos[i].marcador,
-                    foto:               null,
+                    //foto:               null,
                     fotografia:         null,
                 }
                 this.markiloAdd(markilo);

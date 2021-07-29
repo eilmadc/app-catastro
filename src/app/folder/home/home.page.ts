@@ -24,7 +24,7 @@ export class HomePage implements OnInit {
     console.log('Initializing HomePage');
   }
 
-  
+  /* Control del Toggle Menu*/
   ionViewWillEnter() {
     this.menuCtrl.enable(true);
     this.menuCtrl.swipeGesture(true);
