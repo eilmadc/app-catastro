@@ -8,6 +8,7 @@ import {
 } from '@capacitor/push-notifications';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
+import { UsersCrudService } from './users-crud.service';
 
 
 
@@ -20,7 +21,8 @@ export class FcmService {
 
   constructor(private router: Router,
               private alertCtrl: AlertController,
-              private toastCtrl: ToastController) { }
+              private toastCtrl: ToastController,
+              private tokenCrud: UsersCrudService) { }
 
   initPush() {
     if (Capacitor.getPlatform() !== 'web') {
@@ -47,7 +49,9 @@ export class FcmService {
       console.log('Push registration success, token: ' + token.value);
       // const header = 'Registrado en la aplicación';
       // this.presentAlert (header, token);
+      this.tokenCrud.StorageTokenInCollection(token.value);
       this.presentToast('Token registered:' + token.value);
+
     });
 
     PushNotifications.addListener('registrationError', (error: any) => {
