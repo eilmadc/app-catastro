@@ -1,7 +1,7 @@
 //
 //
 import { Component, OnInit, Input } from '@angular/core';
-import { ActionSheetController, AlertController } from '@ionic/angular';
+import { ActionSheetController, AlertController, MenuController } from '@ionic/angular';
 
 import { CamaraService } from 'src/app/shared/services/camara.service';
 import { CatastroService } from 'src/app/shared/services/catastro/catastro.service';
@@ -26,7 +26,8 @@ export class CamaraPage implements OnInit {
     constructor(    public actionSheetController: ActionSheetController,
                     public alertController: AlertController,
                     public camaraServicio: CamaraService,
-                    public catastroServicio: CatastroService) { }   
+                    public catastroServicio: CatastroService,
+                    private menuCtrl:MenuController) { }   
 
     //
     async ngOnInit() {
@@ -146,4 +147,9 @@ export class CamaraPage implements OnInit {
         //const { role } = await alert.onDidDismiss();
         //console.log('onDidDismiss resolved with role', role);
     }
+
+    ionViewWillEnter() {
+        this.menuCtrl.enable(true);
+        this.menuCtrl.swipeGesture(true);
+      }
 }

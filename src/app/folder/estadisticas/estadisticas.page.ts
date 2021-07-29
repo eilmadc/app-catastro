@@ -7,6 +7,7 @@ Chart.register(...registerables);
 import { CatastroService } from '../../shared/services/catastro/catastro.service';
 import { IPeticionesPorAno } from '../../shared/interfaces/estadisticas.modelo';
 import { IMarkilo } from '../../shared/interfaces/catastro.modelos';
+import { MenuController } from '@ionic/angular';
 
 //
 //
@@ -33,7 +34,16 @@ export class EstadisticasPage implements OnInit, AfterViewInit {
     public iPeticionesPorAno: IPeticionesPorAno[];
 
     //
-    constructor(    private catastroServicio: CatastroService) { }
+    constructor(    
+        private catastroServicio: CatastroService,
+        private menuCtrl: MenuController
+        ) { }
+
+    //Control Toggle Menu con MenuController
+    ionViewWillEnter() {
+        this.menuCtrl.enable(true);
+        this.menuCtrl.swipeGesture(true);
+      }
 
     //
     async ngOnInit() {
