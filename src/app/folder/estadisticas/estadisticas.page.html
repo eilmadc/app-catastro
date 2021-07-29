@@ -1,9 +1,48 @@
+<!--
+
+    folder/estadisticas
+
+-->
 <ion-header>
-  <ion-toolbar>
-    <ion-title>estadisticas</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false" ></ion-menu-button>
+            <ion-back-button routerLink="/folder/home" ></ion-back-button>
+            <ion-title>Estadísticas</ion-title>
+          </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-Estadisticas works!
+    <div class="ion-padding">
+
+        <ion-card>
+            <ion-card-header>
+                <ion-title>Peticiones por Año</ion-title>
+            </ion-card-header>
+            <ion-card-content>
+                <canvas id="barCanvas" #barCanvas></canvas>
+            </ion-card-content>
+        </ion-card>
+
+        <!--
+        <ion-card>
+            <ion-card-header>
+                Doughnut Chart
+            </ion-card-header>
+            <ion-card-content>
+                <canvas #doughnutCanvas></canvas>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+            <ion-card-header>
+                Line Chart
+            </ion-card-header>
+            <ion-card-content>
+                <canvas #lineCanvas></canvas>
+            </ion-card-content>
+        </ion-card>
+        -->
+    </div>
 </ion-content>

@@ -101,7 +101,6 @@ export class MapasPage implements OnInit {
               //los marcadores tienen colores distinos dependiendo de si están o no en el listado de favoritos
               icon: (data.favorito == true && showFav == true) ? favMarker : svgMarker
           });
-
             
               //Evento de click en cada marcador
             (function (marker, data) {

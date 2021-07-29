@@ -1,10 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
 import  firebase from 'firebase/app';
-import { User , Roles, UserExtended} from "../interfaces/user";
+import { User } from "../interfaces/user";
 import { Router } from "@angular/router";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { firebaseConfig } from 'src/environments/firebaseconfig';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { firebaseConfig } from '../../../environments/firebaseconfig';
 import { ToastController } from '@ionic/angular';
 import { map} from 'rxjs/operators';
@@ -28,7 +27,6 @@ export class UsersCrudService {
 /* Crear usuario en colección */
 async createUserInCollection(user){
   const currentUser = firebase.auth().currentUser;
-  console.log(firebase.firestore.FieldValue.serverTimestamp());
   this.docRef.doc(currentUser.uid).set({
     'userId' : user.uid,
     'userName': '',
@@ -50,20 +48,15 @@ async createUserInCollection(user){
 
   /*READ: Obtener datos del usuario de Firebase*/
   async getUserInfoFromCollection(){
-    return this.docRef.snapshotChanges().pipe(map(user =>{
-      console.log(user);
-      return user.map;
-    }));
-    
+    const currentUser = firebase.auth().currentUser;
+    return this.docRef.doc(currentUser.uid).valueChanges();    
   }
-  /*     const currentUser = firebase.auth().currentUser;
-    console.log(currentUser);
-    return currentUser; */
 
   /* UPLOAD: Actualizar información del usuario */
     async updateUserInCollection(username,userphone,userrol){
       const currentUser = firebase.auth().currentUser;
-      this.docRef.doc(currentUser.uid).set({
+      console.log(currentUser)
+      this.docRef.doc(currentUser.uid).update({
         'userName': username,
         'userPhone': userphone,
         'userrol' : userrol,
@@ -71,6 +64,18 @@ async createUserInCollection(user){
       console.log('Current User: ',currentUser);
     }
 
+/* DELETE: Borrar el usuario de la colección y Firebase */
+delete ( id ){
+  
+  const currentUser = firebase.auth().currentUser;
+  currentUser.delete().then(()=>{
+    this.afStore.doc('users/'+ id).delete();
+    this.toast("Usuario borrado de la app.", "warning");
+    this.router.navigate(['login']);
+  }).catch((error) => {
+    this.toast(error, "danger");
+  });
+}
   /**
    * Metodo para mostrar mensajes pasados por parametros en un Toast
    * @param mensaje 
@@ -86,5 +91,17 @@ async createUserInCollection(user){
     });
     toast.present();
   }
+
+
+/* Crear token en colección */
+async StorageTokenInCollection(token){
+  const currentUser = firebase.auth().currentUser;
+  const docRef = this.afStore.collection('tokens');
+  this.docRef.doc(currentUser.uid).set({
+    'userId' : currentUser.uid,
+    'token': token,
+    'userEmail': currentUser.email
+  })
+}
 
 }

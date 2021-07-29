@@ -2,7 +2,7 @@
 //
 import { isDevMode } from '@angular/core';
 import { Component, OnInit, Input, ComponentRef } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { MenuController, ModalController } from '@ionic/angular';
 
 import { CamaraService } from 'src/app/shared/services/camara.service';
 import { CatastroService } from '../../shared/services/catastro/catastro.service';
@@ -35,7 +35,14 @@ export class FavoritosPage implements OnInit {
     //
     constructor(private catastro: CatastroService,
                 public modalController: ModalController,
-                public camaraServicio: CamaraService) { }
+                public camaraServicio: CamaraService,
+                private menuCtrl: MenuController) { }
+
+    /* Control del toggle menu con MenuController */
+    ionViewWillEnter() {
+        this.menuCtrl.enable(true);
+        this.menuCtrl.swipeGesture(true);
+    }
 
     //
     async ngOnInit() {

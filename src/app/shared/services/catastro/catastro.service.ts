@@ -110,7 +110,9 @@ export class CatastroService {
 
     /*
         Devuelve el Markilo que responde a |referenciaCatastral| en |this.markilos|.
+
         @param  {string} referenciaCatastral, responde a uno de los Markilos de la colección markilos.
+
         @return {Markilo}, rtnMarkilo ... con la |referenicaCatastral| solicitada.
     */
     markiloGet(referenciaCatastral: string): IMarkilo {
@@ -130,6 +132,7 @@ export class CatastroService {
 
     /*
         Salva el |markilo| en |this.markilos| y en LocalStorage, si existe lo reeemplaza y sino lo reescribe.
+
         @param {Markilo}, markilo a salvar.
     */
     async markiloSet(markilo: IMarkilo) {
@@ -167,6 +170,7 @@ export class CatastroService {
 
     /*
         Salva la colección de |this.markilos| a localStorage, LS.
+
         // TODO
         // recordar de hacerlo de firebase si es firebase donde se guardan.
     */
@@ -182,6 +186,7 @@ export class CatastroService {
 
     /* 
         Carga la coleccion de Markilos registrados en localStorage a this.markilos.
+
         // TODO
         // recordar de hacerlo de firebase si es firebase donde se guardan.
     */
@@ -221,7 +226,9 @@ export class CatastroService {
     /* 
         Deuelve una matriz con los IInmuebles encontrados en el |modeloCatastral| llegado, (IParcela|IInumueble). Si |modeloCatastral| es ya un Inmueble
         lo devuelve como unico elemento de la matriz, y si es una (IParcela) consulta en el catastro y devuelve todos los Inmueble's que tenga la Parcela.
+
         @param  {(IParcela|IInumueble)} modeloCatastral para extraer los IInumuebles
+
         @return {Array}, arrInmuebles
     */
     async getInmuebles(ModeloCatastral: any): Promise<any> {
@@ -247,6 +254,7 @@ export class CatastroService {
 
     /* 
         Deuelve un boolean si el |ModeloCatastral| llegado, (IParcela|IInumueble), es una IParcela.
+
         @param  {(IParcela|IInumueble)} modeloCatastral a examinar
         
         @return {boolean},  true si lo es y 
@@ -307,6 +315,7 @@ export class CatastroService {
                     </coordd>
                 </coordenadas_distancias>
             </consulta_coordenadas_distancias>
+
         @param  {number} latitud, responde a la coordenada de la latitud
         @param  {number} longitud, responde a la coordenada de longitud
  
@@ -356,8 +365,10 @@ export class CatastroService {
                     </err>
                 </lerr>
             </consulta_coordenadas>
+
         @param  {number} latitud, responde a la coordenada de la latitud
         @param  {number} longitud, responde a la coordenada de longitud
+
         @return IReturnReferenciaCatastral {
                     {number} numEstado (-1|0|>0) =-1 se ha producido un error, =0 no hay nada en esa posicion, =1 con la referencia y >0 no se espera.
                     {string} strReferenciaCatastral, si fue un exito concatena 'pc1' + 'pc1'. Que responden solo a la Parcela, no al Inmueble.
@@ -401,6 +412,7 @@ export class CatastroService {
 
     /*
         Según el |recurso| seleccionado se devolvera un |xmlDocument|, ver los detalles en las funciones correspondientes.
+
         @param  {string} recurso, cual de los dos recursos vamos a querer la información; (['RCCOOR']|'RCCOOR_Distancia')
         @param  {number} longitud, responde a la coordenada de longitud
         @param  {number} latitud, responde a la coordenada de la latitud
@@ -530,6 +542,7 @@ export class CatastroService {
                     </lspr>
                 </bico>
             </consulta_dnp>
+
         @goTo   _getCatastroDNPRC()
     */
     async getDNPRC(referenciaCatastral: string): Promise<any> {
@@ -539,8 +552,10 @@ export class CatastroService {
     
     /*
         Según el |recurso| seleccionado proporcionara ver los detalles en las funciones correspondientes.
+
         @param  {string} recurso, cual de los dos recursos vamos a querer la información; (['DNPRC']|)
         @param  {string} prmReferenciaCatastral, cadena que se forma con pc1 + pc2 
+
         @return IReturnModeloCatastro {
                     {number} numInmuebles, número de inmuebles de los que se proporcionan datos, cuando "cudnp" es [1, >1]
                     {(Inmueble|IParcela)} modeloCatastro es uno de los dos objetos según la situación cuando cudnp(=1, >1)
@@ -601,6 +616,7 @@ export class CatastroService {
         Hoy conocemos 3 tipos de diferentes de respuestas; las que responden a una Parcela, IParcela, las que responden a un Inmueble, IInmueble, y 
         las que responden a un Error, IParcela con los datos en blanco.
         En cualquier caso, despues de manipularlo devolvera la información apropiadamente en un objeto; IReturnModeloCatastro. 
+
         @param  {XMLDocument} xmlDoc es el XML del que partimos para extraer la información
         
         @return IReturnModeloCatastro { 
