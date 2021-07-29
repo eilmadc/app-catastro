@@ -66,9 +66,10 @@ async createUserInCollection(user){
 
 /* DELETE: Borrar el usuario de la colección y Firebase */
 delete ( id ){
-  this.afStore.doc('users/'+ id).delete();
+  
   const currentUser = firebase.auth().currentUser;
   currentUser.delete().then(()=>{
+    this.afStore.doc('users/'+ id).delete();
     this.toast("Usuario borrado de la app.", "warning");
     this.router.navigate(['login']);
   }).catch((error) => {
