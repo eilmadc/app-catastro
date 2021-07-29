@@ -4,10 +4,13 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 
+//WebCatastro navegador App.
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 //Firebase Authentication
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 //Componentes de Login, Perfil de usuario.
@@ -31,8 +34,7 @@ import { WebcatastroPageModule} from './folder/webcatastro/webcatastro.module'
 import { FavoritosPageModule } from './folder/favoritos/favoritos.module';
 import { MicuentaPageModule } from './folder/micuenta/micuenta.module';
 
-//WebCatastro navegador App.
-import { InAppBrowser } from '@ionic-native/in-app-browser';
+
 
 // Acceder a Catastro
 import { HttpClientModule } from '@angular/common/http';
@@ -43,18 +45,21 @@ import { FormsModule } from '@angular/forms';
 
 //Enviroments
 import { firebaseConfig } from '../environments/firebaseconfig'; 
+import { environment } from "../environments/environment";
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { UsersCrudService } from './shared/services/users-crud.service';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   entryComponents: [],
-  imports: [BrowserModule,
+  imports: [
+      BrowserModule,
       IonicModule.forRoot(),
       AppRoutingModule,
+      AngularFireModule.initializeApp(firebaseConfig),
       AngularFireAuthModule,
-      AngularFireDatabaseModule,
       AngularFirestoreModule,
       HomePageModule,
       MapasPageModule,
@@ -74,10 +79,11 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
       FormsModule,
     ],
   providers: [
-    AngularFirestoreModule,
     AuthenticationService,
+    UsersCrudService,
     StatusBar,
       { provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }, 
+      InAppBrowser,
   ],
   bootstrap: [AppComponent],
 })

@@ -3,7 +3,7 @@ import  firebase from 'firebase/app';
 import { User } from "../interfaces/user";
 import { Router } from "@angular/router";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { firebaseConfig } from '../../../environments/firebaseconfig';
 import { ToastController } from '@ionic/angular';
 import { map} from 'rxjs/operators';

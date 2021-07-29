@@ -26,7 +26,7 @@ export class MyCanActivate implements CanActivate {
       return true;
     } else {
       this.router.navigate(['/login']);
-      this.authenticationService.toast("Por favor, inicia sesión","warning");
+      this.authenticationService.toast("Por favor, inicia sesión en la APP","warning");
       return false;
     };
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { AuthenticationService} from '../../shared/services/authentication.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -12,7 +13,7 @@ export class LoginPage {
   constructor(
     public as: AuthenticationService,
     public router: Router,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
   ) { }
 
   ionViewWillEnter() {
