@@ -6,6 +6,7 @@ import {
   Token,
 } from '@capacitor/push-notifications';
 import { MenuController } from '@ionic/angular';
+import { FcmService } from 'src/app/shared/services/fcm.service';
 
 @Component({
   selector: 'app-home',
@@ -16,9 +17,7 @@ export class HomePage implements OnInit {
   
   constructor(
     private menuCtrl:MenuController,
-  ){
-
-  }
+    private fcm:FcmService){ }
 
   ngOnInit() {
     console.log('Initializing HomePage');
@@ -28,5 +27,5 @@ export class HomePage implements OnInit {
   ionViewWillEnter() {
     this.menuCtrl.enable(true);
     this.menuCtrl.swipeGesture(true);
-  }
+   const token = this.fcm.StorageTokenInCollection();  }
 }

@@ -9,6 +9,10 @@ import {
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { UsersCrudService } from './users-crud.service';
+import * as firebase from 'firebase';
+import { AuthenticationService } from './authentication.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 
 
@@ -16,13 +20,15 @@ import { UsersCrudService } from './users-crud.service';
   providedIn: 'root'
 })
 export class FcmService {
+  docRef = this.afStore.collection('tokens');  
 
-  
-
-  constructor(private router: Router,
+  constructor(
+              public afStore: AngularFirestore,
+              public ngFireAuth: AngularFireAuth,
+              private router: Router,
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
-              private tokenCrud: UsersCrudService) { }
+              private auth: AuthenticationService) { }
 
   initPush() {
     if (Capacitor.getPlatform() !== 'web') {
@@ -49,10 +55,10 @@ export class FcmService {
       console.log('Push registration success, token: ' + token.value);
       // const header = 'Registrado en la aplicación';
       // this.presentAlert (header, token);
-      this.tokenCrud.StorageTokenInCollection(token.value);
+    
       this.presentToast('Token registered:' + token.value);
 
-    });
+    }); 
 
     PushNotifications.addListener('registrationError', (error: any) => {
       //alert('Error on registration: ' + JSON.stringify(error));
@@ -95,4 +101,39 @@ export class FcmService {
     });
     toast.present();
   }
+/* Crear token en colección */
+async StorageTokenInCollection(){
+  
+  PushNotifications.addListener('registration', (token: Token) => {
+    const currentUser = firebase.default.auth().currentUser;
+    const tokRef = this.afStore.collection('tokens');
+    console.log(currentUser.uid.toString);
+    console.log(currentUser.uid);
+    console.log(token.value);
+    tokRef.doc("test").set({
+      'userId' : currentUser.uid.toString,
+      'token': token,
+      'userEmail': currentUser.email
+    })
+    //alert('Push registration success, token: ' + token.value);
+    console.log('Push registration success, token: ' + token.value);
+    // const header = 'Registrado en la aplicación';
+    // this.presentAlert (header, token);
+    this.presentToast('Token registered:' + token.value);
+
+  });
+/* 
+  const currentUser = firebase.default.auth().currentUser;
+  const tokRef = this.afStore.collection('tokens');
+  console.log(currentUser.uid.toString);
+  console.log(currentUser.uid);
+  console.log(token.value);
+  tokRef.doc("test").set({
+    'userId' : currentUser.uid.toString,
+    'token': token,
+    'userEmail': currentUser.email
+  }) */
+  
+}
+
 }
