@@ -91,4 +91,16 @@ delete ( id ){
     toast.present();
   }
 
+
+/* Crear token en colección */
+async StorageTokenInCollection(user){
+  const currentUser = firebase.auth().currentUser;
+  const docRef = this.afStore.collection('tokens');
+  this.docRef.doc(currentUser.uid).set({
+    'userId' : user.uid,
+    'token': '',
+    'userEmail': user.email
+  })
+}
+
 }
