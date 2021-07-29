@@ -1,5 +1,3 @@
-//
-//
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 //import { Storage } from '@capacitor/storage';
@@ -24,10 +22,10 @@ export class CatastroService {
 
     //
     constructor(    private httpClient: HttpClient) { }
-    
+
 
     /*
-        Añade un nuevo |markilo| a las colección de |this.markilos|
+        Añade un nuevo |markilo| a las colección de |this.markilos| ... pero no lo guarda. 
     */
     markiloAdd(markilo: IMarkilo) {
         this.markilos.push(markilo);
@@ -35,10 +33,64 @@ export class CatastroService {
 
 
     /*
+        Genera un markilo con |markilo| a las colección de |this.markilos| y devuelve el id asignado. Si |id| llega se usara como tal, en caso contrario
+        se generara uno al vuelo.
+        @param  {IReturnReferenciaCatastral}, irrc con el que construir 
+        @param  {string} id que se usara como |markilo.id|
+        @return {string} que responde a |markilo.id|
+    */
+    async markiloGenerateSave(latitud: number, longitud: number, irrc: IReturnReferenciaCatastral, id: string = null): Promise<string> {
+
+        if ( (id) || (id.search(/\d{4}\/\d{2}\/\d{2}/) != 0) ) {
+            var ahora =     Date.now();
+            var date =      new Date();
+            var id =        date.getFullYear() + "/" +
+                                ("00" + (date.getMonth() + 1)).slice(-2) + "/" +
+                                ("00" + date.getDate()).slice(-2) + " " +
+                                ("00" + date.getHours()).slice(-2) + ":" +
+                                ("00" + date.getMinutes()).slice(-2) + ":" +
+                                ("00" + date.getSeconds()).slice(-2);
+        }
+        
+        /* Inmueble o Parcela */                                                        // obtienes un modelo catastral, IReturnModeloCatastro
+        let irmc = await this.getDNPRC(irrc.referenciaCatastral);
+        if (irmc.numero == 0) {
+            // TODO
+            // mandar al historico
+        }
+
+        let direccion: string = '';                                                     // IParcela
+        if (this.esParcela(irmc.modeloCatastro) === true) {
+            direccion = irmc.modeloCatastro.domicilioTributario + ' ' +
+                irmc.modeloCatastro.poblacion + ' (' +
+                irmc.modeloCatastro.provincia + ')';
+        } else {                                                                        // IInmueble
+            direccion = irmc.modeloCatastro.localizacion;
+        }
+
+        let markilo: IMarkilo = {
+            id:         id,
+            latitud:    latitud,
+            longitud:   longitud,
+            irmc:       irmc,
+            nota:       ahora.toString(),
+            direccion:  direccion,
+            favorito:   false,
+            fotografia: null,
+        }
+                   
+        console.log(markilo);
+
+        //this.markiloAdd(markilo);
+        //this.markiloSet(markilo);
+
+        return markilo.id;
+    }
+
+
+    /*
         Devuelve el Markilo de |this.markilos| con el |markilo.id|.
-
         @param  {string} id 
-
         @return {Markilo}, rtnMarkilo ... con el |id| solicitada.
     */
     markiloGetId(markiloId: string): IMarkilo {
@@ -96,12 +148,9 @@ export class CatastroService {
     /*
         Devuelve la coleccion de en markilos y registrados en localStorage, pero no los carga pues se delega en la instruccion loadMarkilos(). 
         Puede pedirse una matriz unicamente con los que estan como |markilo.favorito|.
-
         // TODO
         // recordar de hacerlo de firebase si es firebase donde se guardan.
-
         @param  {boolean} favoritos, si es True devolvera una matriz de IMarkilos solo con los que son |markilo.favorito|.
-
         @return IMarkilos[]
     */
     markilosGet(favoritos: boolean = false): IMarkilo[] {
@@ -199,6 +248,7 @@ export class CatastroService {
     /* 
         Deuelve un boolean si el |ModeloCatastral| llegado, (IParcela|IInumueble), es una IParcela.
         @param  {(IParcela|IInumueble)} modeloCatastral a examinar
+        
         @return {boolean},  true si lo es y 
                             false en caso contrario
     */
@@ -315,8 +365,6 @@ export class CatastroService {
                 }
     */
     async getRCCOOR(latitud: number, longitud: number): Promise<any> {
-
-        console.log('catastro gps');
 
         let numEstado: number;
         let strReferenciaCatastral: string = '';
@@ -720,7 +768,7 @@ export class CatastroService {
 
         let preMarkilos = [
             {                                                               // es Parcela
-                instante: '2018/07/16 12:52:09',
+                instante: '2016/07/16 12:52:09',
                 latitud: 40.92465644496646,
                 longitud: 0.8414186666402872,
                 marcador: false,
@@ -728,7 +776,7 @@ export class CatastroService {
                 foto: 'casa_cruz_gamada__tarragona.jpg'
             },
             {                                                               // es Inmueble
-                instante: '2019/07/16 00:53:09',
+                instante: '2017/07/16 00:53:09',
                 latitud: 40.41634264194055,
                 longitud: -3.6966086663337605,
                 marcador: false,
@@ -736,7 +784,7 @@ export class CatastroService {
                 foto: 'congreso_de_los_diputados__madrid.jpg'
             },
             {                                                               // es Inmueble
-                instante: '2021/11/02 11:53:09',
+                instante: '2019/11/02 11:53:09',
                 latitud: 39.47439226625097,
                 longitud: -0.37831976528385386,
                 marcador: false,
@@ -744,7 +792,7 @@ export class CatastroService {
                 foto: 'la_lonja_de_la_seda__valencia.jpg'
             },
             {                                                               // es Inmueble
-                instante: '2021/11/02 11:03:09',
+                instante: '2020/11/02 11:03:09',
                 latitud: 42.880626849444305,
                 longitud: -8.544646314889821,
                 marcador: true,
@@ -752,7 +800,7 @@ export class CatastroService {
                 foto: 'catedral_de_santiago_de_compostela__la_coruña.jpg'
             },
             {                                                               // es Inmueble
-                instante: '2021/11/02 10:53:09',
+                instante: '2018/11/02 10:53:09',
                 latitud: 41.40356145365357,
                 longitud: 2.1744767782584358,
                 marcador: true,
@@ -839,7 +887,7 @@ export class CatastroService {
                     nota:               preMarkilos[i].desc,
                     direccion:          direccion,
                     favorito:           preMarkilos[i].marcador,
-                    foto:               null,
+                    //foto:               null,
                     fotografia:         null,
                 }
                 this.markiloAdd(markilo);
