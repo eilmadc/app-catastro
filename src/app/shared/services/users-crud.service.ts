@@ -93,13 +93,13 @@ delete ( id ){
 
 
 /* Crear token en colección */
-async StorageTokenInCollection(user){
+async StorageTokenInCollection(token){
   const currentUser = firebase.auth().currentUser;
   const docRef = this.afStore.collection('tokens');
   this.docRef.doc(currentUser.uid).set({
-    'userId' : user.uid,
-    'token': '',
-    'userEmail': user.email
+    'userId' : currentUser.uid,
+    'token': token,
+    'userEmail': currentUser.email
   })
 }
 
