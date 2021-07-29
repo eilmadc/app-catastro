@@ -10,12 +10,14 @@ import { FolderPage } from './folder.page';
 import { HomePageModule } from './home/home.module';
 import { MapasPageModule } from './mapas/mapas.module';
 import { ListadoPageModule } from './listado/listado.module';
-import { ConsultasPageModule } from './consultas/consultas.module';
 import { CamaraPageModule } from './camara/camara.module';
 import { ContactoPageModule } from './contacto/contacto.module';
 import { AboutusPageModule } from './aboutus/aboutus.module';
 import { WebcatastroPageModule } from './webcatastro/webcatastro.module';
 import { FavoritosPageModule } from './favoritos/favoritos.module';
+import { EstadisticasPageModule } from './estadisticas/estadisticas.module';
+import { MicuentaPageModule } from './micuenta/micuenta.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -26,12 +28,14 @@ import { FavoritosPageModule } from './favoritos/favoritos.module';
     HomePageModule,
     MapasPageModule,
     ListadoPageModule,
-    ConsultasPageModule,
     CamaraPageModule,
     ContactoPageModule,
     AboutusPageModule,
     WebcatastroPageModule,
     FavoritosPageModule,
+    EstadisticasPageModule,
+    MicuentaPageModule,
+    HttpClientModule 
   ],
   declarations: [FolderPage]
 })

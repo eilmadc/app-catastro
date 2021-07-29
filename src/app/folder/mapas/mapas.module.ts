@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
 
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -15,13 +14,15 @@ import { MapasPage } from './mapas.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 
+import { CatastroService } from '../../shared/services/catastro/catastro.service';
+
+import { ListadoPage } from '../listado/listado.page'
+
 @NgModule({
   declarations: [MapasPage],
   imports: [
     IonicModule.forRoot(),
     CommonModule,
-    // FormsModule,
-    // IonicModule,
     MapasPageRoutingModule
   ],
   providers: [
@@ -29,28 +30,9 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
     SplashScreen,
     Geolocation,
     NativeGeocoder,
+    CatastroService,
+    ListadoPage,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ]
 })
 export class MapasPageModule {}
-
-// import { NgModule } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-
-// import { IonicModule } from '@ionic/angular';
-
-// import { MapasPageRoutingModule } from './mapas-routing.module';
-
-// import { MapasPage } from './mapas.page';
-
-// @NgModule({
-//   imports: [
-//     CommonModule,
-//     FormsModule,
-//     IonicModule,
-//     MapasPageRoutingModule
-//   ],
-//   declarations: [MapasPage]
-// })
-// export class MapasPageModule {}

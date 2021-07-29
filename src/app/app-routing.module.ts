@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { MyCanActivate } from './shared/guards/session.guard';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
-    path: 'folder', 
+    path: 'folder', canActivate: [MyCanActivate],
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./components/login/registration/registration.module').then( m => m.RegistrationPageModule)
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./components/login/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   },
   {
     path: 'parcela',
@@ -31,6 +36,14 @@ const routes: Routes = [
   {
     path: 'mapa',
     loadChildren: () => import('./shared/pages/mapa/mapa.module').then( m => m.MapaPageModule)
+  },
+  {
+    path: 'test',
+    loadChildren: () => import('./components/test/test.module').then( m => m.TestPageModule)
+  },
+  {
+    path: 'foto',
+    loadChildren: () => import('./shared/pages/foto/foto.module').then( m => m.FotoPageModule)
   }
 ];
 

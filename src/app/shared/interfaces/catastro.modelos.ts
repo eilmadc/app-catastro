@@ -21,13 +21,15 @@
                 }
 */
 
+import { IFoto } from "./foto.modelo";
+
 /*
     Modelo de Datos usado para contener la respuesta a las peticiones por Coordendas. 
 */
 export interface IReturnReferenciaCatastral {
     numero: number,                     // =-1 se ha producido un error, =0 no hay nada en esa posicion, =1 con la referencia y >0 no se espera.
     referenciaCatastral: string,        // 
-    xml: XMLDocument                    //
+    xml: XMLDocument,              //
 }
 
 /*
@@ -36,7 +38,7 @@ export interface IReturnReferenciaCatastral {
 export interface IReturnModeloCatastro {
     numero: number,                     // número de inmuebles; 0=error, =1 es Inmueble, >1 es Parcela
     modeloCatastro: any,                // (IParcela|IInmueble)
-    xml: XMLDocument                    //
+    xml: XMLDocument,            //
 }
 
 /*
@@ -49,8 +51,11 @@ export interface IMarkilo {
     irmc:                   IReturnModeloCatastro,              // 
     nota:                   string,                             // nota del usuario para identificar la petición
     direccion:              string,                             // IParcela.domicilioTributario && IInmueble.localizacion
-    favorito:               boolean
+    favorito:               boolean,
+    foto?:                  IFoto,                              // puede albergar una foto ... o quizas la uri
+    fotografia:             string,                             // 
 }
+
 
 /*º
     Inmueble.
@@ -111,7 +116,7 @@ export interface IInmueble {
     superficieConstruida:       number,                 // /bico/bi/debi/sfc                            // superficie en m2
     anoConstruccion:            number,                 // /bico/bi/debi/ant                            // año de construccion, aqui es la antiguedad
     inmuebleParcela:            IInmuebleParcela,       //
-    inmuebleConstruccion:       IInmuebleConstruccion[] //
+    inmuebleConstruccion:       IInmuebleConstruccion[],
 }
 
 interface IInmuebleParcela {
@@ -179,7 +184,7 @@ export interface IParcela {
                                                 // /lrcdnp/rcdnp[0]/lous/lourb/dir/pnp
     poblacion: string,                          // /lrcdnp/rcdnp[0]/dt/nm
     provincia: string,                          // /lrcdnp/rcdnp[0]/dt/np
-    parcelaInmuebles: IParcelaInmuebles[]
+    parcelaInmuebles: IParcelaInmuebles[],
 }
 
 /* */

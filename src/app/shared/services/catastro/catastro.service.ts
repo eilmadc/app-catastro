@@ -2,6 +2,7 @@
 //
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+//import { Storage } from '@capacitor/storage';
 
 import {    IParcela, IParcelaInmuebles,
             IInmueble, IInmuebleConstruccion,
@@ -23,6 +24,7 @@ export class CatastroService {
 
     //
     constructor(    private httpClient: HttpClient) { }
+    
 
     /*
         Añade un nuevo |markilo| a las colección de |this.markilos|
@@ -33,10 +35,30 @@ export class CatastroService {
 
 
     /*
+        Devuelve el Markilo de |this.markilos| con el |markilo.id|.
+
+        @param  {string} id 
+
+        @return {Markilo}, rtnMarkilo ... con el |id| solicitada.
+    */
+    markiloGetId(markiloId: string): IMarkilo {
+
+        let rtnMarkilo: IMarkilo;
+
+        for (var i = 0; i < this.markilos.length; i++) {
+            if (this.markilos[i].id == markiloId) {
+                rtnMarkilo = this.markilos[i]
+                break;
+            }
+        }
+
+        return rtnMarkilo;
+    }
+
+
+    /*
         Devuelve el Markilo que responde a |referenciaCatastral| en |this.markilos|.
-
         @param  {string} referenciaCatastral, responde a uno de los Markilos de la colección markilos.
-
         @return {Markilo}, rtnMarkilo ... con la |referenicaCatastral| solicitada.
     */
     markiloGet(referenciaCatastral: string): IMarkilo {
@@ -56,16 +78,15 @@ export class CatastroService {
 
     /*
         Salva el |markilo| en |this.markilos| y en LocalStorage, si existe lo reeemplaza y sino lo reescribe.
-
         @param {Markilo}, markilo a salvar.
     */
-    markiloSet(markilo: IMarkilo) {
+    async markiloSet(markilo: IMarkilo) {
 
-        localStorage.setItem(   markilo.id, JSON.stringify(markilo));
+        await localStorage.setItem(markilo.id, JSON.stringify(markilo));
 
         for (var i = 0; i < this.markilos.length; i++) {
             if  ( this.markilos[i].id == markilo.id ) {
-                this.markilos[i].id = markilo.id;
+                this.markilos[i].id =  await markilo.id;
                 break;
             }
         }
@@ -97,13 +118,12 @@ export class CatastroService {
 
     /*
         Salva la colección de |this.markilos| a localStorage, LS.
-
         // TODO
         // recordar de hacerlo de firebase si es firebase donde se guardan.
     */
-    async markilosSaveLS() {
+    async markilosSave() {
 
-        await this.markilosClearLS();
+        await this.markilosClear();
 
         for (var i = 0; i< this.markilos.length; i++) {
             await localStorage.setItem(this.markilos[i].id, JSON.stringify(this.markilos[i]));
@@ -113,11 +133,10 @@ export class CatastroService {
 
     /* 
         Carga la coleccion de Markilos registrados en localStorage a this.markilos.
-
         // TODO
         // recordar de hacerlo de firebase si es firebase donde se guardan.
     */
-    async markilosLoadLS() {
+    async markilosLoad() {
 
         this.markilos = [];
 
@@ -125,11 +144,12 @@ export class CatastroService {
         for (var i = 0; i < localStorage.length; i++) {
 
             let k = localStorage.key(i);            
-            if (k.search(/\d{2}\/\d{2}\/\d{4}/) == 0 ) {
+            if (k.search(/\d{4}\/\d{2}\/\d{2}/) == 0 ) {
                 let mkl: IMarkilo = await JSON.parse(localStorage.getItem(k));
                 this.markilos.push(mkl);
             }
         }
+        this.markilos.sort((a, b) => b.id.localeCompare(a.id));
     }
 
 
@@ -139,10 +159,10 @@ export class CatastroService {
         // TODO
         // recordar de hacerlo de firebase si es firebase donde se guardan.
     */
-    async markilosClearLS() {
+    async markilosClear() {
         for (var i = 0; i < localStorage.length; i++) {
             let k = localStorage.key(i);
-            if (k.search(/\d{2}\/\d{2}\/\d{4}/) == 0) {
+            if (k.search(/\d{4}\/\d{2}\/\d{2}/) == 0) {
                 localStorage.removeItem(k);
             }
         }
@@ -152,9 +172,7 @@ export class CatastroService {
     /* 
         Deuelve una matriz con los IInmuebles encontrados en el |modeloCatastral| llegado, (IParcela|IInumueble). Si |modeloCatastral| es ya un Inmueble
         lo devuelve como unico elemento de la matriz, y si es una (IParcela) consulta en el catastro y devuelve todos los Inmueble's que tenga la Parcela.
-
         @param  {(IParcela|IInumueble)} modeloCatastral para extraer los IInumuebles
-
         @return {Array}, arrInmuebles
     */
     async getInmuebles(ModeloCatastral: any): Promise<any> {
@@ -180,9 +198,7 @@ export class CatastroService {
 
     /* 
         Deuelve un boolean si el |ModeloCatastral| llegado, (IParcela|IInumueble), es una IParcela.
-
         @param  {(IParcela|IInumueble)} modeloCatastral a examinar
-
         @return {boolean},  true si lo es y 
                             false en caso contrario
     */
@@ -198,7 +214,6 @@ export class CatastroService {
         en dichas coordenadas, y se devolverá la lista de referencias catastrales encontradas en dicha área.
         + La url es "http://ovc.catastro.meh.es/ovcservweb/OVCSWLocalizacionRC/OVCCoordenadas.asmx/Consulta_RCCOOR_Distancia"
         + Y la estructura que devuelve es;
-
             ----- Si todo ha ido bien
             <consulta_coordenadas_distancias>
                 <control>
@@ -242,7 +257,6 @@ export class CatastroService {
                     </coordd>
                 </coordenadas_distancias>
             </consulta_coordenadas_distancias>
-
         @param  {number} latitud, responde a la coordenada de la latitud
         @param  {number} longitud, responde a la coordenada de longitud
  
@@ -258,14 +272,12 @@ export class CatastroService {
         ese punto así como el domicilio (municipio, calle y número o polígono, parcela y municipio).
         + La url es; http://ovc.catastro.meh.es/ovcservweb/OVCSWLocalizacionRC/OVCCoordenadas.asmx?op=Consulta_RCCOOR
         + Y la estructura que devuelve es;
-
             ----- Si hay algo en las coordenadas indicadas.
             <consulta_coordenadas>
                 <control>
                     <cucoor>NÚMERO DE ITEMS EN LA LISTA COORDENADAS</cucoor>    // entiendo que solo puede ser =1
                     <cuerr>NÚMERO DE ITEMS EN LA LISTA DE ERRORES</cuerr>       // ?
                 </control>
-
                 <coordenadas>LISTA DE COORDENADAS
                     <coord>COORDENADA
                         <pc>REFERENCIA CATASTRAL
@@ -281,7 +293,6 @@ export class CatastroService {
                     </coord>
                 </coordenadas>
             </consulta_coordenadas>
-
             ----- Si no hay nada en las coordenadas indicadas. Eg; las vias del tren.
             <consulta_coordenadas>
                 <control>
@@ -295,10 +306,8 @@ export class CatastroService {
                     </err>
                 </lerr>
             </consulta_coordenadas>
-
         @param  {number} latitud, responde a la coordenada de la latitud
         @param  {number} longitud, responde a la coordenada de longitud
-
         @return IReturnReferenciaCatastral {
                     {number} numEstado (-1|0|>0) =-1 se ha producido un error, =0 no hay nada en esa posicion, =1 con la referencia y >0 no se espera.
                     {string} strReferenciaCatastral, si fue un exito concatena 'pc1' + 'pc1'. Que responden solo a la Parcela, no al Inmueble.
@@ -306,6 +315,8 @@ export class CatastroService {
                 }
     */
     async getRCCOOR(latitud: number, longitud: number): Promise<any> {
+
+        console.log('catastro gps');
 
         let numEstado: number;
         let strReferenciaCatastral: string = '';
@@ -324,7 +335,7 @@ export class CatastroService {
             numEstado = -1
 
         } else {                                                                                                // un error inesperado ... hay que auditar el xml
-            alert('getRCCOOR ... esto no se esperaba !')
+            console.log('Se ha producido un error; getRCCOOR()')
             numEstado = -1
             // TODO
             /* tendria que volcarse al log.ERR */
@@ -342,7 +353,6 @@ export class CatastroService {
 
     /*
         Según el |recurso| seleccionado se devolvera un |xmlDocument|, ver los detalles en las funciones correspondientes.
-
         @param  {string} recurso, cual de los dos recursos vamos a querer la información; (['RCCOOR']|'RCCOOR_Distancia')
         @param  {number} longitud, responde a la coordenada de longitud
         @param  {number} latitud, responde a la coordenada de la latitud
@@ -409,9 +419,7 @@ export class CatastroService {
         inmueble por su referencia catastral.
         + La url es https://ovc.catastro.meh.es/ovcservweb/OVCSWLocalizacionRC/OVCCallejero.asmx?op=Consulta_DNPRC"
         + Y la estructura que devuelve sera si el inmueble existe;
-
             ----- aqui hay otro tipo de estructura de datos cuando fracasa pero no se detalla pq solo se llama sobre seguro.
-
             ----- Si todo va bien 
             <consulta_dnp>
                 <control>
@@ -474,7 +482,6 @@ export class CatastroService {
                     </lspr>
                 </bico>
             </consulta_dnp>
-
         @goTo   _getCatastroDNPRC()
     */
     async getDNPRC(referenciaCatastral: string): Promise<any> {
@@ -484,10 +491,8 @@ export class CatastroService {
     
     /*
         Según el |recurso| seleccionado proporcionara ver los detalles en las funciones correspondientes.
-
         @param  {string} recurso, cual de los dos recursos vamos a querer la información; (['DNPRC']|)
         @param  {string} prmReferenciaCatastral, cadena que se forma con pc1 + pc2 
-
         @return IReturnModeloCatastro {
                     {number} numInmuebles, número de inmuebles de los que se proporcionan datos, cuando "cudnp" es [1, >1]
                     {(Inmueble|IParcela)} modeloCatastro es uno de los dos objetos según la situación cuando cudnp(=1, >1)
@@ -548,7 +553,6 @@ export class CatastroService {
         Hoy conocemos 3 tipos de diferentes de respuestas; las que responden a una Parcela, IParcela, las que responden a un Inmueble, IInmueble, y 
         las que responden a un Error, IParcela con los datos en blanco.
         En cualquier caso, despues de manipularlo devolvera la información apropiadamente en un objeto; IReturnModeloCatastro. 
-
         @param  {XMLDocument} xmlDoc es el XML del que partimos para extraer la información
         
         @return IReturnModeloCatastro { 
@@ -711,91 +715,99 @@ export class CatastroService {
     /*
         Genera un historico para tests que se salvaran en localStorage ... con la estructura IMarkilo
         Hay 10 elementos; 2 Parcelas, 7 Inmuebles y 1 Error. Las Parcelas tienen 2 y 4 Inmuebles; 7 + 6 = 13 Inmuebles.
-
-
     */
     async test__CrearHistorico_en_localStorage() {
 
-        let coordenadas = [
-            {
-                instante: '16/07/2018 12:52:09',
+        let preMarkilos = [
+            {                                                               // es Parcela
+                instante: '2016/07/16 12:52:09',
                 latitud: 40.92465644496646,
                 longitud: 0.8414186666402872,
                 marcador: false,
-                desc: 'Casa Cruz Gamada (Tarragona)'                        // es Parcela
+                desc: 'Casa Cruz Gamada (Tarragona)',
+                foto: 'casa_cruz_gamada__tarragona.jpg'
             },
-            {
-                instante: '16/07/2019 00:53:09',
+            {                                                               // es Inmueble
+                instante: '2017/07/16 00:53:09',
                 latitud: 40.41634264194055,
                 longitud: -3.6966086663337605,
                 marcador: false,
-                desc: 'Congreso de los Diputados (Madrid)'                  // es Inmueble
+                desc: 'Congreso de los Diputados (Madrid)',
+                foto: 'congreso_de_los_diputados__madrid.jpg'
             },
-            {
-                instante: '02/11/2021 11:53:09',
+            {                                                               // es Inmueble
+                instante: '2019/11/02 11:53:09',
                 latitud: 39.47439226625097,
                 longitud: -0.37831976528385386,
                 marcador: false,
-                desc: 'La Lonja de la Seda (Valencia)'                      // es Inmueble
+                desc: 'La Lonja de la Seda (Valencia)',
+                foto: 'la_lonja_de_la_seda__valencia.jpg'
             },
-            {
-                instante: '02/11/2021 11:03:09',
+            {                                                               // es Inmueble
+                instante: '2020/11/02 11:03:09',
                 latitud: 42.880626849444305,
                 longitud: -8.544646314889821,
                 marcador: true,
-                desc: 'Catedral de Santiago de Compostela (La Coruña)'      // es Inmueble
+                desc: 'Catedral de Santiago de Compostela (La Coruña)',
+                foto: 'catedral_de_santiago_de_compostela__la_coruña.jpg'
             },
-            {
-                instante: '02/11/2021 10:53:09',
+            {                                                               // es Inmueble
+                instante: '2018/11/02 10:53:09',
                 latitud: 41.40356145365357,
                 longitud: 2.1744767782584358,
                 marcador: true,
-                desc: 'Sagrada Familia (Barcelona)'                         // es Inmueble
+                desc: 'Sagrada Familia (Barcelona)',
+                foto: 'sagrada_familia__barcelona.jpg'
             },
-            {
-                instante: '03/05/2021 09:53:09',
+            {                                                               // es Inmueble
+                instante: '2021/05/03 09:53:09',
                 latitud: 37.878843641773095,
                 longitud: -4.779620226997026,
                 marcador: true,
-                desc: 'La Mezquita (Cordoba)'                               // es Inmueble
+                desc: 'La Mezquita (Cordoba)',
+                foto: 'la_mezquita__cordoba.jpg'
             },
-            {
-                instante: '03/01/2021 09:59:03',
+            {                                                               // es Inmueble
+                instante: '2021/01/03 09:59:03',
                 latitud: 37.17609897963017,
                 longitud: -3.588145285711672,
                 marcador: true,
-                desc: 'La Alhambra (Granada)'                               // es Inmueble
+                desc: 'La Alhambra (Granada)',
+                foto: 'la_alhambra__granada.jpg'
             },
-            {
-                instante: '03/05/2021 11:03:03',
+            {                                                               // es Parcela
+                instante: '2021/05/03 11:03:03',
                 latitud: 37.386348853983016,
                 longitud: -5.992602966276505,
                 marcador: true,
-                desc: 'La Giralda (Sevilla)'                                // es Parcela
+                desc: 'La Giralda (Sevilla)',
+                foto: 'la_giralda__sevilla.jpg'
             },
-            {
-                instante: '03/05/2020 11:13:09',
+            {                                                               // ... No hay Referencia Catastral 
+                instante: '2020/05/03 11:13:09',
                 latitud: 40.927409337781576,
                 longitud: 0.8392742549965533,
                 marcador: false,
-                desc: '---Es un punto en las Vias de Tren---'               // ... No hay Referencia Catastral 
+                desc: '---Es un punto en las Vias de Tren---',
+                foto: ''
             },
-            {
-                instante: '16/07/2020 12:01:09',
+            {                                                               // es Inmueble
+                instante: '2020/07/16 12:01:09',
                 latitud: 40.928752005582545,
                 longitud: 0.8503738259575321,
                 marcador: false,
-                desc: 'Port Esportiu Calafat'                               // es Inmueble
+                desc: 'Port Esportiu Calafat',
+                foto: 'port_esportiu_calafat__tarragona.jpg'
             }
         ];
 
-        if (!localStorage.getItem(coordenadas[0].instante)) {
+        if (!localStorage.getItem(preMarkilos[0].instante)) {
 
             let rc;
 
-            for (var i = 0; i < coordenadas.length; i++) {
+            for (var i = 0; i < preMarkilos.length; i++) {
                                                                             // obtienes una Referencia Catastral, IReturnReferenciaCatastral, (parcela|inmueble)
-                let rrc = await this.getRCCOOR(coordenadas[i]['latitud'], coordenadas[i]['longitud']);
+                let rrc = await this.getRCCOOR(preMarkilos[i]['latitud'], preMarkilos[i]['longitud']);
                 if (rrc.numero == -1) {                                     // se ha produciod un error en la peticion de coordenadas
                     // TODO
                     // mandar al historico
@@ -820,18 +832,20 @@ export class CatastroService {
                 }
 
                 let markilo: IMarkilo = {
-                    id:                 coordenadas[i].instante,     //new Date().toLocaleString()
-                    latitud:            coordenadas[i].latitud,
-                    longitud:           coordenadas[i].longitud,
+                    id:                 preMarkilos[i].instante,     //new Date().toLocaleString()
+                    latitud:            preMarkilos[i].latitud,
+                    longitud:           preMarkilos[i].longitud,
                     irmc:               irmc,
-                    nota:               coordenadas[i].desc,
+                    nota:               preMarkilos[i].desc,
                     direccion:          direccion,
-                    favorito:           coordenadas[i].marcador,
+                    favorito:           preMarkilos[i].marcador,
+                    foto:               null,
+                    fotografia:         null,
                 }
                 this.markiloAdd(markilo);
             }
-            await this.markilosSaveLS();
-            //this.markilosLoadLS();
+            await this.markilosSave();
+            //this.markilosLoad();
         }
     }
     

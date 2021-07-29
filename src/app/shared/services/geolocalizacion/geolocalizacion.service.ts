@@ -47,6 +47,7 @@ export class GeolocalizacionService {
 
         @return {array} en el que la primera coordenada se ajusta al orden de GOOGLE-BOX
     */
+
     coorGoogle(latitud: number, longitud: number) {
         return this.__coordenadas('GOOGLE-MAP', latitud, longitud); }
 
