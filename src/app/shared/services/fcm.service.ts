@@ -49,8 +49,9 @@ export class FcmService {
       console.log('Push registration success, token: ' + token.value);
       // const header = 'Registrado en la aplicación';
       // this.presentAlert (header, token);
-      this.tokenCrud.StorageTokenInCollection(token.value);
-      this.presentToast('Token registered:' + token.value);
+      this.tokenCrud.StorageTokenInCollection(token);
+      this.presentToast('Token registered:' , token.value);
+      console.log(token.value);
 
     });
 
@@ -62,7 +63,8 @@ export class FcmService {
     PushNotifications.addListener('pushNotificationReceived',
       (notification: PushNotificationSchema) => {
          //alert('Push received: ' + JSON.stringify(notification));
-         this.presentAlert(notification.title, notification.body);
+         //this.presentAlert(notification.title, notification.body);
+         this.presentToast(notification.title,  notification.body)
       },
     );
 
@@ -86,12 +88,13 @@ export class FcmService {
     });      
   }
 
-  async presentToast(mes: string) {
+  async presentToast(header: string, mes: string) {
     const toast = await this.toastCtrl.create({
+      header: header,
       message: mes,
       position: 'middle',
       color: '#0000F0',
-      duration: 2000
+      duration: 5000
     });
     toast.present();
   }

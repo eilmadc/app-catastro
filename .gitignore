@@ -32,12 +32,12 @@ npm-debug.log*
 /android
 /ios
 /src/environments/firebase
-<<<<<<< HEAD
 
 # pjs
 package-lock.json
 package.json
 .gitignore
-=======
-/src/environments/firebase.ts
->>>>>>> 63cb11cb4072fbf12d99ec011d424f66cfd789b9
+
+!android/app/google-services.json
+
+

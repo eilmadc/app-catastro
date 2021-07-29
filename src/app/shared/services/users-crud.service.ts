@@ -7,6 +7,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { firebaseConfig } from '../../../environments/firebaseconfig';
 import { ToastController } from '@ionic/angular';
 import { map} from 'rxjs/operators';
+import { Token } from '@capacitor/push-notifications';
 
 
 @Injectable({
@@ -15,6 +16,7 @@ import { map} from 'rxjs/operators';
 export class UsersCrudService {
   userData: any;
   docRef = this.afStore.collection('users');
+  tokRef = this.afStore.collection('tokens');
 
   constructor(
     public afStore: AngularFirestore,
@@ -92,15 +94,15 @@ delete ( id ){
   }
 
 
-/* Crear token en colección */
-async StorageTokenInCollection(token){
-  const currentUser = firebase.auth().currentUser;
-  const docRef = this.afStore.collection('tokens');
-  this.docRef.doc(currentUser.uid).set({
-    'userId' : currentUser.uid,
-    'token': token,
-    'userEmail': currentUser.email
-  })
-}
-
+  /* Crear token en colección */
+  async StorageTokenInCollection(token : Token){
+    const currentUser = firebase.auth().currentUser;
+    const tokRef = this.afStore.collection('tokens');
+    this.tokRef.doc(currentUser.uid).set({
+      'userId' : currentUser.uid, 
+      'token': token.value,
+      'createdAt': firebase.firestore.FieldValue.serverTimestamp(),
+      'userEmail': currentUser.email
+    })
+  }
 }
