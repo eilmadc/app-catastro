@@ -9,7 +9,7 @@ import { CamaraService } from 'src/app/shared/services/camara.service';
 import {    IInmueble,
             IReturnModeloCatastro,
             IMarkilo                } from '../../shared/interfaces/catastro.modelos';
-import { IFoto } from '../../shared/interfaces/foto.modelo'
+//import { IFoto } from '../../shared/interfaces/foto.modelo'
 import { ParcelaPage } from '../../shared/pages/parcela/parcela.page'
 import { InmueblePage } from '../../shared/pages/inmueble/inmueble.page'
 import { MapaPage } from 'src/app/shared/pages/mapa/mapa.page';
