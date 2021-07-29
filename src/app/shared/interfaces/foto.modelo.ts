@@ -1,5 +1,5 @@
 /*
-    Modelos de datos para el servicio <Camara>
+    Modelos de datos para el servicio <Auditoria>
 */
 
 /*

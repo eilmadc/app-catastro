@@ -55,14 +55,13 @@ export class CamaraService {
 
         if (bien) {
             const saveImageFile = await this.fotoGuardar(foto);
-            console.log('----- guardar')
-            console.log(this.fotos)
-            console.log(saveImageFile)
 
             this.fotos.unshift(saveImageFile);
 
             await Storage.set({ key:    this.FOTO_STORAGE,
-                                value:  JSON.stringify(this.fotos), });            
+                                value:  JSON.stringify(this.fotos), });
+            
+
         }
     }
 
