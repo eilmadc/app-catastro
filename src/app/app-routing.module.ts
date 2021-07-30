@@ -10,7 +10,8 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'folder', canActivate: [MyCanActivate],
+    //canActivate: [MyCanActivate],
+    path: 'folder', 
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
   {
