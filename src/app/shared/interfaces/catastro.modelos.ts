@@ -53,7 +53,7 @@ export interface IMarkilo {
     direccion:              string,                             // IParcela.domicilioTributario && IInmueble.localizacion
     favorito:               boolean,
     foto?:                  IFoto,                              // puede albergar una foto ... o quizas la uri
-    fotografia:             string,                             // 
+    //fotografia:             string,                             // 
 }
 
 
