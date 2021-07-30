@@ -25,12 +25,8 @@ export class LoginPage {
 async signIn(email, password){
   this.as.SignIn(email.value, password.value)
   .then ((rs) =>{
-    if (this.as.isEmailVerified){
       this.router.navigate(['folder/home']);
-    } else { 
-      window.alert('El email no ha sido verificado. Por favor, verifica tu bandeja de entrada para confirmar.');
-      return false;
-    }
+
   }).catch((error) => {
     window.alert(error.message);
   });
