@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "455109500946",
+    "project_id": "catastroapp-b07a0",
+    "storage_bucket": "catastroapp-b07a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455109500946:android:4658828c3f9c6a430fb8cb",
+        "android_client_info": {
+          "package_name": "com.catastroApp.catastroApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "455109500946-r1k7g8ecun87kj9qrc08l4thu6rhkmnn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.catastroApp.catastroApp",
+            "certificate_hash": "5baecfd9e75adbb35344cca12fa78104d23a0105"
+          }
+        },
+        {
+          "client_id": "455109500946-5piid46ijok8ok6fuc245ogli5er0uf0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6_QiXsqVyTOwToou-AVtE9W986CwLQ-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "455109500946-5piid46ijok8ok6fuc245ogli5er0uf0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
