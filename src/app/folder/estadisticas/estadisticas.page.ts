@@ -22,7 +22,7 @@ import { MenuController } from '@ionic/angular';
 export class EstadisticasPage implements OnInit, AfterViewInit {
 
     //
-    @ViewChild("barCanvas") barCanvas!: ElementRef;
+    @ViewChild("barCanvas") barCanvas: ElementRef;
     @ViewChild("doughnutCanvas") doughnutCanvas: ElementRef;
     @ViewChild("lineCanvas") lineCanvas: ElementRef;
     

@@ -33,24 +33,31 @@ export class CatastroService {
 
 
     /*
+<<<<<<< HEAD
         Genera un markilo con |markilo| a las colección de |this.markilos| y devuelve el id asignado. Si |id| llega se usara como tal, en caso contrario
         se generara uno al vuelo.
         @param  {IReturnReferenciaCatastral}, irrc con el que construir 
         @param  {string} id que se usara como |markilo.id|
+=======
+        Genera un markilo con |markilo| a las colección de |this.markilos| y devuelve el id asignado.
+
+        @param  {number} latitud, responde a la coordenada de la latitud
+        @param  {number} longitud, responde a la coordenada de longitud
+        @param  {IReturnReferenciaCatastral}, irrc con el que construir 
+
+>>>>>>> d87c80ba7549a392113660d4e07596eb66dff449
         @return {string} que responde a |markilo.id|
     */
-    async markiloGenerateSave(latitud: number, longitud: number, irrc: IReturnReferenciaCatastral, id: string = null): Promise<string> {
+    async markiloGenerateSave(latitud: number, longitud: number, irrc: IReturnReferenciaCatastral): Promise<string> {
 
-        if ( (id) || (id.search(/\d{4}\/\d{2}\/\d{2}/) != 0) ) {
-            var ahora =     Date.now();
-            var date =      new Date();
-            var id =        date.getFullYear() + "/" +
-                                ("00" + (date.getMonth() + 1)).slice(-2) + "/" +
-                                ("00" + date.getDate()).slice(-2) + " " +
-                                ("00" + date.getHours()).slice(-2) + ":" +
-                                ("00" + date.getMinutes()).slice(-2) + ":" +
-                                ("00" + date.getSeconds()).slice(-2);
-        }
+        var ahora =     Date.now();
+        var date =      new Date();
+        var id =        date.getFullYear() + "/" +
+                            ("00" + (date.getMonth() + 1)).slice(-2) + "/" +
+                            ("00" + date.getDate()).slice(-2) + " " +
+                            ("00" + date.getHours()).slice(-2) + ":" +
+                            ("00" + date.getMinutes()).slice(-2) + ":" +
+                            ("00" + date.getSeconds()).slice(-2);
         
         /* Inmueble o Parcela */                                                        // obtienes un modelo catastral, IReturnModeloCatastro
         let irmc = await this.getDNPRC(irrc.referenciaCatastral);

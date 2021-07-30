@@ -132,4 +132,13 @@ export class MapasPage implements OnInit {
   //           .addEventListener("click", hideMarkers);
         
   }
+
+  async jp(latitud: number, longitud: number): Promise<String> {
+
+    let irrc = await this.catastro.getRCCOOR(latitud, longitud);
+
+    const id = await this.catastro.markiloGenerateSave(latitud, longitud, irrc);
+
+    return id
+  }
 }

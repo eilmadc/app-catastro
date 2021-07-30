@@ -3,10 +3,9 @@
 import {    Component, OnInit,
             AfterViewInit, ElementRef, Input, ViewChild} from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import * as mapboxgl from 'mapbox-gl';
 
 import {     environment } from 'src/environments/environment';
-
-import { mapboxgl } from 'mapbox-gl';
 import { IMarkilo } from '../../interfaces/catastro.modelos';
 
 //
@@ -34,6 +33,7 @@ export class MapaPage implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
 
         mapboxgl.accessToken = environment.mapboxToken;
+
         var mapa = new mapboxgl.Map({
             container:      this.divMapa.nativeElement,
             style:          'mapbox://styles/mapbox/streets-v11',
