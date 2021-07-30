@@ -80,7 +80,8 @@ export class CatastroService {
             nota:       ahora.toString(),
             direccion:  direccion,
             favorito:   false,
-            fotografia: null,
+            foto:       null,
+            //fotografia: null,
         }
                    
         console.log(markilo);
@@ -212,6 +213,7 @@ export class CatastroService {
                 this.markilos.push(mkl);
             }
         }
+
         this.markilos.sort((a, b) => b.id.localeCompare(a.id));
     }
 
@@ -914,8 +916,7 @@ export class CatastroService {
                     nota:               preMarkilos[i].desc,
                     direccion:          direccion,
                     favorito:           preMarkilos[i].marcador,
-                    //foto:               null,
-                    fotografia:         null,
+                    foto:               null,
                 }
                 this.markiloAdd(markilo);
             }

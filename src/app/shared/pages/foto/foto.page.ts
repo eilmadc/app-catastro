@@ -41,7 +41,6 @@ export class FotoPage implements OnInit {
     async btFotoAsignarAMarkilo(markilo: IMarkilo, foto: IFoto) {
 
         markilo.foto = foto;
-        markilo.fotografia = foto.webviewPath;
         await this.catastroServicio.markiloSet(markilo);
         
         this.btCerrar();
@@ -51,7 +50,6 @@ export class FotoPage implements OnInit {
     Cierra esta pagina
     */
    async btCerrar() {
-        //await this.camaraServicio.fotosLoad();
         await this.modalController.dismiss();
     }
 }

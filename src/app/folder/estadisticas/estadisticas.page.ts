@@ -55,7 +55,8 @@ export class EstadisticasPage implements OnInit, AfterViewInit {
     //
     async ngAfterViewInit() { 
         await this.petitcionesCatastroPorAno();
-        this.barChartMetodo(this.iPeticionesPorAno, '# Peticiones');
+        this.graficoBarras(this.iPeticionesPorAno, '# Peticiones');
+        this.graficoDonut(this.iPeticionesPorAno, '# Peticiones');
     }
 
 
@@ -86,12 +87,6 @@ export class EstadisticasPage implements OnInit, AfterViewInit {
             }
         }
         
-        //console.log(this.iPeticionesPorAno)
-        
-        //this.iPeticionesPorAno.sort((o1, o2) => o1.ano - o2.ano);
-        //console.log(`----- 1`)
-        //console.log(this.iPeticionesPorAno)
-        
         return iPeticionesPorAno
     }
 
@@ -102,34 +97,7 @@ export class EstadisticasPage implements OnInit, AfterViewInit {
         @param  {IPeticionesPorAno} iPeticionesPorAno, con los años y las peticiones hechas.
         @param  {string} strEtiqueta que podría ser perfectamente la leyenda de las unidades.
     */
-    async barChartMetodo(iPeticionesPorAno, strEtiqueta: string) {
-
-        //await this.petitcionesCatastroPorAno();
-        //console.log(2);
-        //console.log(this.iPeticionesPorAno);
-
-        // console.log(ipcpa);
-
-        //let arrEtiquetas: string[];
-        //let arrDatos: number[];
-
-        /*
-        const mapper = new Map(iPeticionesPorAno);
-
-        let arrEtiquetas: string[];
-        let arrDatos: number[];
-
-        iPeticionesPorAno.forEach(function (kv) {
-            console.log(kv);
-            arrEtiquetas.push(kv.ano.toString());
-            console.log(kv.ano.toString());
-            arrDatos.push(kv.peticiones);
-            console.log(kv.peticiones)
-        });
-        //console.log(arrEtiquetas)
-        //console.log(arrDatos)
-        */
-
+    async graficoBarras(iPeticionesPorAno, strEtiqueta: string) {
 
         let arrDatos=       [1, 1, 1, 2, 2, 4];
         let arrEtiquetas =  ["2016", "2017", "2018", "2019", "2020", "2021"];
@@ -166,66 +134,80 @@ export class EstadisticasPage implements OnInit, AfterViewInit {
         
     }
 
+    
+    /*
+        Construye una 'Gráfica Donut' con los valores pasados, y muestra la relación de las partes con el todo.
+
+        @param  {IPeticionesPorAno} iPeticionesPorAno, con los años y las peticiones hechas.
+        @param  {string} strEtiqueta que podría ser perfectamente la leyenda de las unidades.
+    */
+    async graficoDonut(iPeticionesPorAno, strEtiqueta: string) {
+
+        let arrEtiquetas = ["2016", "2017", "2018", "2019", "2020", "2021"];
+        let arrDatos = [1, 1, 1, 2, 2, 4];
+
+        this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+            type: "doughnut",
+            data: {
+                labels: arrEtiquetas,
+                datasets: [{
+                    label: strEtiqueta,
+                    data: arrDatos,
+                    backgroundColor: [
+                        "rgba(255, 99, 132, 0.2)",
+                        "rgba(54, 162, 235, 0.2)",
+                        "rgba(255, 206, 86, 0.2)",
+                        "rgba(75, 192, 192, 0.2)",
+                        "rgba(153, 102, 255, 0.2)",
+                        "rgba(255, 159, 64, 0.2)"
+                    ],
+                    hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#FF6384", "#36A2EB", "#FFCE56"]
+                }
+                ]
+            }
+        });
+    }
+
 
     /*
-        this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
-            type:   "doughnut",
+        Construye un 'Gráfico Donut' con los valores pasados, y ayudan a ver la evolucion de los datos. Por lo general 
+        se usan para mostrar un mismo tipo de dato y su evolucion
 
-            data:      {
-                            labels:     ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        @param  {IPeticionesPorAno} iPeticionesPorAno, con los años y las peticiones hechas.
+        @param  {string} strEtiqueta que podría ser perfectamente la leyenda de las unidades.
+    */
+    async graficoLineas(iPeticionesPorAno, strEtiqueta: string) {
 
-                            datasets:   [   {
-                                                label:              "# of Votes",
-                                                data:               [12, 19, 3, 5, 2, 3],
-                                                backgroundColor:    [
-                                                                        "rgba(255, 99, 132, 0.2)",
-                                                                        "rgba(54, 162, 235, 0.2)",
-                                                                        "rgba(255, 206, 86, 0.2)",
-                                                                        "rgba(75, 192, 192, 0.2)",
-                                                                        "rgba(153, 102, 255, 0.2)",
-                                                                        "rgba(255, 159, 64, 0.2)"
-                                                                    ],
-                                                hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#FF6384", "#36A2EB", "#FFCE56"]
-                                            }   
-                                        ]
-                        }
-        });
+        let arrEtiquetas = ["2016", "2017", "2018", "2019", "2020", "2021"];
+        let arrDatos = [1, 1, 1, 2, 2, 4];
 
         this.lineChart = new Chart(this.lineCanvas.nativeElement, {
-            type:   "line",
-
-            data:   {
-                            labels:     ["January", "February", "March", "April", "May", "June", "July"],
-                            datasets:   [
-                                            {
-                                                label:                      "My First dataset",
-                                                fill:                       false,
-                                                lineTension:                0.1,
-                                                backgroundColor:            "rgba(75,192,192,0.4)",
-                                                borderColor:                "rgba(75,192,192,1)",
-                                                borderCapStyle:             "butt",
-                                                borderDash:                 [],
-                                                borderDashOffset:           0.0,
-                                                borderJoinStyle:            "miter",
-                                                pointBorderColor:           "rgba(75,192,192,1)",
-                                                pointBackgroundColor:       "#fff",
-                                                pointBorderWidth:           1,
-                                                pointHoverRadius:           5,
-                                                pointHoverBackgroundColor:  "rgba(75,192,192,1)",
-                                                pointHoverBorderColor:      "rgba(220,220,220,1)",
-                                                pointHoverBorderWidth:      2,
-                                                pointRadius:                1,
-                                                pointHitRadius:             10,
-                                                data:                       [65, 59, 80, 81, 56, 55, 40],
-                                                spanGaps:                   false
-                                            }
-                                        ]
-                    }
+            type: "line",
+            data: {
+                labels: arrEtiquetas,
+                datasets: [{
+                    label: "My First dataset",
+                    fill: false,
+                    tension: 0.1,
+                    backgroundColor: "rgba(75,192,192,0.4)",
+                    borderColor: "rgba(75,192,192,1)",
+                    borderCapStyle: "butt",
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: "miter",
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: arrDatos,
+                    spanGaps: false,
+                }]
+            }
         });
-    */
-
-    /*
-
-    */
-
+    }
 }
