@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
 
     <ion-toolbar color="warning">
-       
+
         <ion-title slot="end">Google Map</ion-title>
     </ion-toolbar>
 
@@ -23,11 +23,7 @@
             <ion-col>
                 {{latitude}}
             </ion-col>
-<<<<<<< HEAD
             <!--<ion-col>
-=======
-            <!-- <ion-col>
->>>>>>> d87c80ba7549a392113660d4e07596eb66dff449
                 <b>Mostrar favoritos</b>
             </ion-col> -->
         </ion-row>
@@ -38,21 +34,6 @@
             <ion-col>
                 {{longitude}}
             </ion-col>
-<<<<<<< HEAD
-            <!--<ion-col>
-                 <ion-toggle id='hide-fav'></ion-toggle>
-                      TODO hacer que el valor de showFav cambie
-                                                      cuando haya un cambio en el toggle usando
-                                                      ionChange  
-            </ion-col> -->
-            <ion-col>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col size="3">
-                <ion-button shape="round" size="small" fill="outline" (click)="catastro.getRCCOOR(this.latitude, this.longitude)">
-                    Buscar en catastro</ion-button>
-=======
             <!-- <ion-col>
                 <ion-toggle id='hide-fav'></ion-toggle>
                 TODO hacer que el valor de showFav cambie
@@ -62,8 +43,9 @@
         </ion-row>
         <ion-row>
             <ion-col size="7">
-                <ion-button shape="round"  fill="outline" (click)="jp(this.latitude, this.longitude)"><h6>Buscar en catastro</h6></ion-button>
->>>>>>> d87c80ba7549a392113660d4e07596eb66dff449
+                <ion-button shape="round" fill="outline" (click)="jp(this.latitude, this.longitude)">
+                    <h6>Buscar en catastro</h6>
+                </ion-button>
                 <!--  TODO buscador de catastro a través de GPS  -->
             </ion-col>
             <ion-col size="7">

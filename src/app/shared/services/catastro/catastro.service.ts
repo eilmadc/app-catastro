@@ -33,19 +33,12 @@ export class CatastroService {
 
 
     /*
-<<<<<<< HEAD
-        Genera un markilo con |markilo| a las colección de |this.markilos| y devuelve el id asignado. Si |id| llega se usara como tal, en caso contrario
-        se generara uno al vuelo.
-        @param  {IReturnReferenciaCatastral}, irrc con el que construir 
-        @param  {string} id que se usara como |markilo.id|
-=======
         Genera un markilo con |markilo| a las colección de |this.markilos| y devuelve el id asignado.
 
         @param  {number} latitud, responde a la coordenada de la latitud
         @param  {number} longitud, responde a la coordenada de longitud
         @param  {IReturnReferenciaCatastral}, irrc con el que construir 
 
->>>>>>> d87c80ba7549a392113660d4e07596eb66dff449
         @return {string} que responde a |markilo.id|
     */
     async markiloGenerateSave(latitud: number, longitud: number, irrc: IReturnReferenciaCatastral): Promise<string> {
