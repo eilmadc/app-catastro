@@ -91,7 +91,6 @@ export class MapasPage implements OnInit {
         };
 
         for (var i = 0; i < this.markilos.length; i++) {
-          console.log('entra for');
           var data = this.markilos[i];
           var myLatlng = new google.maps.LatLng(data.latitud, data.longitud);
           var marker = new google.maps.Marker({

@@ -6,11 +6,12 @@ import { MyCanActivate } from './shared/guards/session.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
-    path: 'folder', canActivate: [MyCanActivate],
+    //canActivate: [MyCanActivate],
+    path: 'folder', 
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
   {
