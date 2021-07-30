@@ -81,13 +81,10 @@ export class CatastroService {
             direccion:  direccion,
             favorito:   false,
             foto:       null,
-            //fotografia: null,
         }
-                   
-        console.log(markilo);
 
-        //this.markiloAdd(markilo);
-        //this.markiloSet(markilo);
+        this.markiloAdd(markilo);
+        this.markiloSet(markilo);
 
         return markilo.id;
     }
