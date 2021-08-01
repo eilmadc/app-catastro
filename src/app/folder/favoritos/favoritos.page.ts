@@ -177,8 +177,8 @@ export class FavoritosPage implements OnInit {
         Solo si esta en mode developer ... recrea en locaStorage una serie de registros, IMarkilo, para tests. 
     */
     async __test__Recrear_historico_en_localStorage_si_esta_en_mode_developer() {
-        if (isDevMode() == true) {
+        //if (isDevMode() == true) {
             await this.catastro.test__CrearHistorico_en_localStorage();
-        }
+        //}
     }
 }
