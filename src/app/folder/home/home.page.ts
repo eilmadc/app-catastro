@@ -28,5 +28,6 @@ export class HomePage implements OnInit {
   ionViewWillEnter() {
     this.menuCtrl.enable(true);
     this.menuCtrl.swipeGesture(true);
+    this.ngOnInit();
   }
 }

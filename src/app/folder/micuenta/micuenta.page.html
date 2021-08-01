@@ -17,19 +17,43 @@
           <ion-avatar>
             <ion-img src={{this.userInfo.userPhoto}}></ion-img>
           </ion-avatar>
+<!--           <ion-button #userphoto (click)="btFotoAsignar()" fill="clear">
+            <ion-icon name="camera-outline" size="small"></ion-icon>
+          </ion-button>
+          <ion-grid>
+            <ion-row>
+                <ion-col size="6" *ngFor="let foto of fotos; index as posicion; let indice=index">
+                    
+                    <ion-img [src]="foto.webviewPath" (click)="btFotoAsignar()"></ion-img>
+    
+                </ion-col>
+            </ion-row>
+        </ion-grid> -->
         </ion-col>
       </ion-row>
 
       <ion-row>
          
         <ion-col size="10" offset="1">
-          <ion-input #username placeholder={{userInfo.userName}}><h5>User : </h5></ion-input>
-          <ion-input placeholder={{userInfo.userEmail}} disabled="true"><h5>Email : </h5></ion-input>
-          <ion-input #userphone placeholder={{userInfo.userPhone}}><h5>Teléfono : </h5></ion-input>
-          <ion-input [ngModel]="this.time | date:'dd-MM-yyyy hh:mm:ss'" disabled="true"><h5>Creado : </h5></ion-input>
+          <ion-item lines='none'>
+            <ion-label>Usuario : </ion-label>
+            <ion-input  #username value={{userInfo.userName}}> </ion-input>
+          </ion-item>
+         <ion-item lines='none'>
+          <ion-label>Email : </ion-label>
+          <ion-input #useremail value={{userInfo.userEmail}} disabled="true"></ion-input>
+         </ion-item>
+         <ion-item lines='none'>
+          <ion-label>Teléfono : </ion-label>
+          <ion-input  #userphone value={{userInfo.userPhone}}> </ion-input>
+        </ion-item>
+        <ion-item lines='none'>
+          <ion-label>Creado : </ion-label>
+          <ion-input [ngModel]="this.time | date:'dd-MM-yyyy hh:mm:ss'" disabled="true"></ion-input>
+        </ion-item>
         </ion-col>
           <ion-col size="8" offset="1">      
-            <ion-item >
+            <ion-item lines='none'>
               <ion-label>Rol de Usuario: </ion-label>
               <ion-select #userrol [(ngModel)]="this.userInfo.userrol" interface="action-sheet">
                 <ion-select-option value="viewer">Standard</ion-select-option>

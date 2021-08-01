@@ -1,5 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import  firebase from 'firebase/app';
+import  auth from 'firebase/app';
+//import * as firebase from 'firebase';
 import { User } from "../interfaces/user";
 import { Router } from "@angular/router";
 import { AngularFireAuth } from "@angular/fire/auth";
@@ -17,6 +19,7 @@ export class UsersCrudService {
   userData: any;
   docRef = this.afStore.collection('users');
   tokRef = this.afStore.collection('tokens');
+  currentUser;
 
   constructor(
     public afStore: AngularFirestore,
@@ -26,10 +29,13 @@ export class UsersCrudService {
     private toastr: ToastController
   ) { }
 
+   ionViewDidEnter(){
+   }
+
+
 /* Crear usuario en colección */
 async createUserInCollection(user){
-  const currentUser = firebase.auth().currentUser;
-  this.docRef.doc(currentUser.uid).set({
+  this.docRef.doc(firebase.auth().currentUser.uid).set({
     'userId' : user.uid,
     'userName': '',
     'userEmail': user.email,
@@ -44,39 +50,41 @@ async createUserInCollection(user){
   /* Obtener datos de la colección en Firebase*/
   async getUserFromCollection(){
     const currentUser = firebase.auth().currentUser;
-    console.log(currentUser);
-    return currentUser;
+    console.log(this.currentUser);
+    return this.currentUser;
   }
 
   /*READ: Obtener datos del usuario de Firebase*/
   async getUserInfoFromCollection(){
-    const currentUser = firebase.auth().currentUser;
-    return this.docRef.doc(currentUser.uid).valueChanges();    
+    console.log(firebase.auth().currentUser.uid);
+    return  await this.docRef.doc(firebase.auth().currentUser.uid).valueChanges();    
   }
 
   /* UPLOAD: Actualizar información del usuario */
     async updateUserInCollection(username,userphone,userrol){
-      const currentUser = firebase.auth().currentUser;
-      this.docRef.doc(currentUser.uid).update({
+      //const currentUser = firebase.auth().currentUser;
+      this.docRef.doc(firebase.auth().currentUser.uid).update({
         'userName': username,
         'userPhone': userphone,
         'userrol' : userrol,
       })
-      console.log('Current User: ',currentUser);
+      this.toast("Cambios guardados", 'warning');
     }
 
 /* DELETE: Borrar el usuario de la colección y Firebase */
 delete ( id ){
   
-  const currentUser = firebase.auth().currentUser;
-  currentUser.delete().then(()=>{
-    this.afStore.doc('users/'+ id).delete();
+  const fbCurrentUser = firebase.auth().currentUser;
+  fbCurrentUser.delete().then(()=>{
+    this.docRef.doc(fbCurrentUser.uid).delete();
+    //this.afStore.doc('users/'+ id).delete();
     this.toast("Usuario borrado de la app.", "warning");
     this.router.navigate(['login']);
   }).catch((error) => {
     this.toast(error, "danger");
   });
 }
+
   /**
    * Metodo para mostrar mensajes pasados por parametros en un Toast
    * @param mensaje 
@@ -88,7 +96,7 @@ delete ( id ){
       message: mensaje,
       color:status,
       position: 'top',
-      duration: 1000
+      duration: 2000,
     });
     toast.present();
   }
