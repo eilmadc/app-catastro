@@ -1,9 +1,32 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>camara</ion-title>
-  </ion-toolbar>
+<!--
+    Cámara de fotos
+-->
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false" ></ion-menu-button>
+            <ion-back-button routerLink="/folder/home" ></ion-back-button>
+            <ion-title>Galeria Fotográfica / Cámara</ion-title>
+          </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content>
-<p>camara Works</p>
+<ion-content [fullscreen]="true">
+
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+        <ion-fab-button (click)="fotoHacer()">
+            <ion-icon name="camera"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col size="6" *ngFor="let foto of fotos; index as posicion; let indice=index">
+                
+                <ion-img [src]="foto.webviewPath" (click)="btImagenMostrarAcciones(foto, indice)"></ion-img>
+
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
 </ion-content>

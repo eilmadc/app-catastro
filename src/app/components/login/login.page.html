@@ -1,0 +1,57 @@
+
+
+<ion-content>
+<ion-grid>
+  <ion-row>
+    <ion-col size="4" offset="4">
+      <img src="assets/logo.png" />
+    </ion-col>
+  </ion-row>
+  <ion-row>
+<!--     <ion-col size="8" offset="1">
+      <ion-text><h4>ENTRAR</h4></ion-text>
+    </ion-col> -->
+  </ion-row>
+ 
+    <form> 
+      <ion-row>   
+        <ion-col size="10" offset="1">
+          <ion-item lines="full">
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" #email required placeholder="Introduce tu email"></ion-input>
+            <ion-icon name="person" slot="start"></ion-icon>
+          </ion-item> 
+
+          <ion-item lines="full" shape="round">
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" #password required placeholder="Introduce tu contraseña"></ion-input>
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <!-- <ion-icon name="eye" slot="end"></ion-icon> -->
+          </ion-item>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="10" offset="1">
+      <ion-button type="submit" (click)="signIn(email, password)" expand="block"  shape="round">
+        <h5>&nbsp;ENTRAR CON EMAIL</h5> </ion-button>
+        <!-- RECUPERAR PASSWORD  -->
+      <ion-router-link class="underline" (click)="recoverPassword();" color="black"><h6>¿Has olvidado tú contraseña?</h6></ion-router-link>
+    <!--   INICIAR SESION CON GOOGLE -->
+      <ion-button type="submit" (click)="googleAuth()" expand="block" fill="outline" shape="round"> <h5>
+        <ion-icon name="logo-google"></ion-icon>&nbsp;CONTINUA CON GOOGLE</h5></ion-button>
+    </ion-col>
+    </ion-row>
+  </form>
+  <ion-row>
+<!--     <ion-col size="8" offset="1">
+      <h4>CREAR UNA CUENTA&nbsp;</h4>
+    </ion-col> -->
+    <ion-col size="10" offset="1">
+      <ion-button type="submit" (click)="goToSignUp()" expand="block" shape="round" fill="outline"><h5>REGISTRARME</h5> </ion-button>
+    </ion-col>
+  </ion-row>
+
+
+  
+</ion-grid>
+</ion-content>

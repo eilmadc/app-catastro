@@ -1,0 +1,114 @@
+<!--
+
+    folder/favoritos
+
+-->
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false" ></ion-menu-button>
+            <ion-back-button routerLink="/folder/home" ></ion-back-button>
+            <ion-title>Listado de Favoritos</ion-title>
+          </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-list>
+        <ion-list-header lines="inset">
+            <ion-title>Favoritos ({{nFavoritos}})</ion-title>
+        </ion-list-header>
+
+        <div   *ngIf="nFavoritos > 0 else SinRegistros"
+                class ="ion-cards">
+
+            <ng-container *ngFor="let markilo of markilos">
+                <div *ngIf="markilo.favorito">
+                    <ion-item style="width:100%;">
+                        <ion-card style="width:100%;">
+                            <ion-card-header>
+                                <ion-card-title>
+                                    <ion-icon name="attach-outline"></ion-icon>{{ markilo.nota }}</ion-card-title>
+                                <ion-card-subtitle> {{ markilo.direccion }} <br>
+                                                    {{ markilo.id }}</ion-card-subtitle>
+                            </ion-card-header>
+
+                            <ion-card-content>
+
+                                <ion-grid>
+                                    <ion-row>
+                                        <ion-col size="1"></ion-col>
+                                        <ion-col size="10">
+
+                                            <div    *ngIf="markilo.foto != null" 
+                                                    id="foto">
+                                                <ion-img [src]="markilo.foto.webviewPath"></ion-img>
+                                            </div>
+
+                                        </ion-col>
+                                        <ion-col size="1"> </ion-col>
+                                    </ion-row>
+
+                                    <ion-row>
+                                        <ion-col size="12">
+                                           <ion-icon name="location-outline"></ion-icon>
+                                           <b>{{markilo.latitud}}:{{markilo.longitud}}</b>
+                                        </ion-col>
+                                    </ion-row>
+
+                                    <ion-row>
+                                        <ion-col size="2">
+                                            <div *ngIf="markilo.favorito; then thenBlock else elseBlock">
+                                            </div>
+                                                <ng-template #thenBlock>
+                                                    <ion-button (click)="btMarkiloFavorito(markilo)" fill="clear">
+                                                        <ion-icon name="heart" size="large" color="danger"></ion-icon>
+                                                    </ion-button>
+                                                </ng-template>
+
+                                                <ng-template #elseBlock>
+                                                    <ion-button (click)="btMarkiloFavorito(markilo)" fill="clear">
+                                                        <ion-icon name="heart-outline" size="large" color="danger"></ion-icon>
+                                                    </ion-button>
+                                                </ng-template>
+                                        </ion-col>
+                                        <ion-col size="2">
+                                        </ion-col>
+                                        <ion-col size="2">
+                                            <ion-button (click)="btMarkiloMapa(markilo)" fill="clear">
+                                                <ion-icon name="map-outline" size="large" color=""></ion-icon>
+                                            </ion-button>
+                                        </ion-col>
+                                        <ion-col size="2">
+                                            <ion-button (click)="btFotoAsignar(markilo)" fill="clear">
+                                                <ion-icon name="images-outline" size="large" color="secondary"></ion-icon>
+                                            </ion-button>
+                                        </ion-col>
+                                        <ion-col size="2">
+                                            <ion-button (click)="btModeloCatastroDetalles(markilo.irmc.modeloCatastro.rcParcela)" fill="clear">
+                                                <ion-icon name="albums-outline" size="large" color="medium"></ion-icon>
+                                            </ion-button>
+                                        </ion-col>
+                                        <ion-col size="2">
+                                        </ion-col>
+                                    </ion-row>
+
+                                </ion-grid>
+
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-item>
+                </div>
+
+            </ng-container>
+
+            <ng-template #SinRegistros>
+                <ion-item class="ion-text-center">
+                    <ion-label>--- No hay registros en el Historico ---</ion-label>
+                </ion-item>
+            </ng-template>
+
+        </div>
+    </ion-list>
+</ion-content>

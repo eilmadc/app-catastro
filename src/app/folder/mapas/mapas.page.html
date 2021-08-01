@@ -1,11 +1,50 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>mapas</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true">
 
-<ion-content>
-  <p>
-Maps Works
-</p>
+    <div class="map-wrapper">
+        <div id="map_center">
+        </div>
+        <div #map id="map"></div>
+    </div>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col size="3">
+                <b>Latitud:</b>
+            </ion-col>
+            <ion-col>
+                {{latitude}}
+            </ion-col>
+            <!--<ion-col>
+                <b>Mostrar favoritos</b>
+            </ion-col> -->
+        </ion-row>
+        <ion-row>
+            <ion-col size="3">
+                <b>Longitud:</b>
+            </ion-col>
+            <ion-col>
+                {{longitude}}
+            </ion-col>
+            <!-- <ion-col>
+                <ion-toggle id='hide-fav'></ion-toggle>
+                TODO hacer que el valor de showFav cambie
+                                                      cuando haya un cambio en el toggle usando
+                                                      ionChange 
+            </ion-col> -->
+        </ion-row>
+        <ion-row>
+            <ion-col size="7">
+                <ion-button shape="round" fill="outline" (click)="busquedaGps(this.latitude, this.longitude)">
+                    <h6>Buscar en catastro</h6>
+                </ion-button>
+                <!--  TODO buscador de catastro a través de GPS  -->
+            </ion-col>
+            <ion-col size="7">
+                <ion-button (click)="loadMap()" shape="round" fill="outline" size="small">
+                    <ion-icon slot="start" name="locate"></ion-icon>
+                    Donde estoy
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

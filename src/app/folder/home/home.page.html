@@ -1,9 +1,23 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>home</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" ></ion-menu-button>
+      <ion-back-button routerLink="/folder/home" ></ion-back-button>
+      <ion-title>Home</ion-title>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<p>Home works</p>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" offset="3">
+        <h2>Bienvenido a AppCatastro</h2>
+      </ion-col>
+      <ion-col size="10" offset="1">
+        <p>Desde esta aplicación podrás realizar consultas Geolocalizadas a la base de datos del Gobierno de España del Catastro.</p>
+      </ion-col>
+    </ion-row>
+
+</ion-grid>
 </ion-content>

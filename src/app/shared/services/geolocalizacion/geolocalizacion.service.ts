@@ -2,7 +2,6 @@
 //
 import { Injectable } from '@angular/core';
 
-
 //
 //
 @Injectable({
@@ -16,21 +15,56 @@ export class GeolocalizacionService {
     //
     constructor() { }
 
-
-
-
-
     /*
-        ver _coordenadas()
+        Es la funcion para obtener las coordenadas, según el orden de GOOGLE-MAP, contenidas en un objeto de geolocalización |Position|.
+
+        @goTo   coorGoogle()
+
+        @param  {number} longitud, responde a la coordenada de longitud
+        @param  {number} latitud, responde a la coordenada de la latitud
+
+        @return {Position} position, es el emboltorio para las coordenadas dadas.
     */
-    coorGoogle(latitud: number, longitud: number) {
-        return this._coordenadas('GOOGLE-MAP', latitud, longitud); }
+    coordenadas(latitud: number, longitud: number) {
+
+        //let coordenadas = this.coorGoogle(latitud, longitud);
+        //console.log(coordenadas)
+    
+        //this.position.coords.latitude = c[0];
+        //this.position.coords.longitude = c[1];
+        //return this.position; 
+        return this.coorGoogle(latitud, longitud)
+    }
+
 
     /*
-        ver _coordenadas()
+        Devuelve las coordenadas en el orden apropiado para ser usadas con GOOGLE-MAP.
+
+        @goTo   coorGoogle()
+
+        @param  {number} longitud, responde a la coordenada de longitud
+        @param  {number} latitud, responde a la coordenada de la latitud
+
+        @return {array} en el que la primera coordenada se ajusta al orden de GOOGLE-BOX
+    */
+
+    coorGoogle(latitud: number, longitud: number) {
+        return this.__coordenadas('GOOGLE-MAP', latitud, longitud); }
+
+
+    /*
+        Devuelve las coordenadas en el orden apropiado para ser usadas con MAP-BOX.
+        
+        @goTo   coorGoogle()
+
+        @param  {number} longitud, responde a la coordenada de longitud
+        @param  {number} latitud, responde a la coordenada de la latitud
+
+        @return {array} en el que la primera coordenada se ajusta al orden de MAP-BOX
     */
     coorMapBox(latitud: number, longitud:number) {
-        return this._coordenadas('MAP-BOX', latitud, longitud); }
+        return this.__coordenadas('MAP-BOX', latitud, longitud); }
+
 
     /*
         Devuelve las coordenadas, |latitud| y |longitud|, en el orden que se indica en |sistema|, (['GOOGLE-MAP']|'MAP-BOX').
@@ -43,21 +77,21 @@ export class GeolocalizacionService {
 
         @return {array} en el que la primera coordenada se ajusta al orden del |sistema|-
     */
-    _coordenadas(sistema: string, latitud: number, longitud: number) {
+    __coordenadas(sistema: string, latitud: number, longitud: number) {
 
-        let coordenadas = [0, 0];
+        let arrCoordenadas = [];
 
         switch (sistema) {
             case 'MAP-BOX':
-                coordenadas[0] = longitud,
-                coordenadas[1] = latitud
+                arrCoordenadas[0] = longitud,
+                arrCoordenadas[1] = latitud
                 break;
 
             case 'GOOGLE-MAP':
             default:
-                coordenadas[0]  = latitud,
-                coordenadas[1]  = longitud
+                arrCoordenadas[0]  = latitud,
+                arrCoordenadas[1]  = longitud
         }
-        return (coordenadas[0], coordenadas[1])
+        return arrCoordenadas;
     }
 }
