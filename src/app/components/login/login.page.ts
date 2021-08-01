@@ -30,11 +30,13 @@ export class LoginPage {
 async signIn(email, password){
   this.as.SignIn(email.value, password.value)
   .then ( (rs) =>{
-    if (this.as.isEmailVerified){
+    //TODO:Verificacion del email por correo: error en la verificacion de email de fb
+    //Viene de AuthenticationService
+    //if (this.as.isEmailVerified){
       this.router.navigate(['folder/home']);
-    }else {
+    /* }else {
       this.as.toast ('El email no ha sido verificado. Por favor, verifica tu bandeja de entrada','danger')
-    }
+    } */
 
   }).catch((error) => {
     this.as.toast(error.message, 'danger');

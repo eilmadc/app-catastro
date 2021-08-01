@@ -43,17 +43,17 @@ const routes: Routes = [
       {
         path: 'estadisticas',
         loadChildren: () => import('./estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule)
-      }
-        ]
-  },
-  {
-    path: 'notifications',
-    loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
-  },
-      {
+      }, {
         path: 'micuenta',
         loadChildren: () => import('./micuenta/micuenta.module').then( m => m.MicuentaPageModule)
-      }    
+      },
+      {
+        path: 'notifications',
+        loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
+      },
+    ]
+  },
+       
     ];
 
 @NgModule({
