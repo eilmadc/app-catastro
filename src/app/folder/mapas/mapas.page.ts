@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Geolocation } from '@capacitor/geolocation';
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
 
 import { CatastroService } from '../../shared/services/catastro/catastro.service';
 import { IMarkilo } from '../../shared/interfaces/catastro.modelos';
@@ -20,6 +20,7 @@ export class MapasPage implements OnInit {
   constructor(
       public catastro: CatastroService,
       public router: Router,
+      public loadingController: LoadingController,
       public modalController: ModalController) {}
 
   @ViewChild('map', { read: ElementRef, static: false }) mapElement: ElementRef;
@@ -136,7 +137,36 @@ export class MapasPage implements OnInit {
         
   }
 
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Please wait...',
+      duration: 2000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed!');
+  }
+
+  async presentLoadingWithOptions() {
+    const loading = await this.loadingController.create({
+      spinner: "circles",
+      duration: 20000,
+      message: 'Cargando...',
+      translucent: false,
+      cssClass: 'custom-class custom-loading',
+      backdropDismiss: true
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed with role:', role);
+  }
+
   async busquedaGps(latitud: number, longitud: number): Promise<String> {
+
+    await this.presentLoadingWithOptions();
 
     let irrc = await this.catastro.getRCCOOR(latitud, longitud);
 
