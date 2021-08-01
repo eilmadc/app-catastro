@@ -26,24 +26,36 @@ export class AuthenticationService {
     private toastr: ToastController,
     private userCrud: UsersCrudService,
   ) {
-    this.ngFireAuth.authState.subscribe(user => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
-      } else {
-        localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
-    }
-  })
+    this.subscribeUser();
 }
 
+/*Suscribir a usuario*/
+subscribeUser(){
+  this.ngFireAuth.authState.subscribe(user => {
+    if (user) {
+      this.userData = user;
+      localStorage.setItem('user', JSON.stringify(this.userData));
+      //JSON.parse(localStorage.getItem('user'));
+    } else {
+      localStorage.setItem('user', null);
+      //JSON.parse(localStorage.getItem('user'));
+  }
+})
+}
 
   /* SIGNIN mail: Login con email/password */
   async SignIn(email, password) {
+
+    /**Limpia user en LocalStorage */
+    await localStorage.removeItem('user');
+
+    /**Vuelvo a obtener el usuario y cache */
+    this.subscribeUser();
+
+    /**Verifico login */
     return this.ngFireAuth.signInWithEmailAndPassword(email, password).then(() =>{
        this.toast("Login correcto", "warning");
-    },(err => console.log(err)));
+    },(err => this.toast(err,'danger')));
   }
 
   /* CREATE NEW USER: Registro con email/password */
@@ -59,8 +71,8 @@ export class AuthenticationService {
       this.router.navigate(['verify-email']);
       /* Creación del usuario en la coleccion 'users' */
       this.userCrud.createUserInCollection(this.userData);
-    }).catch((error) => {
-      window.alert(error.message);
+    }).catch(async (error) => {
+      await this.toast(error.message, 'warning')
     });
   }
 
@@ -69,8 +81,8 @@ export class AuthenticationService {
     return this.ngFireAuth.sendPasswordResetEmail(passwordResetEmail)
     .then(() => {
       window.alert('Password reset email has been sent, please check your inbox.');
-    }).catch((error) => {
-      window.alert(error)
+    }).catch(async (error) => {
+      await this.toast(error.message, 'danger')
     })
   }
 
@@ -81,9 +93,13 @@ export class AuthenticationService {
   }
 
   /* IS EMAIL VERIFIED:Devuelve true cuando el email del usuario está verificado */
-  get isEmailVerified(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return (user.emailVerified !== false) ? true : false;
+  get   isEmailVerified(){
+    
+    return this.ngFireAuth.currentUser
+    .then ( (user) =>{
+      user.emailVerified;
+      console.log(user.emailVerified);
+      })
   }
 
   /* SIGNIN: Login con Gmail */
@@ -93,6 +109,7 @@ export class AuthenticationService {
 
   /* SIGNIN: Autenticacion con provider */
   async AuthLogin(provider) {
+
     return this.ngFireAuth.signInWithPopup(provider)
     .then((result) => {
        this.ngZone.run(() => {
@@ -100,8 +117,9 @@ export class AuthenticationService {
         })
       this.SetUserData(result.user);
       this.userCrud.createUserInCollection(result.user);
-    }).catch((error) => {
-      window.alert(error)
+      
+    }).catch(async (error) => {
+      await this.toast( error.message, 'danger' )
     })
   }
 
@@ -126,16 +144,16 @@ export class AuthenticationService {
       this.deleteLocalStorage();
       this.router.navigate(['login']);
       this.toast("La sesión ha sido cerrada", "warning");
-    }).catch((error) => {
-      window.alert(error);
+    }).catch(async (error) => {
+      await this.toast(error.message, 'danger')
     })
   }
 
   async deleteLocalStorage(){
     this.ngFireAuth = null;
     this.userData = null;
-    await localStorage.remove('token');
-    await localStorage.remove('user');
+    await localStorage.removeItem('token');
+    await localStorage.removeItem('user');
     localStorage.clear();
   }
     //Metodo para envío de mensajes Toast.
@@ -144,8 +162,9 @@ export class AuthenticationService {
       const toast = await this.toastr.create({
         message: mensaje,
         color:status,
-        position: 'top',
-        duration: 1000
+        position: 'middle',
+        duration: 2000,
+        animated: true
       });
       toast.present();
     }

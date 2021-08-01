@@ -10,8 +10,8 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    //canActivate: [MyCanActivate],
-    path: 'folder', 
+    
+    path: 'folder', canActivate: [MyCanActivate],
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
   {
@@ -45,7 +45,7 @@ const routes: Routes = [
   {
     path: 'foto',
     loadChildren: () => import('./shared/pages/foto/foto.module').then( m => m.FotoPageModule)
-  }
+  },
 ];
 
 

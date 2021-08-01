@@ -49,7 +49,7 @@
         "cordova-plugin-inappbrowser": "^5.0.0",
         "cordova-plugin-nativegeocoder": "^3.4.1",
         "cordova-plugin-request-location-accuracy": "^2.3.0",
-        "firebase": "^8.7.1",
+        "firebase": "^8.8.1",
         "g": "^2.0.1",
         "jasmine-core": "^3.8.0",
         "jetifier": "^2.0.0",
