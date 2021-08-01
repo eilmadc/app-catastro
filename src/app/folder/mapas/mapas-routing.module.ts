@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: MapasPage
-  }
+  },
+  // {
+  //   path: 'listado',
+  //   loadChildren:() => import ('./listado/listado.module').then( m => m.ListadoPageRoutingModule)
+  // },
 ];
 
 @NgModule({

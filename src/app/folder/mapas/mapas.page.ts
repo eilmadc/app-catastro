@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { Geolocation } from '@capacitor/geolocation';
 import { ModalController } from '@ionic/angular';
 
@@ -16,8 +17,10 @@ export class MapasPage implements OnInit {
 
  @Input() markilos: IMarkilo[] = [];
 
-  constructor(public catastro: CatastroService,
-              public modalController: ModalController) {}
+  constructor(
+      public catastro: CatastroService,
+      public router: Router,
+      public modalController: ModalController) {}
 
   @ViewChild('map', { read: ElementRef, static: false }) mapElement: ElementRef;
 
@@ -30,15 +33,19 @@ export class MapasPage implements OnInit {
 
   map = null;
 
+  marcadores = null;
+
   async ngOnInit() {
     /* solicitamos la colección de markilos */
     await this.catastro.markilosLoad();
     this.markilos = await this.catastro.markilosGet();
+
   }
 
   ionViewDidEnter() {
     this.loadMap();
   }
+
 
   //comentario 
   async loadMap() {
@@ -64,7 +71,7 @@ export class MapasPage implements OnInit {
 
 
 
-    google.maps.event.addListenerOnce(this.map, 'idle', () => {
+    this.marcadores = google.maps.event.addListenerOnce(this.map, 'idle', () => {
 
  //       var color = (data.favorito == true && showFav == true) ? "purple" : "darkorange";
 
@@ -105,7 +112,7 @@ export class MapasPage implements OnInit {
             (function (marker, data) {
               google.maps.event.addListener(marker, "click", function (e) {
                   //Div con la información que aparecerá en InfoWindow
-                  infoWindow.setContent('<div style="color:darkorange;width:200px;min-height:40px">' +  
+                  infoWindow.setContent('<div class="info-window" style= "color: darkorange; width: 200px; min-height: 40px;">' +  
                   '<h1 id="firstHeading" class="firstHeading">' +
                    data.nota + '</h1>' +
                   '<p>Latitud: ' + data.latitud + '<p>' +
@@ -126,18 +133,16 @@ export class MapasPage implements OnInit {
         this.latitude = this.map.center.lat();
         this.longitude = this.map.center.lng();
       });
-
-  //        document
-  //           .getElementById("hide-fav")!
-  //           .addEventListener("click", hideMarkers);
         
   }
 
-  async jp(latitud: number, longitud: number): Promise<String> {
+  async busquedaGps(latitud: number, longitud: number): Promise<String> {
 
     let irrc = await this.catastro.getRCCOOR(latitud, longitud);
 
     const id = await this.catastro.markiloGenerateSave(latitud, longitud, irrc);
+
+    this.router.navigate(['folder/listado']);
 
     return id
   }
