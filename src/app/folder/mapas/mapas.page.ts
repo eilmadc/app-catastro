@@ -65,7 +65,7 @@ export class MapasPage implements OnInit {
     // create map
     this.map = new google.maps.Map(mapEle, {
       center: myLatLng,
-      zoom: 15,
+      zoom: 20,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: true
     });
@@ -137,36 +137,36 @@ export class MapasPage implements OnInit {
         
   }
 
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      cssClass: 'my-custom-class',
-      message: 'Please wait...',
-      duration: 2000
-    });
-    await loading.present();
+  // async presentLoading() {
+  //   const loading = await this.loadingController.create({
+  //     cssClass: 'my-custom-class',
+  //     message: 'Please wait...',
+  //     duration: 2000
+  //   });
+  //   await loading.present();
 
-    const { role, data } = await loading.onDidDismiss();
-    console.log('Loading dismissed!');
-  }
+  //   const { role, data } = await loading.onDidDismiss();
+  //   console.log('Loading dismissed!');
+  // }
 
-  async presentLoadingWithOptions() {
-    const loading = await this.loadingController.create({
-      spinner: "circles",
-      duration: 20000,
-      message: 'Cargando...',
-      translucent: false,
-      cssClass: 'custom-class custom-loading',
-      backdropDismiss: true
-    });
-    await loading.present();
+  // async presentLoadingWithOptions() {
+  //   const loading = await this.loadingController.create({
+  //     spinner: "circles",
+  //     duration: 15000,
+  //     message: 'Cargando...',
+  //     translucent: false,
+  //     cssClass: 'custom-class custom-loading',
+  //     backdropDismiss: true
+  //   });
+  //   await loading.present();
 
-    const { role, data } = await loading.onDidDismiss();
-    console.log('Loading dismissed with role:', role);
-  }
+  //   const { role, data } = await loading.onDidDismiss();
+  //   console.log('Loading dismissed with role:', role);
+  // }
 
   async busquedaGps(latitud: number, longitud: number): Promise<String> {
 
-    await this.presentLoadingWithOptions();
+    // await this.presentLoadingWithOptions();
 
     let irrc = await this.catastro.getRCCOOR(latitud, longitud);
 
