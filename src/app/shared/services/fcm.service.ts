@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { UsersCrudService } from './users-crud.service';
-import * as firebase from 'firebase';
+import  firebase from 'firebase/app';
 import { AuthenticationService } from './authentication.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -20,7 +20,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
   providedIn: 'root'
 })
 export class FcmService {
-  docRef = this.afStore.collection('tokens');  
+  tokRef = this.afStore.collection('tokens');  
 
   constructor(
               public afStore: AngularFirestore,
@@ -57,6 +57,7 @@ export class FcmService {
       // this.presentAlert (header, token);
     
       this.presentToast('Token registered:' + token.value);
+      this.StorageTokenInCollection(token.value);
 
     }); 
 
@@ -102,27 +103,59 @@ export class FcmService {
     toast.present();
   }
 /* Crear token en colección */
-async StorageTokenInCollection(){
-  
-  PushNotifications.addListener('registration', (token: Token) => {
-    const currentUser = firebase.default.auth().currentUser;
-    const tokRef = this.afStore.collection('tokens');
-    console.log(currentUser.uid.toString);
-    console.log(currentUser.uid);
-    console.log(token.value);
-    tokRef.doc("test").set({
-      'userId' : currentUser.uid.toString,
-      'token': token,
-      'userEmail': currentUser.email
-    })
+async StorageTokenInCollection(token){ 
+    // const email = "lisardogayan@gmail.com";
+    // const pass = "111111";
+    const currentUser = firebase.auth().currentUser;
+    if (currentUser !== null) {      
+      console.log(currentUser.uid.toString);
+      console.log(currentUser.uid);
+      console.log(token);
+      this.tokRef.doc(token).set({
+        'userId' : currentUser.uid.toString,
+        'token': token,
+        'userEmail': currentUser.email
+      })
+    }
+    else {
+      const anomUser = firebase.auth().signInAnonymously();
+      console.log(anomUser);
+      console.log(anomUser.toString());
+      //console.log(currentUser.uid);
+      console.log(token);
+      this.tokRef.doc(token).set({
+        'userId' : anomUser.toString(),
+        'token': token,
+        'userEmail': ""
+      })
+    }  
+    
+    
     //alert('Push registration success, token: ' + token.value);
     console.log('Push registration success, token: ' + token.value);
     // const header = 'Registrado en la aplicación';
     // this.presentAlert (header, token);
     this.presentToast('Token registered:' + token.value);
 
-  });
+  }
+
+
 /* 
+
+async createUserInCollection(user){
+  const currentUser = firebase.auth().currentUser;
+  this.docRef.doc(currentUser.uid).set({
+    'userId' : user.uid,
+    'userName': '',
+    'userEmail': user.email,
+    'userPhone': '',
+    'userPhoto': 'assets/User-Icon-Grey.png',
+    'createdAt': firebase.firestore.FieldValue.serverTimestamp(),
+    'userrol' : 'viewer',
+  })
+  
+}
+
   const currentUser = firebase.default.auth().currentUser;
   const tokRef = this.afStore.collection('tokens');
   console.log(currentUser.uid.toString);
@@ -134,6 +167,4 @@ async StorageTokenInCollection(){
     'userEmail': currentUser.email
   }) */
   
-}
-
 }
