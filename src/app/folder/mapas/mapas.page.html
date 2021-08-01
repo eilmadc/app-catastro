@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
 
     <ion-toolbar color="warning">
-       
+
         <ion-title slot="end">Google Map</ion-title>
     </ion-toolbar>
 
@@ -23,7 +23,7 @@
             <ion-col>
                 {{latitude}}
             </ion-col>
-            <!-- <ion-col>
+            <!--<ion-col>
                 <b>Mostrar favoritos</b>
             </ion-col> -->
         </ion-row>
@@ -43,7 +43,9 @@
         </ion-row>
         <ion-row>
             <ion-col size="7">
-                <ion-button shape="round"  fill="outline" (click)="jp(this.latitude, this.longitude)"><h6>Buscar en catastro</h6></ion-button>
+                <ion-button shape="round" fill="outline" (click)="busquedaGps(this.latitude, this.longitude)">
+                    <h6>Buscar en catastro</h6>
+                </ion-button>
                 <!--  TODO buscador de catastro a través de GPS  -->
             </ion-col>
             <ion-col size="7">

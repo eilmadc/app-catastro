@@ -1,5 +1,3 @@
-//
-//
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 //import { Storage } from '@capacitor/storage';
@@ -90,9 +88,7 @@ export class CatastroService {
 
     /*
         Devuelve el Markilo de |this.markilos| con el |markilo.id|.
-
         @param  {string} id 
-
         @return {Markilo}, rtnMarkilo ... con el |id| solicitada.
     */
     markiloGetId(markiloId: string): IMarkilo {
@@ -153,12 +149,9 @@ export class CatastroService {
     /*
         Devuelve la coleccion de en markilos y registrados en localStorage, pero no los carga pues se delega en la instruccion loadMarkilos(). 
         Puede pedirse una matriz unicamente con los que estan como |markilo.favorito|.
-
         // TODO
         // recordar de hacerlo de firebase si es firebase donde se guardan.
-
         @param  {boolean} favoritos, si es True devolvera una matriz de IMarkilos solo con los que son |markilo.favorito|.
-
         @return IMarkilos[]
     */
     markilosGet(favoritos: boolean = false): IMarkilo[] {
