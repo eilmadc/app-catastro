@@ -17,6 +17,9 @@ export class AuthenticationService {
   userData: any;
   user$:UserExtended;
   docRef = this.afStore.collection('users');
+  
+  //Atributo verificación de mail.
+  public userValidated: boolean ;
 
   constructor(
     public afStore: AngularFirestore,
@@ -93,9 +96,9 @@ subscribeUser(){
   }
 
   /* IS EMAIL VERIFIED:Devuelve true cuando el email del usuario está verificado */
-  get   isEmailVerified(){
+  async isEmailVerified(){
     
-    return this.ngFireAuth.currentUser
+    this.ngFireAuth.currentUser
     .then ( (user) =>{
       user.emailVerified;
       console.log(user.emailVerified);
