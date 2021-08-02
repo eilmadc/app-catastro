@@ -8,7 +8,12 @@ import {
 } from '@capacitor/push-notifications';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
-import { UsersCrudService } from './users-crud.service';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import  firebase from 'firebase/app';
+import { firebaseConfig } from '../../../environments/firebaseconfig';
+import { map} from 'rxjs/operators';
+
 
 
 
@@ -17,12 +22,14 @@ import { UsersCrudService } from './users-crud.service';
 })
 export class FcmService {
 
-  
+  tokRef = this.afStore.collection('tokens');
 
   constructor(private router: Router,
+              public afStore: AngularFirestore,
+              public ngFireAuth: AngularFireAuth,
               private alertCtrl: AlertController,
-              private toastCtrl: ToastController,
-              private tokenCrud: UsersCrudService) { }
+              private toastCtrl: ToastController
+              ) { }
 
   initPush() {
     if (Capacitor.getPlatform() !== 'web') {
@@ -49,9 +56,13 @@ export class FcmService {
       console.log('Push registration success, token: ' + token.value);
       // const header = 'Registrado en la aplicación';
       // this.presentAlert (header, token);
-      this.tokenCrud.StorageTokenInCollection(token);
+      
       this.presentToast('Token registered:' , token.value);
       console.log(token.value);
+      const currentUser = localStorage.getItem('user');
+      console.log(token);
+      console.log(currentUser);
+      this.StorageTokenInCollection(token);
 
     });
 
@@ -98,4 +109,46 @@ export class FcmService {
     });
     toast.present();
   }
+
+  /* Crear token en colección */
+  async StorageTokenInCollection(token : Token){
+    const anomUser = firebase.auth().signInAnonymously();
+    //const tokRef = this.afStore.collection('tokens');
+
+    firebase.auth().signInAnonymously().then((userCredential) => {
+      // Signed in
+      var user = userCredential.user;
+      // ...
+      console.log(user);
+      this.tokRef.doc(user.uid).set({
+        'userId' : user.uid, 
+        'token': token.value,
+        'createdAt': firebase.firestore.FieldValue.serverTimestamp()
+      })
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+    });
+
+  }
+
+    // if (currentUser.isAnonymous === true) {
+    //   console.log("It's anonymous: " + anomUser);
+    //   this.tokRef.doc('anoymous').set({
+    //     'userId' : 'anonymous',
+    //     'token' : token.value
+    //   })
+    // }
+    // else {
+    
+    // this.tokRef.doc().set({
+    //     'userId' : currentUser.uid, 
+    //     'token': token.value,
+    //     'createdAt': firebase.firestore.FieldValue.serverTimestamp(),
+    //     'userEmail': currentUser.email
+    //   })
+    // } 
+  
 }
