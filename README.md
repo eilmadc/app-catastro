@@ -1,2 +1,2 @@
 # app-catastro
-Project coded in Ionic with Angular.
+Project coded in Ionic with Angular and Typescript.
